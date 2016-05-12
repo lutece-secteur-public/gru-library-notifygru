@@ -58,6 +58,7 @@ import java.util.Map;
 
 import javax.ws.rs.core.HttpHeaders;
 import javax.ws.rs.core.MediaType;
+import org.apache.commons.validator.routines.UrlValidator;
 
 
 // TODO: Auto-generated Javadoc
@@ -158,10 +159,49 @@ public class SendNotificationAsJson implements IsendNotificationAsJson
     @Override
     public void send( INotification notification, String strToken, Map<String, String> headers )
     {
-        Client client = Client.create(  );
+        String url=null;
+        send(notification, strToken, headers,url);
+    }
 
-        WebResource webResource = client.resource( AppPropertiesService.getProperty( 
-                    ConstantsLibraryNotifyGru.URL_NOTIFICATION_ENDPOINT ) );
+    /* (non-Javadoc)
+     * @see fr.paris.lutece.plugins.librarynotifygru.services.IsendNotificationAsJson#send(fr.paris.lutece.plugins.librarynotifygru.business.INotification, java.lang.String)
+     */
+    @Override
+    public void send( INotification notification, String strToken )
+    {
+        Map<String, String> headers = new HashMap<String, String>(  );
+        send( notification, strToken, headers );
+    }
+
+    /* (non-Javadoc)
+     * @see fr.paris.lutece.plugins.librarynotifygru.services.IsendNotificationAsJson#send(fr.paris.lutece.plugins.librarynotifygru.business.INotification)
+     */
+    @Override
+    public void send( INotification notification )
+    {        
+        String strToken = null;
+        send( notification, strToken );
+    }
+
+    @Override
+    public void send(INotification notification, String strToken, Map<String, String> headers, String url) 
+             {
+        Client client = Client.create(  );
+        
+        String urlEndPoint;
+
+        UrlValidator urlValidator = new UrlValidator();
+        
+        if(urlValidator.isValid(url))
+        {
+        urlEndPoint = url;
+        }else
+        {
+            urlEndPoint = AppPropertiesService.getProperty( 
+                    ConstantsLibraryNotifyGru.URL_NOTIFICATION_ENDPOINT );
+        }
+        
+        WebResource webResource = client.resource( urlEndPoint );
 
         WebResource.Builder request = webResource.type( ConstantsLibraryNotifyGru.CONTENT_FORMAT )
                                                  .accept( MediaType.APPLICATION_JSON );
@@ -202,26 +242,5 @@ public class SendNotificationAsJson implements IsendNotificationAsJson
             AppLogService.error( "Error sending JSON to Notification EndPoint : " + e.getMessage(  ), e );
             throw new AppException( e.getMessage(  ), e );
         }
-    }
-
-    /* (non-Javadoc)
-     * @see fr.paris.lutece.plugins.librarynotifygru.services.IsendNotificationAsJson#send(fr.paris.lutece.plugins.librarynotifygru.business.INotification, java.lang.String)
-     */
-    @Override
-    public void send( INotification notification, String strToken )
-    {
-        Map<String, String> headers = new HashMap<String, String>(  );
-        send( notification, strToken, headers );
-    }
-
-    /* (non-Javadoc)
-     * @see fr.paris.lutece.plugins.librarynotifygru.services.IsendNotificationAsJson#send(fr.paris.lutece.plugins.librarynotifygru.business.INotification)
-     */
-    @Override
-    public void send( INotification notification )
-    {
-        Map<String, String> headers = new HashMap<String, String>(  );
-        String strToken = null;
-        send( notification, strToken, headers );
     }
 }
