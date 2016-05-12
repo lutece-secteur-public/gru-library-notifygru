@@ -125,7 +125,7 @@ public class SendNotificationAsJson implements IsendNotificationAsJson
                 ConstantsLibraryNotifyGru.TYPE_AUTHENTIFICATION + " " +
                 AppPropertiesService.getProperty( strKeyPropertiesCredentials ) ).accept( MediaType.APPLICATION_JSON )
                                              .post( ClientResponse.class, params );
-
+ 
         String output = response.getEntity( String.class );
 
         JSONObject strResponseApiManagerJsonObject = null;
