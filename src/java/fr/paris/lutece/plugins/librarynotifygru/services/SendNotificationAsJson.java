@@ -235,6 +235,7 @@ public class SendNotificationAsJson implements IsendNotificationAsJson
             {
                 //Constants.ERROR_MESSAGE + response.getStatus(  )
                 AppLogService.error( ConstantsLibraryNotifyGru.ERROR_MESSAGE + response.getStatus(  ) );
+                throw new AppException("invalid response : "  +  response == null ? " response is null" : " response code = " + response.getStatus( ) + " expected response code = "+ HTTP_CODE_RESPONSE_CREATED  );
             }
         }
         catch ( Exception e )
