@@ -58,6 +58,8 @@ import java.util.Map;
 
 import javax.ws.rs.core.HttpHeaders;
 import javax.ws.rs.core.MediaType;
+import javax.ws.rs.core.Response;
+
 import org.apache.commons.validator.routines.UrlValidator;
 
 
@@ -231,11 +233,14 @@ public class SendNotificationAsJson implements IsendNotificationAsJson
 
             ClientResponse response = request.post( ClientResponse.class, strJsonFlux );
 
-            if ( ( response != null ) && ( response.getStatus(  ) != HTTP_CODE_RESPONSE_CREATED ) )
+            if ( ( response != null ) &&
+                    ( ( response.getStatus(  ) != Response.Status.OK.getStatusCode(  ) ) &&
+                    ( response.getStatus(  ) != Response.Status.CREATED.getStatusCode(  ) ) &&
+                    ( response.getStatus(  ) != Response.Status.ACCEPTED.getStatusCode(  ) ) ) )
             {
                 //Constants.ERROR_MESSAGE + response.getStatus(  )
                 AppLogService.error( ConstantsLibraryNotifyGru.ERROR_MESSAGE + response.getStatus(  ) );
-                throw new AppException("invalid response : "  +  response == null ? " response is null" : " response code = " + response.getStatus( ) + " expected response code = "+ HTTP_CODE_RESPONSE_CREATED  );
+                throw new AppException("invalid response : "  +  response == null ? " response is null" : " response code = " + response.getStatus( ) + " expected response code = 20x"  );
             }
         }
         catch ( Exception e )
