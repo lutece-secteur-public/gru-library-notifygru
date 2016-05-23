@@ -46,11 +46,8 @@ import java.util.Map;
  */
 public interface IsendNotificationAsJson
 {
-    /** The Constant HTTP_CODE_RESPONSE_CREATED. */
-    int HTTP_CODE_RESPONSE_CREATED = 201;
+    void send( INotification notification, String strToken, Map<String, String> headers, String url );
 
-     void send( INotification notification, String strToken, Map<String, String> headers, String url );
-     
     /**
      * Send.
      *
