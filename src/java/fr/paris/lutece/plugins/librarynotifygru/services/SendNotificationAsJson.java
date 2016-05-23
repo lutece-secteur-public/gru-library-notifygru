@@ -52,6 +52,7 @@ import net.sf.json.JSONSerializer;
 import net.sf.json.util.JSONUtils;
 
 import org.apache.commons.lang.StringUtils;
+import org.apache.commons.validator.routines.UrlValidator;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -59,8 +60,6 @@ import java.util.Map;
 import javax.ws.rs.core.HttpHeaders;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
-
-import org.apache.commons.validator.routines.UrlValidator;
 
 
 // TODO: Auto-generated Javadoc
@@ -128,7 +127,7 @@ public class SendNotificationAsJson implements IsendNotificationAsJson
                 ConstantsLibraryNotifyGru.TYPE_AUTHENTIFICATION + " " +
                 AppPropertiesService.getProperty( strKeyPropertiesCredentials ) ).accept( MediaType.APPLICATION_JSON )
                                              .post( ClientResponse.class, params );
- 
+
         String output = response.getEntity( String.class );
 
         JSONObject strResponseApiManagerJsonObject = null;
@@ -137,13 +136,12 @@ public class SendNotificationAsJson implements IsendNotificationAsJson
         {
             strResponseApiManagerJsonObject = (JSONObject) JSONSerializer.toJSON( output );
 
-         
-
             if ( ( strResponseApiManagerJsonObject != null ) &&
                     strResponseApiManagerJsonObject.has( ConstantsLibraryNotifyGru.PARAMS_ACCES_TOKEN ) )
             {
-            	   AppLogService.info( "\n TOKEN JSON RESPONSE \n\n\n\n" + strResponseApiManagerJsonObject.toString( 2 ) +"\n" );
-            	   
+                AppLogService.info( "\n TOKEN JSON RESPONSE \n\n\n\n" + strResponseApiManagerJsonObject.toString( 2 ) +
+                    "\n" );
+
                 _strToken = (String) strResponseApiManagerJsonObject.get( ConstantsLibraryNotifyGru.PARAMS_ACCES_TOKEN );
                 AppLogService.info( "\n TOKEN \n\n\n\n" + _strToken + "\n" );
             }
@@ -161,8 +159,8 @@ public class SendNotificationAsJson implements IsendNotificationAsJson
     @Override
     public void send( INotification notification, String strToken, Map<String, String> headers )
     {
-        String url=null;
-        send(notification, strToken, headers,url);
+        String url = null;
+        send( notification, strToken, headers, url );
     }
 
     /* (non-Javadoc)
@@ -180,29 +178,29 @@ public class SendNotificationAsJson implements IsendNotificationAsJson
      */
     @Override
     public void send( INotification notification )
-    {        
+    {
         String strToken = null;
         send( notification, strToken );
     }
 
     @Override
-    public void send(INotification notification, String strToken, Map<String, String> headers, String url) 
-             {
+    public void send( INotification notification, String strToken, Map<String, String> headers, String url )
+    {
         Client client = Client.create(  );
-        
+
         String urlEndPoint;
 
-        UrlValidator urlValidator = new UrlValidator();
-        
-        if(urlValidator.isValid(url))
+        UrlValidator urlValidator = new UrlValidator(  );
+
+        if ( urlValidator.isValid( url ) )
         {
-        urlEndPoint = url;
-        }else
-        {
-            urlEndPoint = AppPropertiesService.getProperty( 
-                    ConstantsLibraryNotifyGru.URL_NOTIFICATION_ENDPOINT );
+            urlEndPoint = url;
         }
-        
+        else
+        {
+            urlEndPoint = AppPropertiesService.getProperty( ConstantsLibraryNotifyGru.URL_NOTIFICATION_ENDPOINT );
+        }
+
         WebResource webResource = client.resource( urlEndPoint );
 
         WebResource.Builder request = webResource.type( ConstantsLibraryNotifyGru.CONTENT_FORMAT )
@@ -240,7 +238,9 @@ public class SendNotificationAsJson implements IsendNotificationAsJson
             {
                 //Constants.ERROR_MESSAGE + response.getStatus(  )
                 AppLogService.error( ConstantsLibraryNotifyGru.ERROR_MESSAGE + response.getStatus(  ) );
-                throw new AppException("invalid response : "  +  response == null ? " response is null" : " response code = " + response.getStatus( ) + " expected response code = 20x"  );
+                throw new AppException( ( ( "invalid response : " + response ) == null ) ? " response is null"
+                                                                                         : ( " response code = " +
+                    response.getStatus(  ) + " expected response code = 20x" ) );
             }
         }
         catch ( Exception e )

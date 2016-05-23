@@ -34,8 +34,6 @@
 package fr.paris.lutece.plugins.librarynotifygru.constant;
 
 
-
-
 // TODO: Auto-generated Javadoc
 /**
  * The Class ConstantsLibraryNotifyGru.
@@ -84,7 +82,6 @@ public final class ConstantsLibraryNotifyGru
     //HTTP ERROR MESSAGE
     public static final String ERROR_MESSAGE = "ClientNotification Failed : HTTP error code : ";
 
-   
     /**
      * Instantiates a new constants library notify gru.
      *
@@ -94,5 +91,4 @@ public final class ConstantsLibraryNotifyGru
     {
         throw new Exception(  );
     }
-   
 }

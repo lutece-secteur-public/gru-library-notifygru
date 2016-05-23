@@ -42,7 +42,6 @@ import fr.paris.lutece.plugins.librarynotifygru.constant.ConstantsLibraryNotifyG
 import org.codehaus.jackson.annotate.JsonProperty;
 
 
-
 /**
  * The Class CertifierBySMS.
  */
