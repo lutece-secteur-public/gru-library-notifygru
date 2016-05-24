@@ -38,7 +38,7 @@ import com.fasterxml.jackson.annotation.JsonRootName;
 
 import fr.paris.lutece.plugins.librarynotifygru.constant.ConstantsLibraryNotifyGru;
 
-import org.codehaus.jackson.annotate.JsonProperty;
+import com.fasterxml.jackson.annotation.JsonProperty;
 
 
 // TODO: Auto-generated Javadoc
