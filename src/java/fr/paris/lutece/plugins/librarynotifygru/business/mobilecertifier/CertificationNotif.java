@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2002-2015, Mairie de Paris
+ * Copyright (c) 2002-2016, Mairie de Paris
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -33,79 +33,32 @@
  */
 package fr.paris.lutece.plugins.librarynotifygru.business.mobilecertifier;
 
-import com.fasterxml.jackson.annotation.JsonPropertyOrder;
+import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.annotation.JsonRootName;
 
 import fr.paris.lutece.plugins.librarynotifygru.business.INotification;
-import fr.paris.lutece.plugins.librarynotifygru.constant.ConstantsLibraryNotifyGru;
-
-import org.codehaus.jackson.annotate.JsonProperty;
 
 
-/**
- * The Class CertifierBySMS.
- */
-@JsonPropertyOrder( {"message",
-    "phone_number"
-} )
-public class CertifierBySMS
+@JsonRootName( value = "notification" )
+public class CertificationNotif implements INotification
 {
-    /** The _str phone number. */
-    // Variables declarations 
-    private String _strPhoneNumber;
-
-    /** The _str message. */
-    private String _strMessage;
+    private CertifierBySMS _smsCertification;
 
     /**
-     * Instantiates a new notify gru sms notification.
+     * @return the _smsCertification
      */
-    public CertifierBySMS(  )
+    @JsonProperty( value = "user_sms" )
+    public CertifierBySMS getSmsCertification(  )
     {
-        this._strPhoneNumber = ConstantsLibraryNotifyGru.DEFAULT_STRING;
-        this._strMessage = ConstantsLibraryNotifyGru.DEFAULT_STRING;
+        return _smsCertification;
     }
 
     /**
-     * Gets the phone number.
-     *
-     * @return the phone number
+     * @param _smsCertification the _smsCertification to set
      */
-    @JsonProperty( "phone_number" )
-    public String getPhoneNumber(  )
+    @JsonProperty( value = "user_sms" )
+    public void setSmsCertification( CertifierBySMS _smsCertification )
     {
-        return _strPhoneNumber;
-    }
-
-    /**
-     * Sets the phone number.
-     *
-     * @param strPhoneNumber the new phone number
-     */
-    @JsonProperty( "phone_number" )
-    public void setPhoneNumber( String strPhoneNumber )
-    {
-        _strPhoneNumber = strPhoneNumber;
-    }
-
-    /**
-     * Gets the message.
-     *
-     * @return the message
-     */
-    @JsonProperty( "message" )
-    public String getMessage(  )
-    {
-        return _strMessage;
-    }
-
-    /**
-     * Sets the message.
-     *
-     * @param strMessage the new message
-     */
-    @JsonProperty( "message" )
-    public void setMessage( String strMessage )
-    {
-        _strMessage = strMessage;
+        this._smsCertification = _smsCertification;
     }
 }
