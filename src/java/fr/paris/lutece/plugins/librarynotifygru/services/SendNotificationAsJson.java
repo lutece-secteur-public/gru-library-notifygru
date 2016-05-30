@@ -231,16 +231,13 @@ public class SendNotificationAsJson implements IsendNotificationAsJson
 
             ClientResponse response = request.post( ClientResponse.class, strJsonFlux );
 
-            if ( ( response != null ) &&
-                    ( ( response.getStatus(  ) != Response.Status.OK.getStatusCode(  ) ) &&
-                    ( response.getStatus(  ) != Response.Status.CREATED.getStatusCode(  ) ) &&
-                    ( response.getStatus(  ) != Response.Status.ACCEPTED.getStatusCode(  ) ) ) )
+            if ( ( response != null ) && ( response.getStatus(  ) != Response.Status.CREATED.getStatusCode(  ) ) )
             {
                 //Constants.ERROR_MESSAGE + response.getStatus(  )
                 AppLogService.error( ConstantsLibraryNotifyGru.ERROR_MESSAGE + response.getStatus(  ) );
                 throw new AppException( ( ( "invalid response : " + response ) == null ) ? " response is null"
                                                                                          : ( " response code = " +
-                    response.getStatus(  ) + " expected response code = 20x" ) );
+                    response.getStatus(  ) + " expected response code = " + Response.Status.CREATED.getStatusCode(  ) ) );
             }
         }
         catch ( Exception e )
