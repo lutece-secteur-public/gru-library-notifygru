@@ -50,9 +50,14 @@ public final class ConstantsLibraryNotifyGru
     /** The Constant TYPE_AUTHENTIFICATION. */
     //CONSTANT FOR SENDING JSON FLUX
     public static final String TYPE_AUTHENTIFICATION = "Bearer";
+    public static final String PROPERTY_HEADER_CONTENT_TYPE = "Content-Type";
+    public static final String PROPERTY_HEADER_ACCEPT_TYPE = "Accept";
+    public static final String END_POINT_SUCCESS_MSG = "received";
+    public static final String END_POINT_SUCCESS_KEY = "status";
 
     /** The Constant PARAMS_ACCES_TOKEN. */
     public static final String PARAMS_ACCES_TOKEN = "access_token";
+    public static final String AUTHORIZATION = "Authorization";
 
     /** The Constant PARAMS_GRANT_TYPE. */
     public static final String PARAMS_GRANT_TYPE = "grant_type";
@@ -73,7 +78,8 @@ public final class ConstantsLibraryNotifyGru
 
     /** The Constant CONTENT_FORMAT. */
     //CONTENT FORMAT
-    public static final String CONTENT_FORMAT = "application/json; charset=utf-8";
+    public static final String CONTENT_FORMAT_CHARSET = "application/json; charset=utf-8";
+    public static final String CONTENT_FORMAT = "application/json";
 
     /** The Constant CONTENT_FORMAT_TOKEN. */
     public static final String CONTENT_FORMAT_TOKEN = "application/x-www-form-urlencoded";

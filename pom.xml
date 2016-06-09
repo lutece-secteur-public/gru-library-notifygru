@@ -30,13 +30,13 @@
             <type>lutece-core</type>
         </dependency>        
        
-   
          <dependency>
-            <groupId>com.sun.jersey</groupId>
-            <artifactId>jersey-client</artifactId>
-            <version>1.18.1</version>
+            <groupId>fr.paris.lutece.plugins</groupId>
+            <artifactId>library-httpaccess</artifactId>
+            <version>[2.4.1-SNAPSHOT,)</version>
             <type>jar</type>
         </dependency>
+   
       
         <dependency>
 	<groupId>com.fasterxml.jackson.core</groupId>

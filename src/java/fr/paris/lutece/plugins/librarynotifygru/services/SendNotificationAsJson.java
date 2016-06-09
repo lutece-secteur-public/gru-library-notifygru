@@ -36,9 +36,7 @@ package fr.paris.lutece.plugins.librarynotifygru.services;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.SerializationFeature;
 
-import com.sun.jersey.api.client.Client;
-import com.sun.jersey.api.client.ClientResponse;
-import com.sun.jersey.api.client.WebResource;
+
 
 import fr.paris.lutece.plugins.librarynotifygru.business.INotification;
 import fr.paris.lutece.plugins.librarynotifygru.constant.ConstantsLibraryNotifyGru;
@@ -46,6 +44,8 @@ import fr.paris.lutece.portal.service.spring.SpringContextService;
 import fr.paris.lutece.portal.service.util.AppException;
 import fr.paris.lutece.portal.service.util.AppLogService;
 import fr.paris.lutece.portal.service.util.AppPropertiesService;
+import fr.paris.lutece.util.httpaccess.HttpAccess;
+import fr.paris.lutece.util.httpaccess.HttpAccessException;
 
 import net.sf.json.JSONObject;
 import net.sf.json.JSONSerializer;
@@ -57,9 +57,7 @@ import org.apache.commons.validator.routines.UrlValidator;
 import java.util.HashMap;
 import java.util.Map;
 
-import javax.ws.rs.core.HttpHeaders;
-import javax.ws.rs.core.MediaType;
-import javax.ws.rs.core.Response;
+
 
 
 // TODO: Auto-generated Javadoc
@@ -114,21 +112,39 @@ public class SendNotificationAsJson implements IsendNotificationAsJson
         AppLogService.info( "\n TOKEN URL " + ConstantsLibraryNotifyGru.URL_TOKEN + "  : " +
             AppPropertiesService.getProperty( ConstantsLibraryNotifyGru.URL_TOKEN ) + "\n" );
 
-        Client client = Client.create(  );
+        HttpAccess clientHttp = new HttpAccess(  );
 
-        WebResource webResource = client.resource( AppPropertiesService.getProperty( 
-                    ConstantsLibraryNotifyGru.URL_TOKEN ) );
+        String strUrl = AppPropertiesService.getProperty( ConstantsLibraryNotifyGru.URL_TOKEN );
 
-        javax.ws.rs.core.MultivaluedMap<String, String> params = new com.sun.jersey.core.util.MultivaluedMapImpl(  );
-        params.add( ConstantsLibraryNotifyGru.PARAMS_GRANT_TYPE, ConstantsLibraryNotifyGru.PARAMS_GRANT_TYPE_VALUE );
+        Map<String, String> headersRequest = new HashMap<String, String>(  );
+        Map<String, String> headersResponse = new HashMap<String, String>(  );
 
-        ClientResponse response = webResource.type( ConstantsLibraryNotifyGru.CONTENT_FORMAT_TOKEN )
-                                             .header( HttpHeaders.AUTHORIZATION,
-                ConstantsLibraryNotifyGru.TYPE_AUTHENTIFICATION + " " +
-                AppPropertiesService.getProperty( strKeyPropertiesCredentials ) ).accept( MediaType.APPLICATION_JSON )
-                                             .post( ClientResponse.class, params );
+        headersRequest.put( ConstantsLibraryNotifyGru.PARAMS_GRANT_TYPE,
+            ConstantsLibraryNotifyGru.PARAMS_GRANT_TYPE_VALUE );
 
-        String output = response.getEntity( String.class );
+        headersRequest.put( ConstantsLibraryNotifyGru.PROPERTY_HEADER_CONTENT_TYPE,
+            ConstantsLibraryNotifyGru.CONTENT_FORMAT_TOKEN );
+
+        headersRequest.put( ConstantsLibraryNotifyGru.AUTHORIZATION,
+            ConstantsLibraryNotifyGru.TYPE_AUTHENTIFICATION + " " +
+            AppPropertiesService.getProperty( strKeyPropertiesCredentials ) );
+
+        headersRequest.put( ConstantsLibraryNotifyGru.PROPERTY_HEADER_ACCEPT_TYPE,
+            ConstantsLibraryNotifyGru.CONTENT_FORMAT );
+
+        String output = "";
+
+        try
+        {
+            output = clientHttp.doPost( strUrl, null, null, null, headersRequest, headersResponse );
+        }
+        catch ( HttpAccessException e )
+        {
+            String strError = "LibraryNotifyGru - Error get Token '" + strUrl + "' : ";
+            AppLogService.error( strError + e.getMessage(  ), e );
+        }
+
+        AppLogService.info( "\n TOKEN JSON RESPONSE \n\n\n\n" + output + "\n" );
 
         JSONObject strResponseApiManagerJsonObject = null;
 
@@ -186,8 +202,7 @@ public class SendNotificationAsJson implements IsendNotificationAsJson
     @Override
     public void send( INotification notification, String strToken, Map<String, String> headers, String url )
     {
-        Client client = Client.create(  );
-
+        
         String urlEndPoint;
 
         UrlValidator urlValidator = new UrlValidator(  );
@@ -201,23 +216,24 @@ public class SendNotificationAsJson implements IsendNotificationAsJson
             urlEndPoint = AppPropertiesService.getProperty( ConstantsLibraryNotifyGru.URL_NOTIFICATION_ENDPOINT );
         }
 
-        WebResource webResource = client.resource( urlEndPoint );
+        HttpAccess clientHttp = new HttpAccess(  );
 
-        WebResource.Builder request = webResource.type( ConstantsLibraryNotifyGru.CONTENT_FORMAT )
-                                                 .accept( MediaType.APPLICATION_JSON );
+        Map<String, String> headersRequest = new HashMap<String, String>(  );
+        Map<String, String> headersResponse = new HashMap<String, String>(  );
+
+        headersRequest.put( ConstantsLibraryNotifyGru.PROPERTY_HEADER_CONTENT_TYPE,
+            ConstantsLibraryNotifyGru.CONTENT_FORMAT_CHARSET );
+
+        headersRequest.put( ConstantsLibraryNotifyGru.PROPERTY_HEADER_ACCEPT_TYPE,
+            ConstantsLibraryNotifyGru.CONTENT_FORMAT );
 
         if ( StringUtils.isNotBlank( strToken ) )
         {
-            request.header( HttpHeaders.AUTHORIZATION, ConstantsLibraryNotifyGru.TYPE_AUTHENTIFICATION + " " +
-                strToken );
+            headersRequest.put( ConstantsLibraryNotifyGru.AUTHORIZATION,
+                ConstantsLibraryNotifyGru.TYPE_AUTHENTIFICATION + " " + strToken );
         }
 
-        //             
-        //                
-        for ( Map.Entry<String, String> header : headers.entrySet(  ) )
-        {
-            request.header( header.getKey(  ), header.getValue(  ) );
-        }
+        headersRequest.putAll( headers );
 
         try
         {
@@ -229,15 +245,31 @@ public class SendNotificationAsJson implements IsendNotificationAsJson
 
             AppLogService.info( "\n\n FLUX NOTIFICATION " + strJsonFlux + " \n\n" );
 
-            ClientResponse response = request.post( ClientResponse.class, strJsonFlux );
+            String response = clientHttp.doPostJSON( urlEndPoint, strJsonFlux, headersRequest, headersResponse );
 
-            if ( ( response != null ) && ( response.getStatus(  ) != Response.Status.CREATED.getStatusCode(  ) ) )
+            AppLogService.info( "\n\n\n\n" );
+
+            for ( Map.Entry<String, String> entry : headersResponse.entrySet(  ) )
             {
-                //Constants.ERROR_MESSAGE + response.getStatus(  )
-                AppLogService.error( ConstantsLibraryNotifyGru.ERROR_MESSAGE + response.getStatus(  ) );
-                throw new AppException( ( ( "invalid response : " + response ) == null ) ? " response is null"
-                                                                                         : ( " response code = " +
-                    response.getStatus(  ) + " expected response code = " + Response.Status.CREATED.getStatusCode(  ) ) );
+                AppLogService.info( "\nKey : " + entry.getKey(  ) + " Value : " + entry.getValue(  ) );
+            }
+
+            AppLogService.info( "\n\n " + response + "\n\n" );
+
+            JSONObject strResponseJsonObject = null;
+
+            if ( JSONUtils.mayBeJSON( response ) )
+            {
+                strResponseJsonObject = (JSONObject) JSONSerializer.toJSON( response );
+
+                if ( ( strResponseJsonObject == null ) ||
+                        !strResponseJsonObject.containsKey( ConstantsLibraryNotifyGru.END_POINT_SUCCESS_KEY ) ||
+                        !strResponseJsonObject.getString( ConstantsLibraryNotifyGru.END_POINT_SUCCESS_KEY )
+                                                  .equals( ConstantsLibraryNotifyGru.END_POINT_SUCCESS_MSG ) )
+                {
+                    AppLogService.error( ConstantsLibraryNotifyGru.ERROR_MESSAGE );
+                    throw new AppException( "LibraryNotifyGru - invalid response : " + response );
+                }
             }
         }
         catch ( Exception e )
