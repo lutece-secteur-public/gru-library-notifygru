@@ -54,7 +54,8 @@ public final class ConstantsLibraryNotifyGru
     public static final String PROPERTY_HEADER_ACCEPT_TYPE = "Accept";
     public static final String END_POINT_SUCCESS_MSG = "received";
     public static final String END_POINT_SUCCESS_KEY = "status";
-
+    public static final String END_POINT_ACKNOWLEDGE = "acknowledge";
+    //{"acknowledge": {"status": "received"}}
     /** The Constant PARAMS_ACCES_TOKEN. */
     public static final String PARAMS_ACCES_TOKEN = "access_token";
     public static final String AUTHORIZATION = "Authorization";

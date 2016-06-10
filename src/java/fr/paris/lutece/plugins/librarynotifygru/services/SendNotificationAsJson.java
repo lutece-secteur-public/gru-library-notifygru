@@ -118,16 +118,16 @@ public class SendNotificationAsJson implements IsendNotificationAsJson
 
         Map<String, String> headersRequest = new HashMap<String, String>(  );
         Map<String, String> headersResponse = new HashMap<String, String>(  );
+        Map<String, String> params = new HashMap<String, String>(  );
 
-        headersRequest.put( ConstantsLibraryNotifyGru.PARAMS_GRANT_TYPE,
+        params.put( ConstantsLibraryNotifyGru.PARAMS_GRANT_TYPE,
             ConstantsLibraryNotifyGru.PARAMS_GRANT_TYPE_VALUE );
 
         headersRequest.put( ConstantsLibraryNotifyGru.PROPERTY_HEADER_CONTENT_TYPE,
             ConstantsLibraryNotifyGru.CONTENT_FORMAT_TOKEN );
 
         headersRequest.put( ConstantsLibraryNotifyGru.AUTHORIZATION,
-            ConstantsLibraryNotifyGru.TYPE_AUTHENTIFICATION + " " +
-            AppPropertiesService.getProperty( strKeyPropertiesCredentials ) );
+            ConstantsLibraryNotifyGru.TYPE_AUTHENTIFICATION + " "+ strKeyPropertiesCredentials );
 
         headersRequest.put( ConstantsLibraryNotifyGru.PROPERTY_HEADER_ACCEPT_TYPE,
             ConstantsLibraryNotifyGru.CONTENT_FORMAT );
@@ -135,8 +135,9 @@ public class SendNotificationAsJson implements IsendNotificationAsJson
         String output = "";
 
         try
-        {
-            output = clientHttp.doPost( strUrl, null, null, null, headersRequest, headersResponse );
+        { 
+            output = clientHttp.doPost( strUrl, params, null, null, headersRequest, headersResponse );
+            AppLogService.debug( output );
         }
         catch ( HttpAccessException e )
         {
@@ -256,15 +257,19 @@ public class SendNotificationAsJson implements IsendNotificationAsJson
 
             AppLogService.info( "\n\n " + response + "\n\n" );
 
-            JSONObject strResponseJsonObject = null;
+           
 
             if ( JSONUtils.mayBeJSON( response ) )
             {
+            	 JSONObject strResponseJsonObject = null;
+            	
                 strResponseJsonObject = (JSONObject) JSONSerializer.toJSON( response );
+                
+                JSONObject strACKJsonObject = (strResponseJsonObject.containsKey( ConstantsLibraryNotifyGru.END_POINT_ACKNOWLEDGE ))?strResponseJsonObject.getJSONObject( ConstantsLibraryNotifyGru.END_POINT_ACKNOWLEDGE ):null;
 
-                if ( ( strResponseJsonObject == null ) ||
-                        !strResponseJsonObject.containsKey( ConstantsLibraryNotifyGru.END_POINT_SUCCESS_KEY ) ||
-                        !strResponseJsonObject.getString( ConstantsLibraryNotifyGru.END_POINT_SUCCESS_KEY )
+                if ( ( strACKJsonObject == null ) ||
+                        !strACKJsonObject.containsKey( ConstantsLibraryNotifyGru.END_POINT_SUCCESS_KEY ) ||
+                        !strACKJsonObject.getString( ConstantsLibraryNotifyGru.END_POINT_SUCCESS_KEY )
                                                   .equals( ConstantsLibraryNotifyGru.END_POINT_SUCCESS_MSG ) )
                 {
                     AppLogService.error( ConstantsLibraryNotifyGru.ERROR_MESSAGE );
