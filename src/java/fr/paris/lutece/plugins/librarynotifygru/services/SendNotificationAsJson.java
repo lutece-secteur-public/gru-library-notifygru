@@ -133,19 +133,22 @@ public class SendNotificationAsJson implements IsendNotificationAsJson
             ConstantsLibraryNotifyGru.CONTENT_FORMAT );
 
         String output = "";
+        
+        UrlValidator urlValidator = new UrlValidator(  );
 
-        try
-        { 
-            output = clientHttp.doPost( strUrl, params, null, null, headersRequest, headersResponse );
-            AppLogService.debug( output );
-        }
-        catch ( HttpAccessException e )
+        if ( urlValidator.isValid( strUrl ) )
         {
-            String strError = "LibraryNotifyGru - Error get Token '" + strUrl + "' : ";
-            AppLogService.error( strError + e.getMessage(  ), e );
-        }
-
-        AppLogService.info( "\n TOKEN JSON RESPONSE \n\n\n\n" + output + "\n" );
+        	  try
+              { 
+                  output = clientHttp.doPost( strUrl, params, null, null, headersRequest, headersResponse );
+                  AppLogService.info( "\n TOKEN JSON RESPONSE \n\n\n\n" + output + "\n" );
+              }
+              catch ( HttpAccessException e )
+              {
+                  String strError = "LibraryNotifyGru - Error get Token '" + strUrl + "' : ";
+                  AppLogService.error( strError + e.getMessage(  ), e );
+              }
+        }    
 
         JSONObject strResponseApiManagerJsonObject = null;
 
