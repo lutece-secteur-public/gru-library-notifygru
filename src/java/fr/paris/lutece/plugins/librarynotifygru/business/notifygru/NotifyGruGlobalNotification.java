@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2002-2015, Mairie de Paris
+ * Copyright (c) 2002-2016, Mairie de Paris
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -38,13 +38,11 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 import com.fasterxml.jackson.annotation.JsonRootName;
 
-import fr.paris.lutece.plugins.librarynotifygru.business.INotification;
 import fr.paris.lutece.plugins.librarynotifygru.constant.ConstantsLibraryNotifyGru;
 
 
-// TODO: Auto-generated Javadoc
 /**
- * This is the business class for the object NotifyGruGlobal.
+ * The Class NotifyGruGlobalNotification, default implementation of AbstractNotification
  */
 @JsonRootName( value = "notification" )
 @JsonPropertyOrder( {"user_guid",
@@ -65,63 +63,30 @@ import fr.paris.lutece.plugins.librarynotifygru.constant.ConstantsLibraryNotifyG
     "user_sms",
     "user_dashboard"
 } )
-public class NotifyGruGlobalNotification implements INotification
+public class NotifyGruGlobalNotification
 {
-    /** The _str guid. */
     // Variables declarations 
     private String _strGuid;
-
-    /** The _str email. */
     private String _strEmail;
-
-    /** The _n crm status id. */
     private int _nCrmStatusId;
-
-    /** The _str notification type. */
     private String _strNotificationType;
-
-    /** The _n demand status. */
     private int _nDemandStatus;
-
-    /** The _str demand reference. */
     private String _strDemandReference;
-
-    /** The _n customer id. */
     private int _nCustomerId;
-
-    /** The _ notification date. */
     private Long _notificationDate;
-
-    /** The _n demand id. */
     private int _nDemandId;
-
-    /** The _n remote demand id. */
     private int _nRemoteDemandId;
-
-    /** The _n demand type id. */
     private int _nDemandTypeId;
-
-    /** The _n demand max step. */
     private int _nDemandMaxStep;
-
-    /** The _n demand user current step. */
     private int _nDemandUserCurrentStep;
-
-    /** The user email. */
     @JsonInclude( JsonInclude.Include.NON_NULL )
-    private NotifyGruEmailNotification _userEmail;
-
-    /** The user sms. */
+    private EmailNotification _userEmail;
     @JsonInclude( JsonInclude.Include.NON_NULL )
-    private NotifyGruSMSNotification _userSMS;
-
-    /** The user agent. */
+    private SMSNotification _userSMS;
     @JsonInclude( JsonInclude.Include.NON_NULL )
-    private NotifyGruAgentNotification _userAgent;
-
-    /** The user guichet. */
+    private AgentNotification _userAgent;
     @JsonInclude( JsonInclude.Include.NON_NULL )
-    private NotifyGruGuichetNotification _userGuichet;
+    private UserDashboardNotification _userGuichet;
 
     /**
      * Instantiates a new notify gru global notification.
@@ -435,7 +400,7 @@ public class NotifyGruGlobalNotification implements INotification
      * @return the user email
      */
     @JsonProperty( "user_email" )
-    public NotifyGruEmailNotification getUserEmail(  )
+    public EmailNotification getUserEmail(  )
     {
         return _userEmail;
     }
@@ -446,7 +411,7 @@ public class NotifyGruGlobalNotification implements INotification
      * @param userEmail the new user email
      */
     @JsonProperty( "user_email" )
-    public void setUserEmail( NotifyGruEmailNotification userEmail )
+    public void setUserEmail( EmailNotification userEmail )
     {
         this._userEmail = userEmail;
     }
@@ -457,7 +422,7 @@ public class NotifyGruGlobalNotification implements INotification
      * @return the user sms
      */
     @JsonProperty( "user_sms" )
-    public NotifyGruSMSNotification getUserSMS(  )
+    public SMSNotification getUserSMS(  )
     {
         return _userSMS;
     }
@@ -468,7 +433,7 @@ public class NotifyGruGlobalNotification implements INotification
      * @param userSMS the new user sms
      */
     @JsonProperty( "user_sms" )
-    public void setUserSMS( NotifyGruSMSNotification userSMS )
+    public void setUserSMS( SMSNotification userSMS )
     {
         this._userSMS = userSMS;
     }
@@ -479,7 +444,7 @@ public class NotifyGruGlobalNotification implements INotification
      * @return the user agent
      */
     @JsonProperty( "backoffice_logging" )
-    public NotifyGruAgentNotification getUserAgent(  )
+    public AgentNotification getUserAgent(  )
     {
         return _userAgent;
     }
@@ -490,7 +455,7 @@ public class NotifyGruGlobalNotification implements INotification
      * @param userAgent the new user agent
      */
     @JsonProperty( "backoffice_logging" )
-    public void setUserAgent( NotifyGruAgentNotification userAgent )
+    public void setUserAgent( AgentNotification userAgent )
     {
         this._userAgent = userAgent;
     }
@@ -501,7 +466,7 @@ public class NotifyGruGlobalNotification implements INotification
      * @return the user guichet
      */
     @JsonProperty( "user_dashboard" )
-    public NotifyGruGuichetNotification getUserGuichet(  )
+    public UserDashboardNotification getUserGuichet(  )
     {
         return _userGuichet;
     }
@@ -512,7 +477,7 @@ public class NotifyGruGlobalNotification implements INotification
      * @param userGuichet the new user guichet
      */
     @JsonProperty( "user_dashboard" )
-    public void setUserGuichet( NotifyGruGuichetNotification userGuichet )
+    public void setUserGuichet( UserDashboardNotification userGuichet )
     {
         this._userGuichet = userGuichet;
     }

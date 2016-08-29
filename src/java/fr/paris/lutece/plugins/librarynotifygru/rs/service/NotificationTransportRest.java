@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2002-2015, Mairie de Paris
+ * Copyright (c) 2002-2016, Mairie de Paris
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -31,13 +31,46 @@
  *
  * License 1.0
  */
-package fr.paris.lutece.plugins.librarynotifygru.business;
+package fr.paris.lutece.plugins.librarynotifygru.rs.service;
+
+import fr.paris.lutece.plugins.librarynotifygru.services.HttpAccessTransport;
+import fr.paris.lutece.plugins.librarynotifygru.services.IHttpTransportProvider;
+import fr.paris.lutece.plugins.librarynotifygru.services.INotificationTransportProvider;
+
+import java.util.Map;
 
 
 /**
- *
- * @author root
+ * Default NotificationTransport implementation, which not use ApiManager token auth
  */
-public interface INotification
+public final class NotificationTransportRest extends AbstractNotificationTransportRest
+    implements INotificationTransportProvider
 {
+    /**
+     * Simple Constructor
+     */
+    public NotificationTransportRest(  )
+    {
+        super(  );
+        this.setHttpTransport( new HttpAccessTransport(  ) );
+    }
+
+    /**
+         * Constructor with IHttpTransportProvider parameter
+         * @param httpTransport the provider to use
+         */
+    public NotificationTransportRest( IHttpTransportProvider httpTransport )
+    {
+        super(  );
+        this.setHttpTransport( httpTransport );
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    protected void addAuthentication( Map<String, String> mapHeadersRequest, String strAuthenticationKey )
+    {
+        //no authentication for simple rest client
+    }
 }

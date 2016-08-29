@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2002-2015, Mairie de Paris
+ * Copyright (c) 2002-2016, Mairie de Paris
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -40,52 +40,57 @@ import com.fasterxml.jackson.annotation.JsonRootName;
 import fr.paris.lutece.plugins.librarynotifygru.constant.ConstantsLibraryNotifyGru;
 
 
-// TODO: Auto-generated Javadoc
 /**
- * The Class NotifyGruSMSNotification.
+ * The Class NotifyGruGuichetNotification.
  */
-@JsonRootName( value = "user_sms" )
-@JsonPropertyOrder( {"message",
-    "phone_number"
+@JsonRootName( value = "user_dashboard" )
+@JsonPropertyOrder( {"status_text",
+    "message",
+    "subject",
+    "data",
+    "sender_name"
 } )
-public class NotifyGruSMSNotification
+public class UserDashboardNotification
 {
-    /** The _str phone number. */
     // Variables declarations 
-    private String _strPhoneNumber;
-
-    /** The _str message. */
+    private String _strStatusText;
     private String _strMessage;
+    private String _strSubject;
+    private String _strSenderName;
+    private String _strData;
 
     /**
-     * Instantiates a new notify gru sms notification.
+     * Instantiates a new notify gru guichet notification.
      */
-    public NotifyGruSMSNotification(  )
+    public UserDashboardNotification(  )
     {
-        this._strPhoneNumber = ConstantsLibraryNotifyGru.DEFAULT_STRING;
+        this._strStatusText = ConstantsLibraryNotifyGru.DEFAULT_STRING;
         this._strMessage = ConstantsLibraryNotifyGru.DEFAULT_STRING;
+        this._strSubject = ConstantsLibraryNotifyGru.DEFAULT_STRING;
+        this._strSenderName = ConstantsLibraryNotifyGru.DEFAULT_STRING;
+        this._strData = ConstantsLibraryNotifyGru.DEFAULT_STRING;
     }
 
     /**
-     * Gets the phone number.
+     * Gets the status text.
      *
-     * @return the phone number
+     * @return the status text
      */
-    @JsonProperty( "phone_number" )
-    public String getPhoneNumber(  )
+    @JsonProperty( "status_text" )
+    public String getStatusText(  )
     {
-        return _strPhoneNumber;
+        return _strStatusText;
     }
 
     /**
-     * Sets the phone number.
+     * Sets the status text.
      *
-     * @param strPhoneNumber the new phone number
+     * @param strStatusText the new status text
      */
-    @JsonProperty( "phone_number" )
-    public void setPhoneNumber( String strPhoneNumber )
+    @JsonProperty( "status_text" )
+    public void setStatusText( String strStatusText )
     {
-        _strPhoneNumber = strPhoneNumber;
+        _strStatusText = strStatusText;
     }
 
     /**
@@ -100,13 +105,79 @@ public class NotifyGruSMSNotification
     }
 
     /**
-     * Sets the message.
+     * Sets the Message.
      *
-     * @param strMessage the new message
+     * @param strMessage The Message
      */
     @JsonProperty( "message" )
     public void setMessage( String strMessage )
     {
         _strMessage = strMessage;
+    }
+
+    /**
+     * Gets the subject.
+     *
+     * @return the subject
+     */
+    @JsonProperty( "subject" )
+    public String getSubject(  )
+    {
+        return _strSubject;
+    }
+
+    /**
+     * Sets the Subject.
+     *
+     * @param strSubject The Subject
+     */
+    @JsonProperty( "subject" )
+    public void setSubject( String strSubject )
+    {
+        _strSubject = strSubject;
+    }
+
+    /**
+     * Returns the SenderName.
+     *
+     * @return The SenderName
+     */
+    @JsonProperty( "sender_name" )
+    public String getSenderName(  )
+    {
+        return _strSenderName;
+    }
+
+    /**
+     * Sets the SenderName.
+     *
+     * @param strSenderName The SenderName
+     */
+    @JsonProperty( "sender_name" )
+    public void setSenderName( String strSenderName )
+    {
+        _strSenderName = strSenderName;
+    }
+
+    /**
+     * Returns the Data.
+     *
+     * @return The Data
+     */
+    @JsonProperty( "data" )
+    public String getData(  )
+    {
+        return _strData;
+    }
+
+    /**
+     * Sets the Data.
+     *
+     * @param strData The Data
+     */
+    @JsonProperty( "data" )
+    public void setData( String strData )
+    {
+        _strData = strData;
     }
 }

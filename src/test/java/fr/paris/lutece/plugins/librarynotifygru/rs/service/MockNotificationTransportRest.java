@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2002-2015, Mairie de Paris
+ * Copyright (c) 2002-2016, Mairie de Paris
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -31,52 +31,37 @@
  *
  * License 1.0
  */
-package fr.paris.lutece.plugins.librarynotifygru.services;
+package fr.paris.lutece.plugins.librarynotifygru.rs.service;
 
-import fr.paris.lutece.plugins.librarynotifygru.business.INotification;
+import fr.paris.lutece.plugins.librarynotifygru.business.notifygru.NotifyGruGlobalNotification;
+
+import org.apache.log4j.Logger;
 
 import java.util.Map;
 
 
-// TODO: Auto-generated Javadoc
 /**
- * The Interface IsendNotificationAsJson.
  *
- * @author root
  */
-public interface IsendNotificationAsJson
+public class MockNotificationTransportRest extends AbstractNotificationTransportRest
 {
-    void send( INotification notification, String strToken, Map<String, String> headers, String url );
+    private static Logger _logger = Logger.getLogger( MockNotificationTransportRest.class );
 
     /**
-     * Send.
-     *
-     * @param notification the notification
-     * @param strToken the str token
-     * @param headers the headers
+     * {@inheritDoc}
      */
-    void send( INotification notification, String strToken, Map<String, String> headers );
+    @Override
+    public void send( NotifyGruGlobalNotification notification, String strAuthenticationKey, String strSender )
+    {
+        _logger.debug( "MockNotificationTransportRest.send is always ok" );
+    }
 
     /**
-     * Send.
-     *
-     * @param notification the notification
-     * @param strToken the str token
+     * {@inheritDoc}
      */
-    void send( INotification notification, String strToken );
-
-    /**
-     * Send.
-     *
-     * @param notification the notification
-     */
-    void send( INotification notification );
-
-    /**
-     * Gets the token.
-     *
-     * @param strToken the str token
-     * @return the token
-     */
-    String getToken( String strToken );
+    @Override
+    protected void addAuthentication( Map<String, String> mapHeadersRequest, String strAuthenticationKey )
+    {
+        //no authentication for mock   
+    }
 }

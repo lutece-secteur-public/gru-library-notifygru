@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2002-2015, Mairie de Paris
+ * Copyright (c) 2002-2016, Mairie de Paris
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -34,37 +34,16 @@
 package fr.paris.lutece.plugins.librarynotifygru.constant;
 
 
-// TODO: Auto-generated Javadoc
 /**
  * The Class ConstantsLibraryNotifyGru.
  */
 public final class ConstantsLibraryNotifyGru
 {
-    /** The Constant URL_NOTIFICATION_ENDPOINT. */
-    //URL
-    public static final String URL_NOTIFICATION_ENDPOINT = "library-notifygru.urlNotificationEndpoint";
-
-    /** The Constant URL_TOKEN. */
-    public static final String URL_TOKEN = "library-notifygru.urlApiManager";
-
-    /** The Constant TYPE_AUTHENTIFICATION. */
-    //CONSTANT FOR SENDING JSON FLUX
-    public static final String TYPE_AUTHENTIFICATION = "Bearer";
+    /** CONSTANT FOR SENDING JSON FLUX */
+    public static final String CONTENT_FORMAT_TOKEN = "application/x-www-form-urlencoded";
     public static final String PROPERTY_HEADER_CONTENT_TYPE = "Content-Type";
     public static final String PROPERTY_HEADER_ACCEPT_TYPE = "Accept";
-    public static final String END_POINT_SUCCESS_MSG = "received";
-    public static final String END_POINT_SUCCESS_KEY = "status";
-    public static final String END_POINT_ACKNOWLEDGE = "acknowledge";
-    //{"acknowledge": {"status": "received"}}
-    /** The Constant PARAMS_ACCES_TOKEN. */
-    public static final String PARAMS_ACCES_TOKEN = "access_token";
-    public static final String AUTHORIZATION = "Authorization";
-
-    /** The Constant PARAMS_GRANT_TYPE. */
-    public static final String PARAMS_GRANT_TYPE = "grant_type";
-
-    /** The Constant PARAMS_GRANT_TYPE_VALUE. */
-    public static final String PARAMS_GRANT_TYPE_VALUE = "client_credentials";
+    public static final String PROPERTY_HEADER_NOTIFICATION_SENDER = "NotificationSender";
 
     /** The Constant DEFAULT_STRING. */
     public static final String DEFAULT_STRING = "";
@@ -82,15 +61,8 @@ public final class ConstantsLibraryNotifyGru
     public static final String CONTENT_FORMAT_CHARSET = "application/json; charset=utf-8";
     public static final String CONTENT_FORMAT = "application/json";
 
-    /** The Constant CONTENT_FORMAT_TOKEN. */
-    public static final String CONTENT_FORMAT_TOKEN = "application/x-www-form-urlencoded";
-
-    /** The Constant ERROR_MESSAGE. */
-    //HTTP ERROR MESSAGE
-    public static final String ERROR_MESSAGE = "ClientNotification Failed : HTTP error code : ";
-
     /**
-     * Instantiates a new constants library notify gru.
+     * final class of constants, don't have to be instantiated
      *
      * @throws Exception the exception
      */

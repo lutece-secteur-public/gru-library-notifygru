@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2002-2015, Mairie de Paris
+ * Copyright (c) 2002-2016, Mairie de Paris
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -40,7 +40,6 @@ import com.fasterxml.jackson.annotation.JsonRootName;
 import fr.paris.lutece.plugins.librarynotifygru.constant.ConstantsLibraryNotifyGru;
 
 
-// TODO: Auto-generated Javadoc
 /**
  * The Class NotifyGruAgentNotification.
  */
@@ -48,19 +47,16 @@ import fr.paris.lutece.plugins.librarynotifygru.constant.ConstantsLibraryNotifyG
 @JsonPropertyOrder( {"message",
     "status_text"
 } )
-public class NotifyGruAgentNotification
+public class AgentNotification
 {
-    /** The _str message. */
-    // Variables declarations 
+    // Variables declarations
     private String _strMessage;
-
-    /** The _str status text. */
     private String _strStatusText;
 
     /**
      * Instantiates a new notify gru agent notification.
      */
-    public NotifyGruAgentNotification(  )
+    public AgentNotification(  )
     {
         this._strMessage = ConstantsLibraryNotifyGru.DEFAULT_STRING;
         this._strStatusText = ConstantsLibraryNotifyGru.DEFAULT_STRING;

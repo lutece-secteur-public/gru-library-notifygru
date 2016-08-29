@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2002-2015, Mairie de Paris
+ * Copyright (c) 2002-2016, Mairie de Paris
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -39,9 +39,8 @@ import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 import com.fasterxml.jackson.annotation.JsonRootName;
 
 
-// TODO: Auto-generated Javadoc
 /**
- * This is the business class for the object EmailNotification.
+ * The Class NotifyGruEmailNotification
  */
 @JsonRootName( value = "user_email" )
 @JsonPropertyOrder( {"sender_email",
@@ -52,29 +51,16 @@ import com.fasterxml.jackson.annotation.JsonRootName;
     "cc",
     "cci"
 } )
-public class NotifyGruEmailNotification
+public class EmailNotification
 {
-    /** The _str sender name. */
-    // Variables declarations 
+    // Variables declarations
     private String _strSenderName;
-
-    /** The _str sender email. */
     private String _strSenderEmail;
-
-    /** The _str recipient. */
     private String _strRecipient;
-
-    /** The _str subject. */
     private String _strSubject;
-
-    /** The _str message. */
     private String _strMessage;
-
-    /** The _str cc. */
     @JsonInclude( JsonInclude.Include.NON_NULL )
     private String _strCc;
-
-    /** The _str cci. */
     @JsonInclude( JsonInclude.Include.NON_NULL )
     private String _strCci;
 
