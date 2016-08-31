@@ -40,16 +40,25 @@ import com.fasterxml.jackson.annotation.JsonRootName;
 
 
 /**
- * The Class NotifyGruEmailNotification
+ * The Class EmailNotification for email notification.<br/>
+ * Fields description :<br/>
+ * - message, content of the notification<br/>
+ * - cci, blind carbon copy email(s)<br/>
+ * - subject, subject of the email<br/>
+ * - sender_email, sender email address<br/>
+ * - sender_name, sender name<br/>
+ * - recipient, user email<br/>
+ * - cc, carbon copy email(s)
  */
 @JsonRootName( value = "user_email" )
-@JsonPropertyOrder( {"sender_email",
+@JsonPropertyOrder( {
+    "message",
+    "cci",
+    "subject",
+    "sender_email",
     "sender_name",
     "recipient",
-    "subject",
-    "message",
-    "cc",
-    "cci"
+    "cc"
 } )
 public class EmailNotification
 {

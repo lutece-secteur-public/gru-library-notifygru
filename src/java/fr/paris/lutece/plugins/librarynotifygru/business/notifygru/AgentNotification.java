@@ -41,7 +41,10 @@ import fr.paris.lutece.plugins.librarynotifygru.constant.ConstantsLibraryNotifyG
 
 
 /**
- * The Class NotifyGruAgentNotification.
+ * The Class AgentNotification for backoffice notification.<br/>
+ * Fields description :<br/>
+ * - message, content of the notification<br/>
+ * - status_test, status label which will be displayed
  */
 @JsonRootName( value = "backoffice_logging" )
 @JsonPropertyOrder( {"message",

@@ -33,23 +33,23 @@
  */
 package fr.paris.lutece.plugins.librarynotifygru.services;
 
-import com.fasterxml.jackson.core.JsonParseException;
-import com.fasterxml.jackson.databind.JsonMappingException;
-import com.fasterxml.jackson.databind.ObjectMapper;
-import com.fasterxml.jackson.databind.SerializationFeature;
+import java.io.IOException;
 
-import fr.paris.lutece.plugins.librarynotifygru.business.notifygru.NotifyGruGlobalNotification;
-import fr.paris.lutece.plugins.librarynotifygru.rs.service.MockNotificationTransportRest;
-import fr.paris.lutece.util.httpaccess.HttpAccessService;
+import javax.annotation.Resource;
 
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
-import java.io.IOException;
+import com.fasterxml.jackson.core.JsonParseException;
+import com.fasterxml.jackson.databind.DeserializationFeature;
+import com.fasterxml.jackson.databind.JsonMappingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
 
-import javax.annotation.Resource;
+import fr.paris.lutece.plugins.librarynotifygru.business.notifygru.NotifyGruGlobalNotification;
+import fr.paris.lutece.plugins.librarynotifygru.rs.service.MockNotificationTransportRest;
+import fr.paris.lutece.util.httpaccess.HttpAccessService;
 
 
 /**
@@ -84,7 +84,7 @@ public class NotificationServiceTest
     public NotificationServiceTest(  ) throws JsonParseException, JsonMappingException, IOException
     {
         ObjectMapper mapper = new ObjectMapper(  );
-        mapper.enable( SerializationFeature.INDENT_OUTPUT );
+        mapper.enable( DeserializationFeature.UNWRAP_ROOT_VALUE );
         _notification = mapper.readValue( getClass(  ).getResourceAsStream( "/notification.json" ),
                 NotifyGruGlobalNotification.class );
         //Init HttpAccess singleton through NPE exception due of lack of properties access

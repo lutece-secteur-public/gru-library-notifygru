@@ -1,39 +1,41 @@
 {
-  "crm_status_id": 1,
-  "demand_max_step": 5,
-  "demand_id": -1,
-  "notification_type": "string",
-  "demand_user_current_step": 3,
-  "backoffice_logging": {
-    "message": "Traitement de la demande en cours par le service de la DVD",
-    "status_text": "En attente de validation"
-  },
-  "demand_type_id": 14,
-  "demand_status": 0,
-  "user_email": {
-    "message": "Bonjour Monsieur John Doe, Votre demande de carte de stationnement est en attente de validation",
-    "cci": "string",
-    "subject": "[Mairie de Paris] Demande de carte de stationnement",
-    "sender_email": "no_reply@paris.fr",
-    "sender_name": "Mairie de Paris",
-    "recipient": "john.doe@somewhere.com",
-    "cc": "string"
-  },
-  "notification_date": 1455631063473,
-  "email": "john.doe@somewhere.com",
-  "demand_reference": "RCL160200116",
-  "user_guid": "12312",
-  "user_sms": {
-    "message": "Votre demande de carte de stationnement est en attente de validation",
-    "phone_number": "0600000000"
-  },
-  "remote_demand_id": 1234,
-  "customer_id": "123456",
-  "user_dashboard": {
-    "status_text": "En attente de validation",
-    "message": "this is a test!",
-    "subject": "this is a test!",
-    "data": "string",
-    "sender_name": "Mairie de Paris"
+  "notification" : {
+    "crm_status_id" : 1,
+    "demand_max_step" : 5,
+    "demand_id" : -1,
+    "notification_type" : "string",
+    "demand_user_current_step" : 3,
+    "backoffice_logging" : {
+      "message" : "Traitement de la demande en cours par le service de la DVD",
+      "status_text" : "En attente de validation"
+    },
+    "demand_id_type" : 14,
+    "demand_status" : 0,
+    "user_email" : {
+      "message" : "Bonjour Monsieur John Doe, Votre demande de carte de stationnement est en attente de validation",
+      "cci" : "string",
+      "subject" : "[Mairie de Paris] Demande de carte de stationnement",
+      "sender_email" : "no_reply@paris.fr",
+      "sender_name" : "Mairie de Paris",
+      "recipient" : "john.doe@somewhere.com",
+      "cc" : "string"
+    },
+    "notification_date" : 1455631063473,
+    "email" : "john.doe@somewhere.com",
+    "demand_reference" : "RCL160200116",
+    "user_guid" : "12312",
+    "user_sms" : {
+      "message" : "Votre demande de carte de stationnement est en attente de validation",
+      "phone_number" : "0600000000"
+    },
+    "remote_demand_id" : 1234,
+    "customer_id" : "123456",
+    "user_dashboard" : {
+      "status_text" : "En attente de validation",
+      "message" : "this is a test!",
+      "subject" : "this is a test!",
+      "data" : "string",
+      "sender_name" : "Mairie de Paris"
+    }
   }
 }

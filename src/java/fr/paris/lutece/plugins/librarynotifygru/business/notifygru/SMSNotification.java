@@ -41,7 +41,10 @@ import fr.paris.lutece.plugins.librarynotifygru.constant.ConstantsLibraryNotifyG
 
 
 /**
- * The Class NotifyGruSMSNotification.
+ * The Class SMSNotification for SMS notification.<br/>
+ * Fields description :<br/>
+ * - message, content of the notification<br/>
+ * - phone_number, phone number of the user<br/>
  */
 @JsonRootName( value = "user_sms" )
 @JsonPropertyOrder( {"message",

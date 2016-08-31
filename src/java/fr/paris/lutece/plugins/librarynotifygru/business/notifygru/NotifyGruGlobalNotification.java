@@ -42,26 +42,42 @@ import fr.paris.lutece.plugins.librarynotifygru.constant.ConstantsLibraryNotifyG
 
 
 /**
- * The Class NotifyGruGlobalNotification, default implementation of AbstractNotification
+ * The Class NotifyGruGlobalNotification, default notification object.<br/>
+ * Fields description<br/>
+ *  - crm_status_id, single CRM status id<br/>
+ *  - demand_max_step, maximum step of the demand<br/>
+ *  - demand_id_type, single request type id associated with 'Guichet' services<br/>
+ *  - demand_id, request ID for the current user<br/>
+ *  - email, user email<br/>
+ *  - notification_type, typ of the notification<br/>
+ *  - demand_user_current_step, current step of the demand<br/>
+ *  - backoffice_logging, {@link AgentNotification}<br/>
+ *  - user_guid, user id to create a new request<br/>
+ *  - user_sms, {@link SMSNotification}<br/>
+ *  - user_email, {@link EmailNotification}<br/>
+ *  - user_dashboard, {@link UserDashboardNotification}
+ *  
  */
 @JsonRootName( value = "notification" )
-@JsonPropertyOrder( {"user_guid",
-    "customer_id",
-    "email",
-    "demand_status",
+@JsonPropertyOrder( {
     "crm_status_id",
-    "demand_id",
-    "demand_type_id",
-    "remote_demand_id",
     "demand_max_step",
-    "demand_user_current_step",
+    "demand_id_type",
+    "demand_id",
+    "email",
     "notification_type",
-    "notification_date",
-    "demand_reference",
+    "demand_user_current_step",
     "backoffice_logging",
-    "user_email",
+    "user_guid",
     "user_sms",
-    "user_dashboard"
+    "user_email",
+    "user_dashboard",
+    
+    "customer_id",
+    "demand_status",
+    "remote_demand_id",
+    "notification_date",
+    "demand_reference"
 } )
 public class NotifyGruGlobalNotification
 {
@@ -333,7 +349,7 @@ public class NotifyGruGlobalNotification
      *
      * @return the demand type id
      */
-    @JsonProperty( "demand_type_id" )
+    @JsonProperty( "demand_id_type" )
     public int getDemandTypeId(  )
     {
         return _nDemandTypeId;
@@ -342,9 +358,9 @@ public class NotifyGruGlobalNotification
     /**
      * Sets the demand type id.
      *
-     * @param nDemandTypeId the new demand type id
+     * @param nDemandTypeId the new demand id type
      */
-    @JsonProperty( "demand_type_id" )
+    @JsonProperty( "demand_id_type" )
     public void setDemandTypeId( int nDemandTypeId )
     {
         _nDemandTypeId = nDemandTypeId;

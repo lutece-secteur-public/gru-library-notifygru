@@ -64,9 +64,7 @@ abstract class AbstractNotificationTransportRest implements INotificationTranspo
         _mapper = new ObjectMapper(  );
         _mapper.enable( DeserializationFeature.UNWRAP_ROOT_VALUE );
         _mapper.enable( SerializationFeature.INDENT_OUTPUT );
-
-        // cf http://wiki.lutece.paris.fr/lutece/jsp/site/Portal.jsp?page=wiki&page_name=notification_gru&view=page json notification doesn't have the root name
-        //_mapper.enable( SerializationFeature.WRAP_ROOT_VALUE );
+        _mapper.enable( SerializationFeature.WRAP_ROOT_VALUE );
     }
 
     /** HTTP transport provider */
@@ -124,7 +122,17 @@ abstract class AbstractNotificationTransportRest implements INotificationTranspo
 
         addAuthentication( mapHeadersRequest, strAuthenticationKey );
 
-        _logger.debug( "LibraryNotifyGru - AbstractNotificationTransportRest.send NOTIFICATION" );
+        if ( _logger.isDebugEnabled(  ) )
+        {
+        	try
+            {
+	            _logger.debug( "LibraryNotifyGru - AbstractNotificationTransportRest.send NOTIFICATION:\n" +  _mapper.writeValueAsString( notification ) );
+            }
+        	catch ( JsonProcessingException e )
+            {
+	            // do nothing is debug
+            }
+        }
 
         NotifyGruResponse response = _httpTransport.doPostJSON( _strNotificationEndPoint, mapParams, mapHeadersRequest,
                 notification, NotifyGruResponse.class, _mapper );
@@ -144,7 +152,6 @@ abstract class AbstractNotificationTransportRest implements INotificationTranspo
 
         if ( ( response == null ) || !NotifyGruResponse.STATUS_RECEIVED.equals( response.getStatus(  ) ) )
         {
-            //TODO check interface contract to be compliant with the response format
             String strError = "LibraryNotifyGru - AbstractNotificationTransportRest.send - Error JSON response is null";
 
             if ( response != null )

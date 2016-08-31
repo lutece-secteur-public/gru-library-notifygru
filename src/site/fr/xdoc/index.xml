@@ -13,7 +13,7 @@
                  La configuration <b>obligatoire</b> est à définir dans votre application.
                 </p>
                 <p>
-                    Le service principal est de type "fr.paris.lutece.plugins.librarynotifygru.services.NotificationService".
+                    Le service principal est de type "fr.paris.lutece.plugins.librarynotifygru.services.NotificationService" qui utilise un objet NotifyGruGlobalNotification (voir javadoc pour les details de l'objet).
                     Il nécessite une implémentation de "fr.paris.lutece.plugins.librarynotifygru.services.IHttpTransportProvider" qui défini le transfert vers le service REST.
                     La librairie met à disposition deux implementation de cette interface :
                     <ul>

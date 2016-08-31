@@ -13,7 +13,7 @@
                     <b>Mandatory</b> configuration has to be defined in your application.
                 </p>
                 <p>
-                Main service type is "fr.paris.lutece.plugins.librarynotifygru.services.NotificationService".
+                Main service type is "fr.paris.lutece.plugins.librarynotifygru.services.NotificationService" which consume a NotifyGruGlobalNotification (see javadoc for details on the object).
                 It required an implementation of "fr.paris.lutece.plugins.librarynotifygru.services.IHttpTransportProvider" for defining REST service call.
                 Two implementation of this interface are given in the library :
                 <ul>

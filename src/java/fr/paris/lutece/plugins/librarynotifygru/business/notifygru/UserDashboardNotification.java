@@ -41,7 +41,13 @@ import fr.paris.lutece.plugins.librarynotifygru.constant.ConstantsLibraryNotifyG
 
 
 /**
- * The Class NotifyGruGuichetNotification.
+ * The Class UserDashboardNotification for 'Guichet' notification.<br/>
+ * Fields description :<br/>
+ * - status_text, status label which will be displayed<br/>
+ * - message, content for the new notif to add<br/>
+ * - subject, subject for the new notif to add<br/>
+ * - data, ...<br/>
+ * - sender_name, Sender name for the new notif to add<br/>
  */
 @JsonRootName( value = "user_dashboard" )
 @JsonPropertyOrder( {"status_text",

@@ -9,7 +9,7 @@ This library provided a service for sending notification to the GRU.
 
  **Mandatory** configuration has to be defined in your application.
 
-Main service type is "fr.paris.lutece.plugins.librarynotifygru.services.NotificationService". It required an implementation of "fr.paris.lutece.plugins.librarynotifygru.services.IHttpTransportProvider" for defining REST service call.Two implementation of this interface are given in the library :
+Main service type is "fr.paris.lutece.plugins.librarynotifygru.services.NotificationService" which consume a NotifyGruGlobalNotification (see javadoc for details on the object). It required an implementation of "fr.paris.lutece.plugins.librarynotifygru.services.IHttpTransportProvider" for defining REST service call.Two implementation of this interface are given in the library :
  
 * fr.paris.lutece.plugins.librarynotifygru.rs.service.NotificationTransportApiManagerRest, which use ApiManager WSO2
 * fr.paris.lutece.plugins.librarynotifygru.rs.service.NotificationTransportRest, which use simple request without token management
