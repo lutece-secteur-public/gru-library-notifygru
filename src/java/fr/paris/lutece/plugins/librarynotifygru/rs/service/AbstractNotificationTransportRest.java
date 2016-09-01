@@ -124,13 +124,14 @@ abstract class AbstractNotificationTransportRest implements INotificationTranspo
 
         if ( _logger.isDebugEnabled(  ) )
         {
-        	try
+            try
             {
-	            _logger.debug( "LibraryNotifyGru - AbstractNotificationTransportRest.send NOTIFICATION:\n" +  _mapper.writeValueAsString( notification ) );
+                _logger.debug( "LibraryNotifyGru - AbstractNotificationTransportRest.send NOTIFICATION:\n" +
+                    _mapper.writeValueAsString( notification ) );
             }
-        	catch ( JsonProcessingException e )
+            catch ( JsonProcessingException e )
             {
-	            // do nothing is debug
+                // do nothing is debug
             }
         }
 

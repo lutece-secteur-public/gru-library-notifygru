@@ -123,7 +123,8 @@ public final class NotificationTransportApiManagerRest extends AbstractNotificat
         }
         else
         {
-        	_logger.debug( "LibraryNotifyGru - NotificationTransportApiManagerRest.getToken invalid response [" + strOutput + "]" );
+            _logger.debug( "LibraryNotifyGru - NotificationTransportApiManagerRest.getToken invalid response [" +
+                strOutput + "]" );
         }
 
         return strToken;

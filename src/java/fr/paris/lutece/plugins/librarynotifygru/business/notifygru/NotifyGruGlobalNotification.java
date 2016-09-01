@@ -56,13 +56,12 @@ import fr.paris.lutece.plugins.librarynotifygru.constant.ConstantsLibraryNotifyG
  *  - user_sms, {@link SMSNotification}<br/>
  *  - user_email, {@link EmailNotification}<br/>
  *  - user_dashboard, {@link UserDashboardNotification}
- *  
+ *
  */
 @JsonRootName( value = "notification" )
-@JsonPropertyOrder( {
-    "crm_status_id",
+@JsonPropertyOrder( {"crm_status_id",
     "demand_max_step",
-    "demand_id_type",
+    "demand_type_id",
     "demand_id",
     "email",
     "notification_type",
@@ -72,7 +71,6 @@ import fr.paris.lutece.plugins.librarynotifygru.constant.ConstantsLibraryNotifyG
     "user_sms",
     "user_email",
     "user_dashboard",
-    
     "customer_id",
     "demand_status",
     "remote_demand_id",
@@ -349,7 +347,9 @@ public class NotifyGruGlobalNotification
      *
      * @return the demand type id
      */
-    @JsonProperty( "demand_id_type" )
+
+    //FIXME
+    @JsonProperty( "demand_type_id" )
     public int getDemandTypeId(  )
     {
         return _nDemandTypeId;
@@ -360,7 +360,9 @@ public class NotifyGruGlobalNotification
      *
      * @param nDemandTypeId the new demand id type
      */
-    @JsonProperty( "demand_id_type" )
+
+    //FIXME
+    @JsonProperty( "demand_type_id" )
     public void setDemandTypeId( int nDemandTypeId )
     {
         _nDemandTypeId = nDemandTypeId;

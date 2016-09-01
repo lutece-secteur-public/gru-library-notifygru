@@ -51,8 +51,7 @@ import com.fasterxml.jackson.annotation.JsonRootName;
  * - cc, carbon copy email(s)
  */
 @JsonRootName( value = "user_email" )
-@JsonPropertyOrder( {
-    "message",
+@JsonPropertyOrder( {"message",
     "cci",
     "subject",
     "sender_email",
