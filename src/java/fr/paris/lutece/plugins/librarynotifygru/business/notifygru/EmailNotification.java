@@ -67,9 +67,7 @@ public class EmailNotification
     private String _strRecipient;
     private String _strSubject;
     private String _strMessage;
-    @JsonInclude( JsonInclude.Include.NON_NULL )
     private String _strCc;
-    @JsonInclude( JsonInclude.Include.NON_NULL )
     private String _strCci;
 
     /**
@@ -188,6 +186,7 @@ public class EmailNotification
      * @return the cc
      */
     @JsonProperty( "cc" )
+    @JsonInclude( JsonInclude.Include.NON_NULL )
     public String getCc(  )
     {
         return _strCc;
@@ -210,6 +209,7 @@ public class EmailNotification
      * @return the cci
      */
     @JsonProperty( "cci" )
+    @JsonInclude( JsonInclude.Include.NON_NULL )
     public String getCci(  )
     {
         return _strCci;

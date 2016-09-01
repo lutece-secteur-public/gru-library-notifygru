@@ -9,7 +9,7 @@
       "message" : "Traitement de la demande en cours par le service de la DVD",
       "status_text" : "En attente de validation"
     },
-    "demand_id_type" : 14,
+    "demand_type_id" : 14,
     "demand_status" : 0,
     "user_email" : {
       "message" : "Bonjour Monsieur John Doe, Votre demande de carte de stationnement est en attente de validation",

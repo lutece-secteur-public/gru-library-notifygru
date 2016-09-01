@@ -93,13 +93,9 @@ public class NotifyGruGlobalNotification
     private int _nDemandTypeId;
     private int _nDemandMaxStep;
     private int _nDemandUserCurrentStep;
-    @JsonInclude( JsonInclude.Include.NON_NULL )
     private EmailNotification _userEmail;
-    @JsonInclude( JsonInclude.Include.NON_NULL )
     private SMSNotification _userSMS;
-    @JsonInclude( JsonInclude.Include.NON_NULL )
     private AgentNotification _userAgent;
-    @JsonInclude( JsonInclude.Include.NON_NULL )
     private UserDashboardNotification _userGuichet;
 
     /**
@@ -418,6 +414,7 @@ public class NotifyGruGlobalNotification
      * @return the user email
      */
     @JsonProperty( "user_email" )
+    @JsonInclude( JsonInclude.Include.NON_NULL )
     public EmailNotification getUserEmail(  )
     {
         return _userEmail;
@@ -440,6 +437,7 @@ public class NotifyGruGlobalNotification
      * @return the user sms
      */
     @JsonProperty( "user_sms" )
+    @JsonInclude( JsonInclude.Include.NON_NULL )
     public SMSNotification getUserSMS(  )
     {
         return _userSMS;
@@ -462,6 +460,7 @@ public class NotifyGruGlobalNotification
      * @return the user agent
      */
     @JsonProperty( "backoffice_logging" )
+    @JsonInclude( JsonInclude.Include.NON_NULL )
     public AgentNotification getUserAgent(  )
     {
         return _userAgent;
@@ -484,6 +483,7 @@ public class NotifyGruGlobalNotification
      * @return the user guichet
      */
     @JsonProperty( "user_dashboard" )
+    @JsonInclude( JsonInclude.Include.NON_NULL )
     public UserDashboardNotification getUserGuichet(  )
     {
         return _userGuichet;
