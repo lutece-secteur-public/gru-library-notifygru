@@ -152,20 +152,20 @@ public class SimpleRestTransport implements IHttpTransportProvider
         catch ( UniformInterfaceException e )
         {
             String strError = "LibraryNotifyGru - Error SimpleRestTransport.doPostJSON, unable to post request with JSON content";
-            _logger.error( strError );
-            throw new NotifyGruException( strError );
+            _logger.error( strError, e );
+            throw new NotifyGruException( strError, e );
         }
         catch ( ClientHandlerException e )
         {
             String strError = "LibraryNotifyGru - Error SimpleRestTransport.doPostJSON, unable to post request with JSON content";
-            _logger.error( strError );
-            throw new NotifyGruException( strError );
+            _logger.error( strError, e );
+            throw new NotifyGruException( strError, e );
         }
         catch ( IOException e )
         {
             String strError = "LibraryNotifyGru - Error SimpleRestTransport.doPostJSON, unable to post request with JSON content";
-            _logger.error( strError );
-            throw new NotifyGruException( strError );
+            _logger.error( strError, e );
+            throw new NotifyGruException( strError, e );
         }
     }
 }
