@@ -69,7 +69,6 @@ public class SimpleRestTransport implements IHttpTransportProvider
     {
         Client client = Client.create(  );
         WebResource webResource = client.resource( strUrl );
-        webResource.type( ConstantsLibraryNotifyGru.CONTENT_FORMAT_TOKEN );
 
         if ( mapParams != null )
         {
@@ -79,7 +78,7 @@ public class SimpleRestTransport implements IHttpTransportProvider
             }
         }
 
-        WebResource.Builder builder = webResource.accept( MediaType.APPLICATION_JSON_TYPE );
+        WebResource.Builder builder = webResource.type( ConstantsLibraryNotifyGru.CONTENT_FORMAT_TOKEN ).accept( MediaType.APPLICATION_JSON_TYPE );
 
         if ( mapHeadersRequest != null )
         {
@@ -113,7 +112,6 @@ public class SimpleRestTransport implements IHttpTransportProvider
     {
         Client client = Client.create(  );
         WebResource webResource = client.resource( strUrl );
-        webResource.type( ConstantsLibraryNotifyGru.CONTENT_FORMAT );
 
         if ( mapParams != null )
         {
@@ -123,7 +121,7 @@ public class SimpleRestTransport implements IHttpTransportProvider
             }
         }
 
-        WebResource.Builder builder = webResource.accept( MediaType.APPLICATION_JSON );
+        WebResource.Builder builder = webResource.type( ConstantsLibraryNotifyGru.CONTENT_FORMAT ).accept( MediaType.APPLICATION_JSON );
 
         if ( mapHeadersRequest != null )
         {
@@ -137,7 +135,8 @@ public class SimpleRestTransport implements IHttpTransportProvider
         {
             ClientResponse response = builder.post( ClientResponse.class, mapper.writeValueAsString( json ) );
 
-            if ( response.getStatus(  ) != Status.OK.getStatusCode(  ) )
+            if ( response.getStatus(  ) != Status.OK.getStatusCode(  ) 
+            		&& response.getStatus() != Status.CREATED.getStatusCode(  ) )
             {
                 String strError = "LibraryNotifyGru - Error SimpleRestTransport.doPostJSON, status code return " +
                     response.getStatus(  );
