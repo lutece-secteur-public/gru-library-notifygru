@@ -42,7 +42,6 @@ import com.sun.jersey.api.client.ClientResponse.Status;
 import com.sun.jersey.api.client.UniformInterfaceException;
 import com.sun.jersey.api.client.WebResource;
 
-import fr.paris.lutece.plugins.librarynotifygru.constant.ConstantsLibraryNotifyGru;
 import fr.paris.lutece.plugins.librarynotifygru.exception.NotifyGruException;
 
 import org.apache.log4j.Logger;
@@ -78,7 +77,7 @@ public class SimpleRestTransport implements IHttpTransportProvider
             }
         }
 
-        WebResource.Builder builder = webResource.type( ConstantsLibraryNotifyGru.CONTENT_FORMAT_TOKEN ).accept( MediaType.APPLICATION_JSON_TYPE );
+        WebResource.Builder builder = webResource.getRequestBuilder(  );
 
         if ( mapHeadersRequest != null )
         {
@@ -121,7 +120,7 @@ public class SimpleRestTransport implements IHttpTransportProvider
             }
         }
 
-        WebResource.Builder builder = webResource.type( ConstantsLibraryNotifyGru.CONTENT_FORMAT ).accept( MediaType.APPLICATION_JSON );
+        WebResource.Builder builder = webResource.type( MediaType.APPLICATION_JSON ).accept( MediaType.APPLICATION_JSON );
 
         if ( mapHeadersRequest != null )
         {

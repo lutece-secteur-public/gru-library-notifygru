@@ -106,7 +106,7 @@ public class NotificationServiceTest
     public void testSendApiManagerHttpAccess(  )
     {
         // can't work on localhost due to lutece-core dependency in library-httpaccess
-        _notificationServiceApiHttpAccess.send( _notification, "authKey", "sender" );
+        _notificationServiceApiHttpAccess.send( _notification );
     }
 
     /**
@@ -116,7 +116,7 @@ public class NotificationServiceTest
     public void testSendApiManagerSimpleRest(  )
     {
         // currently KO due to header problem in the query
-        _notificationServiceApiSimpleRest.send( _notification, "authKey", "sender" );
+        _notificationServiceApiSimpleRest.send( _notification );
     }
 
     /**
@@ -125,7 +125,7 @@ public class NotificationServiceTest
     @Test
     public void testSendRestHttpAccess(  )
     {
-        _notificationServiceRestHttpAccess.send( _notification, "authKey", "sender" );
+        _notificationServiceRestHttpAccess.send( _notification );
     }
 
     /**
@@ -134,7 +134,7 @@ public class NotificationServiceTest
     @Test
     public void testSendRestSimpleRest(  )
     {
-        _notificationServiceRestSimpleRest.send( _notification, "authKey", "sender" );
+        _notificationServiceRestSimpleRest.send( _notification );
     }
 
     /**
@@ -143,7 +143,7 @@ public class NotificationServiceTest
     @Test
     public void testSendMock(  )
     {
-        _notificationServiceMock.send( _notification, "authKey", "sender" );
+        _notificationServiceMock.send( _notification );
     }
 
     /**
@@ -158,6 +158,6 @@ public class NotificationServiceTest
         //default mockTransport.httpTransport set with simpleRest
         NotificationService notificationServiceNoSpring = new NotificationService( mockTransport );
 
-        notificationServiceNoSpring.send( _notification, "authKey", "sender" );
+        notificationServiceNoSpring.send( _notification );
     }
 }

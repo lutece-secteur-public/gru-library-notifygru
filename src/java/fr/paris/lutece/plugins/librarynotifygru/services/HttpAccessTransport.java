@@ -35,17 +35,21 @@ package fr.paris.lutece.plugins.librarynotifygru.services;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 
-import fr.paris.lutece.plugins.librarynotifygru.constant.ConstantsLibraryNotifyGru;
+import fr.paris.lutece.plugins.librarynotifygru.NotifyGruConstants;
 import fr.paris.lutece.plugins.librarynotifygru.exception.NotifyGruException;
 import fr.paris.lutece.util.httpaccess.HttpAccess;
 import fr.paris.lutece.util.httpaccess.HttpAccessException;
 
+import org.apache.commons.lang.StringUtils;
 import org.apache.log4j.Logger;
 
 import java.io.IOException;
 
 import java.util.HashMap;
 import java.util.Map;
+
+import javax.ws.rs.core.HttpHeaders;
+import javax.ws.rs.core.MediaType;
 
 
 /**
@@ -63,12 +67,8 @@ public class HttpAccessTransport implements IHttpTransportProvider
     {
         HttpAccess clientHttp = new HttpAccess(  );
         Map<String, String> mapHeadersResponse = new HashMap<String, String>(  );
-        mapHeadersRequest.put( ConstantsLibraryNotifyGru.PROPERTY_HEADER_ACCEPT_TYPE,
-            ConstantsLibraryNotifyGru.CONTENT_FORMAT );
-        mapHeadersRequest.put( ConstantsLibraryNotifyGru.PROPERTY_HEADER_CONTENT_TYPE,
-            ConstantsLibraryNotifyGru.CONTENT_FORMAT_TOKEN );
 
-        String strOutput = "";
+        String strOutput = StringUtils.EMPTY;
 
         try
         {
@@ -93,10 +93,10 @@ public class HttpAccessTransport implements IHttpTransportProvider
     {
         HttpAccess clientHttp = new HttpAccess(  );
         Map<String, String> mapHeadersResponse = new HashMap<String, String>(  );
-        mapHeadersRequest.put( ConstantsLibraryNotifyGru.PROPERTY_HEADER_ACCEPT_TYPE,
-            ConstantsLibraryNotifyGru.CONTENT_FORMAT );
-        mapHeadersRequest.put( ConstantsLibraryNotifyGru.PROPERTY_HEADER_CONTENT_TYPE,
-            ConstantsLibraryNotifyGru.CONTENT_FORMAT_CHARSET );
+        mapHeadersRequest.put( HttpHeaders.ACCEPT,
+            MediaType.APPLICATION_JSON );
+        mapHeadersRequest.put( HttpHeaders.CONTENT_TYPE,
+            NotifyGruConstants.CONTENT_FORMAT_CHARSET );
 
         try
         {

@@ -31,20 +31,14 @@
  *
  * License 1.0
  */
-package fr.paris.lutece.plugins.librarynotifygru.constant;
+package fr.paris.lutece.plugins.librarynotifygru;
 
 
 /**
  * The Class ConstantsLibraryNotifyGru.
  */
-public final class ConstantsLibraryNotifyGru
+public final class NotifyGruConstants
 {
-    /** CONSTANT FOR SENDING JSON FLUX */
-    public static final String CONTENT_FORMAT_TOKEN = "application/x-www-form-urlencoded";
-    public static final String PROPERTY_HEADER_CONTENT_TYPE = "Content-Type";
-    public static final String PROPERTY_HEADER_ACCEPT_TYPE = "Accept";
-    public static final String PROPERTY_HEADER_NOTIFICATION_SENDER = "NotificationSender";
-
     /** The Constant DEFAULT_STRING. */
     public static final String DEFAULT_STRING = "";
 
@@ -54,19 +48,16 @@ public final class ConstantsLibraryNotifyGru
     /** The Constant DEFAULT_LONG. */
     public static final long DEFAULT_LONG = -1;
 
-    //INFORMATION ABOUT TOKEN
-
     /** The Constant CONTENT_FORMAT. */
     //CONTENT FORMAT
     public static final String CONTENT_FORMAT_CHARSET = "application/json; charset=utf-8";
-    public static final String CONTENT_FORMAT = "application/json";
 
     /**
      * final class of constants, don't have to be instantiated
      *
      * @throws Exception the exception
      */
-    private ConstantsLibraryNotifyGru(  ) throws Exception
+    private NotifyGruConstants(  ) throws Exception
     {
         throw new Exception(  );
     }

@@ -38,7 +38,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 import com.fasterxml.jackson.annotation.JsonRootName;
 
-import fr.paris.lutece.plugins.librarynotifygru.constant.ConstantsLibraryNotifyGru;
+import fr.paris.lutece.plugins.librarynotifygru.NotifyGruConstants;
 
 
 /**
@@ -103,19 +103,19 @@ public class NotifyGruGlobalNotification
      */
     public NotifyGruGlobalNotification(  )
     {
-        this._strGuid = ConstantsLibraryNotifyGru.DEFAULT_STRING;
-        this._strEmail = ConstantsLibraryNotifyGru.DEFAULT_STRING;
-        this._nCrmStatusId = ConstantsLibraryNotifyGru.DEFAULT_INT;
-        this._strNotificationType = ConstantsLibraryNotifyGru.DEFAULT_STRING;
-        this._nDemandStatus = ConstantsLibraryNotifyGru.DEFAULT_INT;
-        this._strDemandReference = ConstantsLibraryNotifyGru.DEFAULT_STRING;
-        this._nCustomerId = ConstantsLibraryNotifyGru.DEFAULT_INT;
-        this._notificationDate = ConstantsLibraryNotifyGru.DEFAULT_LONG;
-        this._nDemandId = ConstantsLibraryNotifyGru.DEFAULT_INT;
-        this._nRemoteDemandId = ConstantsLibraryNotifyGru.DEFAULT_INT;
-        this._nDemandTypeId = ConstantsLibraryNotifyGru.DEFAULT_INT;
-        this._nDemandMaxStep = ConstantsLibraryNotifyGru.DEFAULT_INT;
-        this._nDemandUserCurrentStep = ConstantsLibraryNotifyGru.DEFAULT_INT;
+        this._strGuid = NotifyGruConstants.DEFAULT_STRING;
+        this._strEmail = NotifyGruConstants.DEFAULT_STRING;
+        this._nCrmStatusId = NotifyGruConstants.DEFAULT_INT;
+        this._strNotificationType = NotifyGruConstants.DEFAULT_STRING;
+        this._nDemandStatus = NotifyGruConstants.DEFAULT_INT;
+        this._strDemandReference = NotifyGruConstants.DEFAULT_STRING;
+        this._nCustomerId = NotifyGruConstants.DEFAULT_INT;
+        this._notificationDate = NotifyGruConstants.DEFAULT_LONG;
+        this._nDemandId = NotifyGruConstants.DEFAULT_INT;
+        this._nRemoteDemandId = NotifyGruConstants.DEFAULT_INT;
+        this._nDemandTypeId = NotifyGruConstants.DEFAULT_INT;
+        this._nDemandMaxStep = NotifyGruConstants.DEFAULT_INT;
+        this._nDemandUserCurrentStep = NotifyGruConstants.DEFAULT_INT;
     }
 
     /**

@@ -76,11 +76,9 @@ public class NotificationService
      * can throw AppException in case of problem with the JSON request
      *
      * @param notification the notification
-     * @param strAuthenticationKey string key for authentication
-     * @param strSender the sender reference
      */
-    public void send( NotifyGruGlobalNotification notification, String strAuthenticationKey, String strSender )
+    public void send( NotifyGruGlobalNotification notification )
     {
-        _transportProvider.send( notification, strAuthenticationKey, strSender );
+        _transportProvider.send( notification );
     }
 }

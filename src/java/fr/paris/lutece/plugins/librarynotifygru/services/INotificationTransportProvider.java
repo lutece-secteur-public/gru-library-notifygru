@@ -46,8 +46,6 @@ public interface INotificationTransportProvider
      * can throw AppException in case of problem with the JSON request
      *
      * @param notification the notification
-     * @param strAuthenticationKey string key for authentification
-     * @param strSender the sender reference
      */
-    void send( NotifyGruGlobalNotification notification, String strAuthenticationKey, String strSender );
+    void send( NotifyGruGlobalNotification notification );
 }

@@ -37,7 +37,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 import com.fasterxml.jackson.annotation.JsonRootName;
 
-import fr.paris.lutece.plugins.librarynotifygru.constant.ConstantsLibraryNotifyGru;
+import fr.paris.lutece.plugins.librarynotifygru.NotifyGruConstants;
 
 
 /**
@@ -70,11 +70,11 @@ public class UserDashboardNotification
      */
     public UserDashboardNotification(  )
     {
-        this._strStatusText = ConstantsLibraryNotifyGru.DEFAULT_STRING;
-        this._strMessage = ConstantsLibraryNotifyGru.DEFAULT_STRING;
-        this._strSubject = ConstantsLibraryNotifyGru.DEFAULT_STRING;
-        this._strSenderName = ConstantsLibraryNotifyGru.DEFAULT_STRING;
-        this._strData = ConstantsLibraryNotifyGru.DEFAULT_STRING;
+        this._strStatusText = NotifyGruConstants.DEFAULT_STRING;
+        this._strMessage = NotifyGruConstants.DEFAULT_STRING;
+        this._strSubject = NotifyGruConstants.DEFAULT_STRING;
+        this._strSenderName = NotifyGruConstants.DEFAULT_STRING;
+        this._strData = NotifyGruConstants.DEFAULT_STRING;
     }
 
     /**

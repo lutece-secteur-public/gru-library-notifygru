@@ -69,7 +69,7 @@ public final class NotificationTransportRest extends AbstractNotificationTranspo
      * {@inheritDoc}
      */
     @Override
-    protected void addAuthentication( Map<String, String> mapHeadersRequest, String strAuthenticationKey )
+    protected void addAuthentication( Map<String, String> mapHeadersRequest )
     {
         //no authentication for simple rest client
     }

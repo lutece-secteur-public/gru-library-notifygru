@@ -40,7 +40,6 @@ import com.fasterxml.jackson.databind.SerializationFeature;
 
 import fr.paris.lutece.plugins.librarynotifygru.business.notifygru.NotifyGruGlobalNotification;
 import fr.paris.lutece.plugins.librarynotifygru.business.notifygru.NotifyGruResponse;
-import fr.paris.lutece.plugins.librarynotifygru.constant.ConstantsLibraryNotifyGru;
 import fr.paris.lutece.plugins.librarynotifygru.exception.NotifyGruException;
 import fr.paris.lutece.plugins.librarynotifygru.services.IHttpTransportProvider;
 import fr.paris.lutece.plugins.librarynotifygru.services.INotificationTransportProvider;
@@ -102,15 +101,14 @@ abstract class AbstractNotificationTransportRest implements INotificationTranspo
     /**
     * add specific authentication to request
     * @param mapHeadersRequest map of headers to add
-    * @param strAuthenticationKey authentication key
     */
-    protected abstract void addAuthentication( Map<String, String> mapHeadersRequest, String strAuthenticationKey );
+    protected abstract void addAuthentication( Map<String, String> mapHeadersRequest );
 
     /**
      * {@inheritDoc}
      */
     @Override
-    public void send( NotifyGruGlobalNotification notification, String strAuthenticationKey, String strSender )
+    public void send( NotifyGruGlobalNotification notification )
     {
         _logger.debug( "LibraryNotifyGru - AbstractNotificationTransportRest.send() with endPoint [" +
             _strNotificationEndPoint + "]" );
@@ -118,9 +116,7 @@ abstract class AbstractNotificationTransportRest implements INotificationTranspo
         Map<String, String> mapHeadersRequest = new HashMap<String, String>(  );
         Map<String, String> mapParams = new HashMap<String, String>(  );
 
-        mapHeadersRequest.put( ConstantsLibraryNotifyGru.PROPERTY_HEADER_NOTIFICATION_SENDER, strSender );
-
-        addAuthentication( mapHeadersRequest, strAuthenticationKey );
+        addAuthentication( mapHeadersRequest );
 
         if ( _logger.isDebugEnabled(  ) )
         {

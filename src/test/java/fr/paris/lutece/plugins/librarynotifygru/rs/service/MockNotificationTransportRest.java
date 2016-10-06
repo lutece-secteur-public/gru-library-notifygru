@@ -51,7 +51,7 @@ public class MockNotificationTransportRest extends AbstractNotificationTransport
      * {@inheritDoc}
      */
     @Override
-    public void send( NotifyGruGlobalNotification notification, String strAuthenticationKey, String strSender )
+    public void send( NotifyGruGlobalNotification notification )
     {
         _logger.debug( "MockNotificationTransportRest.send is always ok" );
     }
@@ -60,7 +60,7 @@ public class MockNotificationTransportRest extends AbstractNotificationTransport
      * {@inheritDoc}
      */
     @Override
-    protected void addAuthentication( Map<String, String> mapHeadersRequest, String strAuthenticationKey )
+    protected void addAuthentication( Map<String, String> mapHeadersRequest )
     {
         //no authentication for mock   
     }
