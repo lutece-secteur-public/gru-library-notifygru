@@ -70,7 +70,6 @@ public final class NotificationTransportApiManagerRest extends AbstractNotificat
 
     /** URL for REST service apiManager */
     private String _strApiManagerEndPoint;
-    
     private String _strApiManagerCredentials;
 
     /**
@@ -90,7 +89,7 @@ public final class NotificationTransportApiManagerRest extends AbstractNotificat
     {
         this._strApiManagerEndPoint = strApiManagerEndPoint;
     }
-    
+
     /**
      * Sets the API Manager credentials
      * @param strApiManagerCredentials the API Manager credentials
@@ -104,7 +103,7 @@ public final class NotificationTransportApiManagerRest extends AbstractNotificat
      * Gets the security token from API Manager
      * @return the token
      */
-    private String getToken( )
+    private String getToken(  )
     {
         String strToken = StringUtils.EMPTY;
 
@@ -116,10 +115,8 @@ public final class NotificationTransportApiManagerRest extends AbstractNotificat
 
         mapParams.put( PARAMS_GRANT_TYPE, PARAMS_GRANT_TYPE_VALUE );
 
-        mapHeadersRequest.put( HttpHeaders.ACCEPT,
-                MediaType.APPLICATION_JSON );
-            mapHeadersRequest.put( HttpHeaders.CONTENT_TYPE,
-                    MediaType.APPLICATION_FORM_URLENCODED );
+        mapHeadersRequest.put( HttpHeaders.ACCEPT, MediaType.APPLICATION_JSON );
+        mapHeadersRequest.put( HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_FORM_URLENCODED );
         mapHeadersRequest.put( HttpHeaders.AUTHORIZATION, TYPE_AUTHENTIFICATION + " " + _strApiManagerCredentials );
 
         String strOutput = getHttpTransport(  ).doPost( _strApiManagerEndPoint, mapParams, mapHeadersRequest );

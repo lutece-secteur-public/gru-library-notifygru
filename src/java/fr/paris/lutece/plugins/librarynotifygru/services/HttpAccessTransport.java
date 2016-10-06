@@ -41,6 +41,7 @@ import fr.paris.lutece.util.httpaccess.HttpAccess;
 import fr.paris.lutece.util.httpaccess.HttpAccessException;
 
 import org.apache.commons.lang.StringUtils;
+
 import org.apache.log4j.Logger;
 
 import java.io.IOException;
@@ -93,10 +94,8 @@ public class HttpAccessTransport implements IHttpTransportProvider
     {
         HttpAccess clientHttp = new HttpAccess(  );
         Map<String, String> mapHeadersResponse = new HashMap<String, String>(  );
-        mapHeadersRequest.put( HttpHeaders.ACCEPT,
-            MediaType.APPLICATION_JSON );
-        mapHeadersRequest.put( HttpHeaders.CONTENT_TYPE,
-            NotifyGruConstants.CONTENT_FORMAT_CHARSET );
+        mapHeadersRequest.put( HttpHeaders.ACCEPT, MediaType.APPLICATION_JSON );
+        mapHeadersRequest.put( HttpHeaders.CONTENT_TYPE, NotifyGruConstants.CONTENT_FORMAT_CHARSET );
 
         try
         {

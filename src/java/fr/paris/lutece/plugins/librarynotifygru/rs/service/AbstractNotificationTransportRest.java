@@ -143,7 +143,8 @@ abstract class AbstractNotificationTransportRest implements INotificationTranspo
             }
             catch ( JsonProcessingException e )
             {
-                _logger.debug( "LibraryNotifyGru - AbstractNotificationTransportRest.send query response not writeable", e );
+                _logger.debug( "LibraryNotifyGru - AbstractNotificationTransportRest.send query response not writeable",
+                    e );
             }
         }
 

@@ -134,8 +134,8 @@ public class SimpleRestTransport implements IHttpTransportProvider
         {
             ClientResponse response = builder.post( ClientResponse.class, mapper.writeValueAsString( json ) );
 
-            if ( response.getStatus(  ) != Status.OK.getStatusCode(  ) 
-            		&& response.getStatus() != Status.CREATED.getStatusCode(  ) )
+            if ( ( response.getStatus(  ) != Status.OK.getStatusCode(  ) ) &&
+                    ( response.getStatus(  ) != Status.CREATED.getStatusCode(  ) ) )
             {
                 String strError = "LibraryNotifyGru - Error SimpleRestTransport.doPostJSON, status code return " +
                     response.getStatus(  );

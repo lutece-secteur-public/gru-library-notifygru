@@ -33,15 +33,6 @@
  */
 package fr.paris.lutece.plugins.librarynotifygru.services;
 
-import java.io.IOException;
-
-import javax.annotation.Resource;
-
-import org.junit.Test;
-import org.junit.runner.RunWith;
-import org.springframework.test.context.ContextConfiguration;
-import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
-
 import com.fasterxml.jackson.core.JsonParseException;
 import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.JsonMappingException;
@@ -50,6 +41,17 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import fr.paris.lutece.plugins.librarynotifygru.business.notifygru.NotifyGruGlobalNotification;
 import fr.paris.lutece.plugins.librarynotifygru.rs.service.MockNotificationTransportRest;
 import fr.paris.lutece.util.httpaccess.HttpAccessService;
+
+import org.junit.Test;
+
+import org.junit.runner.RunWith;
+
+import org.springframework.test.context.ContextConfiguration;
+import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
+
+import java.io.IOException;
+
+import javax.annotation.Resource;
 
 
 /**
