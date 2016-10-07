@@ -94,7 +94,7 @@ public final class NotificationTransportApiManagerRest extends AbstractNotificat
      * Sets the API Manager credentials
      * @param strApiManagerCredentials the API Manager credentials
      */
-    public void setApiManagerCredential( String strApiManagerCredentials )
+    public void setApiManagerCredentials( String strApiManagerCredentials )
     {
         this._strApiManagerCredentials = strApiManagerCredentials;
     }
