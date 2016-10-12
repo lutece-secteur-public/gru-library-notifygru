@@ -38,6 +38,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 import com.fasterxml.jackson.annotation.JsonRootName;
 
+
 /**
  * The Class BroadcastNotification for broadcast notification.<br/>
  * Fields description :<br/>
@@ -60,7 +61,7 @@ import com.fasterxml.jackson.annotation.JsonRootName;
 } )
 public class BroadcastNotification
 {
-	// Variables declarations
+    // Variables declarations
     private String _strSenderName;
     private String _strSenderEmail;
     private String _strRecipient;
@@ -68,7 +69,7 @@ public class BroadcastNotification
     private String _strMessage;
     private String _strCc;
     private String _strCci;
-    
+
     /**
      * Returns the SenderName.
      *

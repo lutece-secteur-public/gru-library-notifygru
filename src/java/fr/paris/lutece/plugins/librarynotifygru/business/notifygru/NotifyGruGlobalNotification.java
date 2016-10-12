@@ -502,25 +502,23 @@ public class NotifyGruGlobalNotification
         this._userGuichet = userGuichet;
     }
 
-	/**
-	 * Gets the broadcast
-	 * @return the _broadcast
-	 */
+    /**
+     * Gets the broadcast
+     * @return the _broadcast
+     */
     @JsonProperty( "broadcast" )
-	public BroadcastNotification getBroadcast()
-	{
-		return _broadcast;
-	}
+    public BroadcastNotification getBroadcast(  )
+    {
+        return _broadcast;
+    }
 
-	/**
-	 * Sets the broadcast 
-	 * @param broadcast the broadcast to set
-	 */
+    /**
+     * Sets the broadcast
+     * @param broadcast the broadcast to set
+     */
     @JsonProperty( "broadcast" )
-	public void setBroadcast( BroadcastNotification broadcast )
-	{
-		this._broadcast = broadcast;
-	}
-    
-    
+    public void setBroadcast( BroadcastNotification broadcast )
+    {
+        this._broadcast = broadcast;
+    }
 }
