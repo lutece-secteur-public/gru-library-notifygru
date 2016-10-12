@@ -36,6 +36,15 @@
       "subject" : "this is a test!",
       "data" : "string",
       "sender_name" : "Mairie de Paris"
-    }
+    },
+    "broadcast_email" : {
+      "message" : "Bonjour Monsieur John Doe, Votre demande de carte de stationnement est en attente de validation",
+      "cci" : "string",
+      "subject" : "[Mairie de Paris] Demande de carte de stationnement",
+      "sender_email" : "no_reply@paris.fr",
+      "sender_name" : "Mairie de Paris",
+      "recipient" : "john.doe@somewhere.com;jane.doe@somewhere.com",
+      "cc" : "string"
+    }    
   }
 }

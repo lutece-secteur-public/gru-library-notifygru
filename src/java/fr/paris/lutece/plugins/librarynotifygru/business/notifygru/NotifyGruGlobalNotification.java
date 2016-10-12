@@ -75,7 +75,8 @@ import fr.paris.lutece.plugins.librarynotifygru.NotifyGruConstants;
     "demand_status",
     "remote_demand_id",
     "notification_date",
-    "demand_reference"
+    "demand_reference",
+    "broadcast_email"
 } )
 public class NotifyGruGlobalNotification
 {
@@ -97,6 +98,7 @@ public class NotifyGruGlobalNotification
     private SMSNotification _userSMS;
     private AgentNotification _userAgent;
     private UserDashboardNotification _userGuichet;
+    private BroadcastNotification _broadcast;
 
     /**
      * Instantiates a new notify gru global notification.
@@ -499,4 +501,26 @@ public class NotifyGruGlobalNotification
     {
         this._userGuichet = userGuichet;
     }
+
+	/**
+	 * Gets the broadcast
+	 * @return the _broadcast
+	 */
+    @JsonProperty( "broadcast" )
+	public BroadcastNotification getBroadcast()
+	{
+		return _broadcast;
+	}
+
+	/**
+	 * Sets the broadcast 
+	 * @param broadcast the broadcast to set
+	 */
+    @JsonProperty( "broadcast" )
+	public void setBroadcast( BroadcastNotification broadcast )
+	{
+		this._broadcast = broadcast;
+	}
+    
+    
 }
