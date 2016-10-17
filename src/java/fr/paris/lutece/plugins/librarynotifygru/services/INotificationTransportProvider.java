@@ -33,7 +33,8 @@
  */
 package fr.paris.lutece.plugins.librarynotifygru.services;
 
-import fr.paris.lutece.plugins.librarynotifygru.business.notifygru.NotifyGruGlobalNotification;
+import fr.paris.lutece.plugins.grubusiness.business.notification.NotifyGruGlobalNotification;
+
 
 
 /**

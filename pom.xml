@@ -3,7 +3,7 @@
     <parent>
         <artifactId>lutece-global-pom</artifactId>
         <groupId>fr.paris.lutece.tools</groupId>
-        <version>3.0.3</version>
+        <version>3.0.10</version>
     </parent>
 
     <modelVersion>4.0.0</modelVersion>
@@ -29,24 +29,13 @@
             <artifactId>library-httpaccess</artifactId>
             <version>[2.4.1-SNAPSHOT,)</version>
             <type>jar</type>
-        </dependency>
-
-        <!-- JSON -->
+        </dependency>        
+        
         <dependency>
-            <groupId>net.sf.json-lib</groupId>
-            <artifactId>json-lib</artifactId>
-            <version>2.4</version>
-            <classifier>jdk15</classifier>
-        </dependency>
-        <dependency>
-            <groupId>org.codehaus.jackson</groupId>
-            <artifactId>jackson-mapper-asl</artifactId>
-            <version>1.9.13</version>
-        </dependency>
-        <dependency>
-            <groupId>com.fasterxml.jackson.core</groupId>
-            <artifactId>jackson-databind</artifactId>
-            <version>2.1.4</version>
+            <groupId>fr.paris.lutece.plugins</groupId>
+            <artifactId>library-grubusiness</artifactId>
+            <version>1.0.0-SNAPSHOT</version>
+            <type>jar</type>
         </dependency>
         
         <!-- REST -->
