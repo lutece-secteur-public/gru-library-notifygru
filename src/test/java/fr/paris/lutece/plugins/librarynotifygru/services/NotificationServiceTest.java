@@ -43,7 +43,9 @@ import fr.paris.lutece.plugins.librarynotifygru.rs.service.MockNotificationTrans
 import fr.paris.lutece.util.httpaccess.HttpAccessService;
 
 import org.junit.Test;
+
 import org.junit.runner.RunWith;
+
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 

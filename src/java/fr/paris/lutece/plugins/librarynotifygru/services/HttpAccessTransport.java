@@ -33,21 +33,23 @@
  */
 package fr.paris.lutece.plugins.librarynotifygru.services;
 
-import java.io.IOException;
-import java.util.HashMap;
-import java.util.Map;
-
-import javax.ws.rs.core.HttpHeaders;
-import javax.ws.rs.core.MediaType;
-
-import org.apache.commons.lang.StringUtils;
-import org.apache.log4j.Logger;
-
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 import fr.paris.lutece.plugins.librarynotifygru.exception.NotifyGruException;
 import fr.paris.lutece.util.httpaccess.HttpAccess;
 import fr.paris.lutece.util.httpaccess.HttpAccessException;
+
+import org.apache.commons.lang.StringUtils;
+
+import org.apache.log4j.Logger;
+
+import java.io.IOException;
+
+import java.util.HashMap;
+import java.util.Map;
+
+import javax.ws.rs.core.HttpHeaders;
+import javax.ws.rs.core.MediaType;
 
 
 /**
@@ -58,7 +60,6 @@ public class HttpAccessTransport implements IHttpTransportProvider
     /** The Constant CONTENT_FORMAT. */
     //CONTENT FORMAT
     public static final String CONTENT_FORMAT_CHARSET = "application/json; charset=utf-8";
-    
     private static Logger _logger = Logger.getLogger( HttpAccessTransport.class );
 
     /**

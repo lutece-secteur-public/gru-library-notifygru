@@ -33,9 +33,9 @@
  */
 package fr.paris.lutece.plugins.librarynotifygru.rs.service;
 
-import org.apache.log4j.Logger;
-
 import fr.paris.lutece.plugins.grubusiness.business.notification.NotifyGruGlobalNotification;
+
+import org.apache.log4j.Logger;
 
 import java.util.Map;
 
