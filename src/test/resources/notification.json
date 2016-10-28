@@ -13,7 +13,7 @@
     "demand_status" : 0,
     "user_email" : {
       "message" : "Bonjour Monsieur John Doe, Votre demande de carte de stationnement est en attente de validation",
-      "cci" : "string",
+      "bcc" : "string",
       "subject" : "[Mairie de Paris] Demande de carte de stationnement",
       "sender_email" : "no_reply@paris.fr",
       "sender_name" : "Mairie de Paris",
@@ -37,14 +37,38 @@
       "data" : "string",
       "sender_name" : "Mairie de Paris"
     },
-    "broadcast_email" : {
-      "message" : "Bonjour Monsieur John Doe, Votre demande de carte de stationnement est en attente de validation",
-      "cci" : "string",
-      "subject" : "[Mairie de Paris] Demande de carte de stationnement",
-      "sender_email" : "no_reply@paris.fr",
-      "sender_name" : "Mairie de Paris",
-      "recipient" : "john.doe@somewhere.com;jane.doe@somewhere.com",
-      "cc" : "string"
-    }    
+    "broadcast_email":[
+      {  
+        "message":"this is my first message",
+        "recipient":[
+          {"address": "xnormand@jasmineconseil.com"}
+        ],
+        "cc":[
+          {"address": "xaviernormand@yahoo.com"},
+          {"address": "xavier1522@gmail.com"}
+        ],
+        "bcc":[
+          {}
+        ],
+        "subject":"my first request",
+        "sender_email":"no-reply@mydomain.com",
+        "sender_name":"Mairie de Paris"
+      },
+      {  
+        "message":"this is my second message",
+        "recipient":[
+          {"address": "xaviernormand@yahoo.com"}
+        ],
+        "cc":[
+           {"address": "xavier1522@gmail.com"}
+        ],
+        "bcc":[
+           {"address": "xnormand@jasmineconseil.com"}
+        ],
+        "subject":"My second request",
+        "sender_email":"no-reply@mydomain.com",
+        "sender_name":"Mairie de Paris"
+      }
+    ]
   }
 }
