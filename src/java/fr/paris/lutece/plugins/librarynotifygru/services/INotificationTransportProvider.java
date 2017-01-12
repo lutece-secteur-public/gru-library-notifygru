@@ -33,7 +33,7 @@
  */
 package fr.paris.lutece.plugins.librarynotifygru.services;
 
-import fr.paris.lutece.plugins.grubusiness.business.notification.NotifyGruGlobalNotification;
+import fr.paris.lutece.plugins.grubusiness.business.notification.Notification;
 
 
 /**
@@ -47,5 +47,5 @@ public interface INotificationTransportProvider
      *
      * @param notification the notification
      */
-    void send( NotifyGruGlobalNotification notification );
+    void send( Notification notification );
 }

@@ -38,7 +38,7 @@ import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.SerializationFeature;
 
-import fr.paris.lutece.plugins.grubusiness.business.notification.NotifyGruGlobalNotification;
+import fr.paris.lutece.plugins.grubusiness.business.notification.Notification;
 import fr.paris.lutece.plugins.grubusiness.business.notification.NotifyGruResponse;
 import fr.paris.lutece.plugins.librarynotifygru.exception.NotifyGruException;
 import fr.paris.lutece.plugins.librarynotifygru.services.IHttpTransportProvider;
@@ -108,7 +108,7 @@ abstract class AbstractNotificationTransportRest implements INotificationTranspo
      * {@inheritDoc}
      */
     @Override
-    public void send( NotifyGruGlobalNotification notification )
+    public void send( Notification notification )
     {
         _logger.debug( "LibraryNotifyGru - AbstractNotificationTransportRest.send() with endPoint [" +
             _strNotificationEndPoint + "]" );

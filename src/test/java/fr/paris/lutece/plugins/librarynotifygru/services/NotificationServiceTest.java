@@ -38,7 +38,7 @@ import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.JsonMappingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
-import fr.paris.lutece.plugins.grubusiness.business.notification.NotifyGruGlobalNotification;
+import fr.paris.lutece.plugins.grubusiness.business.notification.Notification;
 import fr.paris.lutece.plugins.librarynotifygru.rs.service.MockNotificationTransportRest;
 import fr.paris.lutece.util.httpaccess.HttpAccessService;
 
@@ -74,7 +74,7 @@ public class NotificationServiceTest
     private NotificationService _notificationServiceRestHttpAccess;
     @Resource( name = "testNotificationServiceMock" )
     private NotificationService _notificationServiceMock;
-    private NotifyGruGlobalNotification _notification;
+    private Notification _notification;
 
     /**
      * Constructor, init the notification JSON
@@ -88,7 +88,7 @@ public class NotificationServiceTest
         ObjectMapper mapper = new ObjectMapper(  );
         mapper.enable( DeserializationFeature.UNWRAP_ROOT_VALUE );
         _notification = mapper.readValue( getClass(  ).getResourceAsStream( "/notification.json" ),
-                NotifyGruGlobalNotification.class );
+                Notification.class );
 
         //Init HttpAccess singleton through NPE exception due of lack of properties access
         try
