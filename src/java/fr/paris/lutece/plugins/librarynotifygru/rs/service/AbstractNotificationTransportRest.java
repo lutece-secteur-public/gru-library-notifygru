@@ -33,6 +33,7 @@
  */
 package fr.paris.lutece.plugins.librarynotifygru.rs.service;
 
+import com.fasterxml.jackson.annotation.JsonInclude.Include;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -64,6 +65,7 @@ abstract class AbstractNotificationTransportRest implements INotificationTranspo
         _mapper.enable( DeserializationFeature.UNWRAP_ROOT_VALUE );
         _mapper.enable( SerializationFeature.INDENT_OUTPUT );
         _mapper.enable( SerializationFeature.WRAP_ROOT_VALUE );
+        _mapper.setSerializationInclusion(Include.NON_NULL);
     }
 
     /** HTTP transport provider */
