@@ -33,7 +33,6 @@
  */
 package fr.paris.lutece.plugins.librarynotifygru.exception;
 
-
 /**
  *
  */
@@ -42,7 +41,8 @@ public class NotifyGruException extends RuntimeException
     private static final long serialVersionUID = -7405725124800547672L;
 
     /**
-     * @param strError error message
+     * @param strError
+     *            error message
      */
     public NotifyGruException( String strError )
     {
@@ -50,8 +50,10 @@ public class NotifyGruException extends RuntimeException
     }
 
     /**
-     * @param strError error message
-     * @param error error exception
+     * @param strError
+     *            error message
+     * @param error
+     *            error exception
      */
     public NotifyGruException( String strError, Exception error )
     {

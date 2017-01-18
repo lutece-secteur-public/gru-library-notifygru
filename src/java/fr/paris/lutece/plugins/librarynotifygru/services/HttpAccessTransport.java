@@ -51,14 +51,13 @@ import java.util.Map;
 import javax.ws.rs.core.HttpHeaders;
 import javax.ws.rs.core.MediaType;
 
-
 /**
  * IHttpTransportProvider which use library-httpaccess
  */
 public class HttpAccessTransport implements IHttpTransportProvider
 {
     /** The Constant CONTENT_FORMAT. */
-    //CONTENT FORMAT
+    // CONTENT FORMAT
     public static final String CONTENT_FORMAT_CHARSET = "application/json; charset=utf-8";
     private static Logger _logger = Logger.getLogger( HttpAccessTransport.class );
 
@@ -68,8 +67,8 @@ public class HttpAccessTransport implements IHttpTransportProvider
     @Override
     public String doPost( String strUrl, Map<String, String> mapParams, Map<String, String> mapHeadersRequest )
     {
-        HttpAccess clientHttp = new HttpAccess(  );
-        Map<String, String> mapHeadersResponse = new HashMap<String, String>(  );
+        HttpAccess clientHttp = new HttpAccess( );
+        Map<String, String> mapHeadersResponse = new HashMap<String, String>( );
 
         String strOutput = StringUtils.EMPTY;
 
@@ -77,10 +76,10 @@ public class HttpAccessTransport implements IHttpTransportProvider
         {
             strOutput = clientHttp.doPost( strUrl, mapParams, null, null, mapHeadersRequest, mapHeadersResponse );
         }
-        catch ( HttpAccessException e )
+        catch( HttpAccessException e )
         {
             String strError = "LibraryNotifyGru - Error HttpAccessTransport.doPost on URL [" + strUrl + "] : ";
-            _logger.error( strError + e.getMessage(  ), e );
+            _logger.error( strError + e.getMessage( ), e );
             throw new NotifyGruException( strError, e );
         }
 
@@ -91,11 +90,11 @@ public class HttpAccessTransport implements IHttpTransportProvider
      * {@inheritDoc}
      */
     @Override
-    public <T> T doPostJSON( String strUrl, Map<String, String> mapParams, Map<String, String> mapHeadersRequest,
-        Object json, Class<T> responseJsonClass, ObjectMapper mapper )
+    public <T> T doPostJSON( String strUrl, Map<String, String> mapParams, Map<String, String> mapHeadersRequest, Object json, Class<T> responseJsonClass,
+            ObjectMapper mapper )
     {
-        HttpAccess clientHttp = new HttpAccess(  );
-        Map<String, String> mapHeadersResponse = new HashMap<String, String>(  );
+        HttpAccess clientHttp = new HttpAccess( );
+        Map<String, String> mapHeadersResponse = new HashMap<String, String>( );
         mapHeadersRequest.put( HttpHeaders.ACCEPT, MediaType.APPLICATION_JSON );
         mapHeadersRequest.put( HttpHeaders.CONTENT_TYPE, CONTENT_FORMAT_CHARSET );
 
@@ -107,16 +106,16 @@ public class HttpAccessTransport implements IHttpTransportProvider
 
             return oResponse;
         }
-        catch ( HttpAccessException e )
+        catch( HttpAccessException e )
         {
             String strError = "LibraryNotifyGru - Error HttpAccessTransport.doPostJSON on URL [" + strUrl + "] : ";
-            _logger.error( strError + e.getMessage(  ), e );
+            _logger.error( strError + e.getMessage( ), e );
             throw new NotifyGruException( strError, e );
         }
-        catch ( IOException e )
+        catch( IOException e )
         {
             String strError = "LibraryNotifyGru - Error HttpAccessTransport.doPostJSON on JSON manipulation :";
-            _logger.error( strError + e.getMessage(  ), e );
+            _logger.error( strError + e.getMessage( ), e );
             throw new NotifyGruException( strError, e );
         }
     }

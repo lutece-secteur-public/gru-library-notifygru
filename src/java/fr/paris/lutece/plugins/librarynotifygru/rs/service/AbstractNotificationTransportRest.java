@@ -50,7 +50,6 @@ import org.apache.log4j.Logger;
 import java.util.HashMap;
 import java.util.Map;
 
-
 /**
  *
  */
@@ -61,11 +60,11 @@ abstract class AbstractNotificationTransportRest implements INotificationTranspo
 
     static
     {
-        _mapper = new ObjectMapper(  );
+        _mapper = new ObjectMapper( );
         _mapper.enable( DeserializationFeature.UNWRAP_ROOT_VALUE );
         _mapper.enable( SerializationFeature.INDENT_OUTPUT );
         _mapper.enable( SerializationFeature.WRAP_ROOT_VALUE );
-        _mapper.setSerializationInclusion(Include.NON_NULL);
+        _mapper.setSerializationInclusion( Include.NON_NULL );
     }
 
     /** HTTP transport provider */
@@ -76,7 +75,9 @@ abstract class AbstractNotificationTransportRest implements INotificationTranspo
 
     /**
      * setter of notificationEndPoint
-     * @param strNotificationEndPoint value to use
+     * 
+     * @param strNotificationEndPoint
+     *            value to use
      */
     public void setNotificationEndPoint( String strNotificationEndPoint )
     {
@@ -85,7 +86,9 @@ abstract class AbstractNotificationTransportRest implements INotificationTranspo
 
     /**
      * setter of httpTransport
-     * @param httpTransport IHttpTransportProvider to use
+     * 
+     * @param httpTransport
+     *            IHttpTransportProvider to use
      */
     public void setHttpTransport( IHttpTransportProvider httpTransport )
     {
@@ -93,17 +96,19 @@ abstract class AbstractNotificationTransportRest implements INotificationTranspo
     }
 
     /**
-         * @return the httpTransport
-         */
-    protected IHttpTransportProvider getHttpTransport(  )
+     * @return the httpTransport
+     */
+    protected IHttpTransportProvider getHttpTransport( )
     {
         return _httpTransport;
     }
 
     /**
-    * add specific authentication to request
-    * @param mapHeadersRequest map of headers to add
-    */
+     * add specific authentication to request
+     * 
+     * @param mapHeadersRequest
+     *            map of headers to add
+     */
     protected abstract void addAuthentication( Map<String, String> mapHeadersRequest );
 
     /**
@@ -112,52 +117,47 @@ abstract class AbstractNotificationTransportRest implements INotificationTranspo
     @Override
     public void send( Notification notification )
     {
-        _logger.debug( "LibraryNotifyGru - AbstractNotificationTransportRest.send() with endPoint [" +
-            _strNotificationEndPoint + "]" );
+        _logger.debug( "LibraryNotifyGru - AbstractNotificationTransportRest.send() with endPoint [" + _strNotificationEndPoint + "]" );
 
-        Map<String, String> mapHeadersRequest = new HashMap<String, String>(  );
-        Map<String, String> mapParams = new HashMap<String, String>(  );
+        Map<String, String> mapHeadersRequest = new HashMap<String, String>( );
+        Map<String, String> mapParams = new HashMap<String, String>( );
 
         addAuthentication( mapHeadersRequest );
 
-        if ( _logger.isDebugEnabled(  ) )
+        if ( _logger.isDebugEnabled( ) )
         {
             try
             {
-                _logger.debug( "LibraryNotifyGru - AbstractNotificationTransportRest.send NOTIFICATION:\n" +
-                    _mapper.writeValueAsString( notification ) );
+                _logger.debug( "LibraryNotifyGru - AbstractNotificationTransportRest.send NOTIFICATION:\n" + _mapper.writeValueAsString( notification ) );
             }
-            catch ( JsonProcessingException e )
+            catch( JsonProcessingException e )
             {
                 // do nothing is debug
             }
         }
 
-        NotifyGruResponse response = _httpTransport.doPostJSON( _strNotificationEndPoint, mapParams, mapHeadersRequest,
-                notification, NotifyGruResponse.class, _mapper );
+        NotifyGruResponse response = _httpTransport.doPostJSON( _strNotificationEndPoint, mapParams, mapHeadersRequest, notification, NotifyGruResponse.class,
+                _mapper );
 
-        if ( _logger.isDebugEnabled(  ) )
+        if ( _logger.isDebugEnabled( ) )
         {
             try
             {
-                _logger.debug( "LibraryNotifyGru - AbstractNotificationTransportRest.send query response :\n" +
-                    _mapper.writeValueAsString( response ) );
+                _logger.debug( "LibraryNotifyGru - AbstractNotificationTransportRest.send query response :\n" + _mapper.writeValueAsString( response ) );
             }
-            catch ( JsonProcessingException e )
+            catch( JsonProcessingException e )
             {
-                _logger.debug( "LibraryNotifyGru - AbstractNotificationTransportRest.send query response not writeable",
-                    e );
+                _logger.debug( "LibraryNotifyGru - AbstractNotificationTransportRest.send query response not writeable", e );
             }
         }
 
-        if ( ( response == null ) || !NotifyGruResponse.STATUS_RECEIVED.equals( response.getStatus(  ) ) )
+        if ( ( response == null ) || !NotifyGruResponse.STATUS_RECEIVED.equals( response.getStatus( ) ) )
         {
             String strError = "LibraryNotifyGru - AbstractNotificationTransportRest.send - Error JSON response is null";
 
             if ( response != null )
             {
-                strError = "LibraryNotifyGru - AbstractNotificationTransportRest.send invalid response : " +
-                    response.getStatus(  );
+                strError = "LibraryNotifyGru - AbstractNotificationTransportRest.send invalid response : " + response.getStatus( );
             }
 
             _logger.error( strError );

@@ -39,29 +39,29 @@ import fr.paris.lutece.plugins.librarynotifygru.services.INotificationTransportP
 
 import java.util.Map;
 
-
 /**
  * Default NotificationTransport implementation, which not use ApiManager token auth
  */
-public final class NotificationTransportRest extends AbstractNotificationTransportRest
-    implements INotificationTransportProvider
+public final class NotificationTransportRest extends AbstractNotificationTransportRest implements INotificationTransportProvider
 {
     /**
      * Simple Constructor
      */
-    public NotificationTransportRest(  )
+    public NotificationTransportRest( )
     {
-        super(  );
-        this.setHttpTransport( new HttpAccessTransport(  ) );
+        super( );
+        this.setHttpTransport( new HttpAccessTransport( ) );
     }
 
     /**
-         * Constructor with IHttpTransportProvider parameter
-         * @param httpTransport the provider to use
-         */
+     * Constructor with IHttpTransportProvider parameter
+     * 
+     * @param httpTransport
+     *            the provider to use
+     */
     public NotificationTransportRest( IHttpTransportProvider httpTransport )
     {
-        super(  );
+        super( );
         this.setHttpTransport( httpTransport );
     }
 
@@ -71,6 +71,6 @@ public final class NotificationTransportRest extends AbstractNotificationTranspo
     @Override
     protected void addAuthentication( Map<String, String> mapHeadersRequest )
     {
-        //no authentication for simple rest client
+        // no authentication for simple rest client
     }
 }

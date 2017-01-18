@@ -52,7 +52,6 @@ import java.util.Map;
 
 import javax.ws.rs.core.MediaType;
 
-
 /**
  * Problem with header configuration not working at the moment
  */
@@ -66,22 +65,22 @@ public class SimpleRestTransport implements IHttpTransportProvider
     @Override
     public String doPost( String strUrl, Map<String, String> mapParams, Map<String, String> mapHeadersRequest )
     {
-        Client client = Client.create(  );
+        Client client = Client.create( );
         WebResource webResource = client.resource( strUrl );
 
         if ( mapParams != null )
         {
-            for ( String strParamKey : mapParams.keySet(  ) )
+            for ( String strParamKey : mapParams.keySet( ) )
             {
                 webResource = webResource.queryParam( strParamKey, mapParams.get( strParamKey ) );
             }
         }
 
-        WebResource.Builder builder = webResource.getRequestBuilder(  );
+        WebResource.Builder builder = webResource.getRequestBuilder( );
 
         if ( mapHeadersRequest != null )
         {
-            for ( String strHeaderKey : mapHeadersRequest.keySet(  ) )
+            for ( String strHeaderKey : mapHeadersRequest.keySet( ) )
             {
                 builder = builder.header( strHeaderKey, mapHeadersRequest.get( strHeaderKey ) );
             }
@@ -89,10 +88,9 @@ public class SimpleRestTransport implements IHttpTransportProvider
 
         ClientResponse response = builder.post( ClientResponse.class );
 
-        if ( response.getStatus(  ) != Status.OK.getStatusCode(  ) )
+        if ( response.getStatus( ) != Status.OK.getStatusCode( ) )
         {
-            String strError = "LibraryNotifyGru - Error SimpleRestTransport.doPost, status code return " +
-                response.getStatus(  );
+            String strError = "LibraryNotifyGru - Error SimpleRestTransport.doPost, status code return " + response.getStatus( );
             _logger.error( strError );
             throw new NotifyGruException( strError );
         }
@@ -106,15 +104,15 @@ public class SimpleRestTransport implements IHttpTransportProvider
      * {@inheritDoc}
      */
     @Override
-    public <T> T doPostJSON( String strUrl, Map<String, String> mapParams, Map<String, String> mapHeadersRequest,
-        Object json, Class<T> responseJsonClass, ObjectMapper mapper )
+    public <T> T doPostJSON( String strUrl, Map<String, String> mapParams, Map<String, String> mapHeadersRequest, Object json, Class<T> responseJsonClass,
+            ObjectMapper mapper )
     {
-        Client client = Client.create(  );
+        Client client = Client.create( );
         WebResource webResource = client.resource( strUrl );
 
         if ( mapParams != null )
         {
-            for ( String strParamKey : mapParams.keySet(  ) )
+            for ( String strParamKey : mapParams.keySet( ) )
             {
                 webResource = webResource.queryParam( strParamKey, mapParams.get( strParamKey ) );
             }
@@ -124,7 +122,7 @@ public class SimpleRestTransport implements IHttpTransportProvider
 
         if ( mapHeadersRequest != null )
         {
-            for ( String strHeaderKey : mapHeadersRequest.keySet(  ) )
+            for ( String strHeaderKey : mapHeadersRequest.keySet( ) )
             {
                 builder = builder.header( strHeaderKey, mapHeadersRequest.get( strHeaderKey ) );
             }
@@ -134,11 +132,9 @@ public class SimpleRestTransport implements IHttpTransportProvider
         {
             ClientResponse response = builder.post( ClientResponse.class, mapper.writeValueAsString( json ) );
 
-            if ( ( response.getStatus(  ) != Status.OK.getStatusCode(  ) ) &&
-                    ( response.getStatus(  ) != Status.CREATED.getStatusCode(  ) ) )
+            if ( ( response.getStatus( ) != Status.OK.getStatusCode( ) ) && ( response.getStatus( ) != Status.CREATED.getStatusCode( ) ) )
             {
-                String strError = "LibraryNotifyGru - Error SimpleRestTransport.doPostJSON, status code return " +
-                    response.getStatus(  );
+                String strError = "LibraryNotifyGru - Error SimpleRestTransport.doPostJSON, status code return " + response.getStatus( );
                 _logger.error( strError );
                 throw new NotifyGruException( strError );
             }
@@ -147,19 +143,19 @@ public class SimpleRestTransport implements IHttpTransportProvider
                 return mapper.readValue( response.getEntity( String.class ), responseJsonClass );
             }
         }
-        catch ( UniformInterfaceException e )
+        catch( UniformInterfaceException e )
         {
             String strError = "LibraryNotifyGru - Error SimpleRestTransport.doPostJSON, unable to post request with JSON content";
             _logger.error( strError, e );
             throw new NotifyGruException( strError, e );
         }
-        catch ( ClientHandlerException e )
+        catch( ClientHandlerException e )
         {
             String strError = "LibraryNotifyGru - Error SimpleRestTransport.doPostJSON, unable to post request with JSON content";
             _logger.error( strError, e );
             throw new NotifyGruException( strError, e );
         }
-        catch ( IOException e )
+        catch( IOException e )
         {
             String strError = "LibraryNotifyGru - Error SimpleRestTransport.doPostJSON, unable to post request with JSON content";
             _logger.error( strError, e );

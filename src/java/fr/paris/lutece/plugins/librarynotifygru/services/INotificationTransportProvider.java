@@ -35,17 +35,16 @@ package fr.paris.lutece.plugins.librarynotifygru.services;
 
 import fr.paris.lutece.plugins.grubusiness.business.notification.Notification;
 
-
 /**
- *        Interface for providing notification transport
+ * Interface for providing notification transport
  */
 public interface INotificationTransportProvider
 {
     /**
-     * Send a Notification GRU
-     * can throw AppException in case of problem with the JSON request
+     * Send a Notification GRU can throw AppException in case of problem with the JSON request
      *
-     * @param notification the notification
+     * @param notification
+     *            the notification
      */
     void send( Notification notification );
 }

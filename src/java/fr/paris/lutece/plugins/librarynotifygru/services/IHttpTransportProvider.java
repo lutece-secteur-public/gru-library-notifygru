@@ -37,7 +37,6 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 
 import java.util.Map;
 
-
 /**
  *
  */
@@ -45,24 +44,36 @@ public interface IHttpTransportProvider
 {
     /**
      * make POST request on given url with params and headers
-     * @param strUrl url to call
-     * @param mapParams params to post
-     * @param mapHeadersRequest headers of the request
+     * 
+     * @param strUrl
+     *            url to call
+     * @param mapParams
+     *            params to post
+     * @param mapHeadersRequest
+     *            headers of the request
      * @return response body as String
      */
     String doPost( String strUrl, Map<String, String> mapParams, Map<String, String> mapHeadersRequest );
-    
+
     /**
      * make POST request on given url with params and headers of a JSON object to retrieve another JSON
-     * @param strUrl url to call
-     * @param mapParams params to post
-     * @param mapHeadersRequest headers of the request
-     * @param json JSON object to post
-     * @param responseJsonClass the class
-     * @param <T> of the response
-     * @param mapper mapper for JSON serialize / deserialize
+     * 
+     * @param strUrl
+     *            url to call
+     * @param mapParams
+     *            params to post
+     * @param mapHeadersRequest
+     *            headers of the request
+     * @param json
+     *            JSON object to post
+     * @param responseJsonClass
+     *            the class
+     * @param <T>
+     *            of the response
+     * @param mapper
+     *            mapper for JSON serialize / deserialize
      * @return <T> response
      */
-    <T> T doPostJSON( String strUrl, Map<String, String> mapParams, Map<String, String> mapHeadersRequest, Object json,
-        Class<T> responseJsonClass, ObjectMapper mapper );
+    <T> T doPostJSON( String strUrl, Map<String, String> mapParams, Map<String, String> mapHeadersRequest, Object json, Class<T> responseJsonClass,
+            ObjectMapper mapper );
 }

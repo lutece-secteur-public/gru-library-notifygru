@@ -39,7 +39,6 @@ import org.apache.log4j.Logger;
 
 import java.util.Map;
 
-
 /**
  *
  */
@@ -62,6 +61,6 @@ public class MockNotificationTransportRest extends AbstractNotificationTransport
     @Override
     protected void addAuthentication( Map<String, String> mapHeadersRequest )
     {
-        //no authentication for mock   
+        // no authentication for mock
     }
 }

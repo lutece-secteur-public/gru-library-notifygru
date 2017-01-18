@@ -50,12 +50,10 @@ import java.util.Map;
 import javax.ws.rs.core.HttpHeaders;
 import javax.ws.rs.core.MediaType;
 
-
 /**
  *
  */
-public final class NotificationTransportApiManagerRest extends AbstractNotificationTransportRest
-    implements INotificationTransportProvider
+public final class NotificationTransportApiManagerRest extends AbstractNotificationTransportRest implements INotificationTransportProvider
 {
     /** The Constant PARAMS_ACCES_TOKEN. */
     private static final String PARAMS_ACCES_TOKEN = "access_token";
@@ -73,18 +71,20 @@ public final class NotificationTransportApiManagerRest extends AbstractNotificat
     private String _strApiManagerCredentials;
 
     /**
-         * Simple Constructor
-         */
-    public NotificationTransportApiManagerRest(  )
+     * Simple Constructor
+     */
+    public NotificationTransportApiManagerRest( )
     {
-        super(  );
-        this.setHttpTransport( new HttpAccessTransport(  ) );
+        super( );
+        this.setHttpTransport( new HttpAccessTransport( ) );
     }
 
     /**
-         * setter of apiManagerEndPoint
-         * @param strApiManagerEndPoint value to use
-         */
+     * setter of apiManagerEndPoint
+     * 
+     * @param strApiManagerEndPoint
+     *            value to use
+     */
     public void setApiManagerEndPoint( String strApiManagerEndPoint )
     {
         this._strApiManagerEndPoint = strApiManagerEndPoint;
@@ -92,7 +92,9 @@ public final class NotificationTransportApiManagerRest extends AbstractNotificat
 
     /**
      * Sets the API Manager credentials
-     * @param strApiManagerCredentials the API Manager credentials
+     * 
+     * @param strApiManagerCredentials
+     *            the API Manager credentials
      */
     public void setApiManagerCredentials( String strApiManagerCredentials )
     {
@@ -101,17 +103,17 @@ public final class NotificationTransportApiManagerRest extends AbstractNotificat
 
     /**
      * Gets the security token from API Manager
+     * 
      * @return the token
      */
-    private String getToken(  )
+    private String getToken( )
     {
         String strToken = StringUtils.EMPTY;
 
-        _logger.debug( "LibraryNotifyGru - NotificationTransportApiManagerRest.getToken with URL_TOKEN property [" +
-            _strApiManagerEndPoint + "]" );
+        _logger.debug( "LibraryNotifyGru - NotificationTransportApiManagerRest.getToken with URL_TOKEN property [" + _strApiManagerEndPoint + "]" );
 
-        Map<String, String> mapHeadersRequest = new HashMap<String, String>(  );
-        Map<String, String> mapParams = new HashMap<String, String>(  );
+        Map<String, String> mapHeadersRequest = new HashMap<String, String>( );
+        Map<String, String> mapParams = new HashMap<String, String>( );
 
         mapParams.put( PARAMS_GRANT_TYPE, PARAMS_GRANT_TYPE_VALUE );
 
@@ -119,7 +121,7 @@ public final class NotificationTransportApiManagerRest extends AbstractNotificat
         mapHeadersRequest.put( HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_FORM_URLENCODED );
         mapHeadersRequest.put( HttpHeaders.AUTHORIZATION, TYPE_AUTHENTIFICATION + " " + _strApiManagerCredentials );
 
-        String strOutput = getHttpTransport(  ).doPost( _strApiManagerEndPoint, mapParams, mapHeadersRequest );
+        String strOutput = getHttpTransport( ).doPost( _strApiManagerEndPoint, mapParams, mapHeadersRequest );
 
         JSONObject strResponseApiManagerJsonObject = null;
 
@@ -127,16 +129,14 @@ public final class NotificationTransportApiManagerRest extends AbstractNotificat
         {
             strResponseApiManagerJsonObject = (JSONObject) JSONSerializer.toJSON( strOutput );
 
-            if ( ( strResponseApiManagerJsonObject != null ) &&
-                    strResponseApiManagerJsonObject.has( PARAMS_ACCES_TOKEN ) )
+            if ( ( strResponseApiManagerJsonObject != null ) && strResponseApiManagerJsonObject.has( PARAMS_ACCES_TOKEN ) )
             {
                 strToken = (String) strResponseApiManagerJsonObject.get( PARAMS_ACCES_TOKEN );
             }
         }
         else
         {
-            _logger.error( "LibraryNotifyGru - NotificationTransportApiManagerRest.getToken invalid response [" +
-                strOutput + "]" );
+            _logger.error( "LibraryNotifyGru - NotificationTransportApiManagerRest.getToken invalid response [" + strOutput + "]" );
         }
 
         return strToken;
@@ -148,7 +148,7 @@ public final class NotificationTransportApiManagerRest extends AbstractNotificat
     @Override
     protected void addAuthentication( Map<String, String> mapHeadersRequest )
     {
-        String strToken = getToken(  );
+        String strToken = getToken( );
 
         if ( StringUtils.isNotBlank( strToken ) )
         {

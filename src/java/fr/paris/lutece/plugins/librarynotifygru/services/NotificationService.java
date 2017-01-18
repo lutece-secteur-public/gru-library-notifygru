@@ -35,7 +35,6 @@ package fr.paris.lutece.plugins.librarynotifygru.services;
 
 import fr.paris.lutece.plugins.grubusiness.business.notification.Notification;
 
-
 /**
  * NotificationService service
  */
@@ -45,26 +44,30 @@ public class NotificationService
     private INotificationTransportProvider _transportProvider;
 
     /**
-      * Simple Constructor
-      */
-    public NotificationService(  )
+     * Simple Constructor
+     */
+    public NotificationService( )
     {
-        super(  );
+        super( );
     }
 
     /**
      * Constructor with INotificationTransportProvider in parameters
-     * @param transportProvider INotificationTransportProvider
+     * 
+     * @param transportProvider
+     *            INotificationTransportProvider
      */
     public NotificationService( INotificationTransportProvider transportProvider )
     {
-        super(  );
+        super( );
         this._transportProvider = transportProvider;
     }
 
     /**
      * setter of transportProvider parameter
-     * @param transportProvider INotificationTransportProvider
+     * 
+     * @param transportProvider
+     *            INotificationTransportProvider
      */
     public void setTransportProvider( INotificationTransportProvider transportProvider )
     {
@@ -72,10 +75,10 @@ public class NotificationService
     }
 
     /**
-     * Send a Notification GRU
-     * can throw AppException in case of problem with the JSON request
+     * Send a Notification GRU can throw AppException in case of problem with the JSON request
      *
-     * @param notification the notification
+     * @param notification
+     *            the notification
      */
     public void send( Notification notification )
     {
