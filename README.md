@@ -1,60 +1,99 @@
+![](http://dev.lutece.paris.fr/jenkins/buildStatus/icon?job=gru-library-notifygru-deploy)
+# Library notifygru
 
-#Library notifygru
+## Introduction
 
-##Introduction
+This library provides services to send notifications to the GRU.
 
-This library provided a service for sending notification to the GRU.
+## Services
 
-##Configuration
+The main service is `fr.paris.lutece.plugins.librarynotifygru.services.NotificationService` which consumes a `fr.paris.lutece.plugins.grubusiness.business.notification.Notification` object (see javadoc for details on the object).
 
- **Mandatory** configuration has to be defined in your application.
-
-Main service type is "fr.paris.lutece.plugins.librarynotifygru.services.NotificationService" which consume a NotifyGruGlobalNotification (see javadoc for details on the object). It required an implementation of "fr.paris.lutece.plugins.librarynotifygru.services.IHttpTransportProvider" for defining REST service call.Two implementation of this interface are given in the library :
+It requires an implementation of `fr.paris.lutece.plugins.librarynotifygru.services.INotificationTransportProvider` to define the HTTP transport. Two implementations of this interface are provided in the library :
  
-* fr.paris.lutece.plugins.librarynotifygru.rs.service.NotificationTransportApiManagerRest, which use ApiManager WSO2
-* fr.paris.lutece.plugins.librarynotifygru.rs.service.NotificationTransportRest, which use simple request without token management
+*  `fr.paris.lutece.plugins.librarynotifygru.rs.service.NotificationTransportApiManagerRest` , which uses ApiManager WSO2 in order to secure requests to the API (by using tokens)
+*  `fr.paris.lutece.plugins.librarynotifygru.rs.service.NotificationTransportRest` , which uses simple requests
 
 
-These two implementations require URL definition of the notification service end point in property **notificationEndPoint** . Moreover ApiManager requires URL definition of the token service end point in property **apiManagerEndPoint** .
+Both implementations require URL definition of the notification service end point. This URL is stored in the attribute `notificationEndPoint` . The `NotificationTransportApiManagerRest` implementation requires extra properties.
 
-Finally, These two implementations are defined to make request with HttpAccess component of library-httpaccess. If it's not needed, the property **httpTransport** has to be overwritten by an implementation of "fr.paris.lutece.plugins.librarynotifygru.services.IHttpTransportProvider" interface.
+## Configuration using Spring context
 
-##Examples of Spring configuration
+First, define the bean for the HTTP transport you want to use:
+ 
+* set the property for the URL of the notification service end point
+* set other properties if using the HTTP transport `NotificationTransportApiManagerRest` 
 
- **Use ApiManager through HttpAccess** 
+
+Then, define the bean for the service `NotificationService` :
+ 
+* as a constructor argument, refer to the bean for HTTP transport
+
+
+Here is an example of Spring configuration with the HTTP transport `NotificationTransportRest` :
 ```
 
-<bean id="apiTransport.httpAccess" class="fr.paris.lutece.plugins.librarynotifygru.rs.service.NotificationTransportApiManagerRest">
+<bean id="lib-notifygru.simpleTransport" class="fr.paris.lutece.plugins.librarynotifygru.rs.service.NotificationTransportRest">
     <property name="notificationEndPoint">
-        <value>http://mydomain.com:8080/rest/notif/send</value>
+        <value>http://mydomain.com/url/to/notification</value>
+    </property>
+</bean>
+<bean id="lib-notifygru.notificationService" class="fr.paris.lutece.plugins.librarynotifygru.services.NotificationService">
+    <constructor-arg ref="lib-notifygru.simpleTransport"/>
+</bean>
+                        
+```
+
+
+Here is an example of Spring configuration with the HTTP transport `NotificationTransportApiManagerRest` :
+```
+
+<bean id="lib-notifygru.apiManagerTransport" class="fr.paris.lutece.plugins.librarynotifygru.rs.service.NotificationTransportApiManagerRest">
+    <property name="notificationEndPoint">
+        <value>http://mydomain.com/url/to/apimanager/api/notification</value>
     </property>
     <property name="apiManagerEndPoint">
-        <value>http://mydomain.com:8080/rest/token</value>
+        <value>http://mydomain.com/url/to/apimanager/token</value>
+    </property>
+    <property name="apiManagerCredentials">
+        <value>your_private_key</value>
     </property>
 </bean>
-<bean id="notificationService.api.httpAccess" class="fr.paris.lutece.plugins.librarynotifygru.services.NotificationService">
-    <constructor-arg ref="apiTransport.httpAccess"/>
+<bean id="lib-notifygru.notificationService" class="fr.paris.lutece.plugins.librarynotifygru.services.NotificationService">
+    <constructor-arg ref="lib-notifygru.apiManagerTransport"/>
 </bean>
-                    
+                        
 ```
 
 
- **Use without ApiManager through simple request** 
+## Configuration in Java code
+
+The service can directly be created in the Java code. Here is an example with the HTTP transport `NotificationTransportApiManagerRest` (the same mechanism can be applied for the HTTP transport `NotificationTransportRest` ).
+
+First, define the following keys in a properties file:
 ```
 
-<bean id="simpleRestTransport" class="fr.paris.lutece.plugins.librarynotifygru.services.SimpleRestTransport" />
-<bean id="restTransport.simpleRest" class="fr.paris.lutece.plugins.librarynotifygru.rs.service.NotificationTransportRest">
-    <property name="notificationEndPoint">
-        <value>http://mydomain.com:8080/rest/notif/send</value>
-    </property>
-    <property name="httpTransport">
-        <ref bean="simpleRestTransport"/>
-    </property>
-</bean>
-<bean id="notificationService.rest.simpleRest" class="fr.paris.lutece.plugins.librarynotifygru.services.NotificationService">
-    <constructor-arg ref="restTransport.simpleRest"/>
-</bean>
-                    
+myplugin.endpoint.notification=http://mydomain.com/url/to/apimanager/api/notification
+myplugin.endpoint.token=http://mydomain.com/url/to/apimanager/token
+myplugin.apimanager.credentials=your_private_key
+                        
+```
+
+
+Then, add the following code in the Java code:
+```
+
+private static final String PROPERTY_ENDPOINT_NOTIFICATION = "myplugin.endpoint.notification";
+private static final String PROPERTY_ENDPOINT_TOKEN = "myplugin.endpoint.token";
+private static final String PROPERTY_APIMANAGER_CREDENTIALS = "myplugin.apimanager.credentials";
+...
+NotificationTransportApiManagerRest apiManagerTransport = new NotificationTransportApiManagerRest(  );
+apiManagerTransport.setNotificationEndPoint( AppPropertiesService.getProperty( PROPERTY_ENDPOINT_NOTIFICATION ) );
+apiManagerTransport.setApiManagerEndPoint( AppPropertiesService.getProperty( PROPERTY_ENDPOINT_TOKEN ) );
+apiManagerTransport.setApiManagerCredentials( AppPropertiesService.getProperty( PROPERTY_APIMANAGER_CREDENTIALS ) );
+
+NotificationService notificationService = new NotificationService( apiManagerTransport );
+                        
 ```
 
 
