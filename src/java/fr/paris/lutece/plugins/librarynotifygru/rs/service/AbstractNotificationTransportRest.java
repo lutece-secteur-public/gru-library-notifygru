@@ -64,6 +64,7 @@ abstract class AbstractNotificationTransportRest implements INotificationTranspo
         _mapper.enable( DeserializationFeature.UNWRAP_ROOT_VALUE );
         _mapper.enable( SerializationFeature.INDENT_OUTPUT );
         _mapper.enable( SerializationFeature.WRAP_ROOT_VALUE );
+		_mapper.disable( DeserializationFeature.FAIL_ON_IGNORED_PROPERTIES );
         _mapper.setSerializationInclusion( Include.NON_NULL );
     }
 
