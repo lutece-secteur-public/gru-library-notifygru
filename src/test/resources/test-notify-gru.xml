@@ -4,7 +4,6 @@
 
     <!-- IHttpTransportProvider declarations -->
     <bean id="httpAccessTransport" class="fr.paris.lutece.plugins.librarynotifygru.services.HttpAccessTransport" />
-    <bean id="simpleRestTransport" class="fr.paris.lutece.plugins.librarynotifygru.services.SimpleRestTransport" />
 
     <!-- INotificationTransportProvider declarations -->
     <!-- if not forced AbstractNotificationTransportRest impl, use httpAccessTransport by default -->
@@ -22,28 +21,9 @@
             <value>http://127.0.0.1:9092/lutece/rest/api/token</value>
         </property>
     </bean>
-    <bean id="apiTransport.simpleRest" class="fr.paris.lutece.plugins.librarynotifygru.rs.service.NotificationTransportApiManagerRest">
-        <property name="notificationEndPoint">
-            <value>http://127.0.0.1:9092/lutece/rest/notification/send</value>
-        </property>
-        <property name="apiManagerEndPoint">
-            <value>http://127.0.0.1:9092/lutece/rest/api/token</value>
-        </property>
-        <property name="httpTransport">
-            <ref bean="simpleRestTransport"/>
-        </property>
-    </bean>
     <bean id="restTransport.httpAccess" class="fr.paris.lutece.plugins.librarynotifygru.rs.service.NotificationTransportRest">
         <property name="notificationEndPoint">
             <value>http://127.0.0.1:9092/lutece/rest/notification/send</value>
-        </property>
-    </bean>
-    <bean id="restTransport.simpleRest" class="fr.paris.lutece.plugins.librarynotifygru.rs.service.NotificationTransportRest">
-        <property name="notificationEndPoint">
-            <value>http://127.0.0.1:9092/lutece/rest/notification/send</value>
-        </property>
-        <property name="httpTransport">
-            <ref bean="simpleRestTransport"/>
         </property>
     </bean>
     
@@ -57,15 +37,8 @@
         <constructor-arg ref="apiTransport.httpAccess"/>
     </bean>
     
-    <bean id="testNotificationService.api.simpleRest" class="fr.paris.lutece.plugins.librarynotifygru.services.NotificationService">
-        <constructor-arg ref="apiTransport.simpleRest"/>
-    </bean>
-    
     <bean id="testNotificationService.rest.httpAccess" class="fr.paris.lutece.plugins.librarynotifygru.services.NotificationService">
         <constructor-arg ref="restTransport.httpAccess"/>
     </bean>
     
-    <bean id="testNotificationService.rest.simpleRest" class="fr.paris.lutece.plugins.librarynotifygru.services.NotificationService">
-        <constructor-arg ref="restTransport.simpleRest"/>
-    </bean>
 </beans>

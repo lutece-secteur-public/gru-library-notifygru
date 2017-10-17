@@ -62,12 +62,8 @@ import javax.annotation.Resource;
 } )
 public class NotificationServiceTest
 {
-    @Resource( name = "testNotificationService.api.simpleRest" )
-    private NotificationService _notificationServiceApiSimpleRest;
     @Resource( name = "testNotificationService.api.httpAccess" )
     private NotificationService _notificationServiceApiHttpAccess;
-    @Resource( name = "testNotificationService.rest.simpleRest" )
-    private NotificationService _notificationServiceRestSimpleRest;
     @Resource( name = "testNotificationService.rest.httpAccess" )
     private NotificationService _notificationServiceRestHttpAccess;
     @Resource( name = "testNotificationServiceMock" )
@@ -112,31 +108,12 @@ public class NotificationServiceTest
     }
 
     /**
-     * test send nodification with ApiManager Transport and SimpleRest Provider
-     */
-    @Test
-    public void testSendApiManagerSimpleRest( )
-    {
-        // currently KO due to header problem in the query
-        _notificationServiceApiSimpleRest.send( _notification );
-    }
-
-    /**
      * test send nodification with Rest Transport and HttpAccess Provider
      */
     @Test
     public void testSendRestHttpAccess( )
     {
         _notificationServiceRestHttpAccess.send( _notification );
-    }
-
-    /**
-     * test send nodification with Rest Transport and SimpleRest Provider
-     */
-    @Test
-    public void testSendRestSimpleRest( )
-    {
-        _notificationServiceRestSimpleRest.send( _notification );
     }
 
     /**
