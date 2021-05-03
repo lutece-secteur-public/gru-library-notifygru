@@ -39,7 +39,8 @@ package fr.paris.lutece.plugins.librarynotifygru.exception;
 public class NotifyGruException extends RuntimeException
 {
     private static final long serialVersionUID = -7405725124800547672L;
-
+    private int _nResponseStatus;
+    
     /**
      * @param strError
      *            error message
@@ -58,5 +59,27 @@ public class NotifyGruException extends RuntimeException
     public NotifyGruException( String strError, Exception error )
     {
         super( strError, error );
+    }
+
+    /**
+     * @param strError
+     *            error message
+     * @param nResponseStatus
+     * @param error
+     *            error exception
+     */
+    public NotifyGruException( String strError, int nResponseStatus, Exception error )
+    {
+        super( strError, error );
+        _nResponseStatus = nResponseStatus;
+    }    
+    
+    /**
+     * get the response status 
+     * 
+     * @return the response status
+     */
+    public int getResponseStatus() {
+        return _nResponseStatus;
     }
 }

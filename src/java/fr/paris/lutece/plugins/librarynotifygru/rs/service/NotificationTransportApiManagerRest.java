@@ -37,8 +37,12 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import fr.paris.lutece.plugins.grubusiness.business.notification.Notification;
+import fr.paris.lutece.plugins.grubusiness.business.notification.NotifyGruResponse;
+import fr.paris.lutece.plugins.librarynotifygru.exception.NotifyGruException;
 import fr.paris.lutece.plugins.librarynotifygru.services.HttpAccessTransport;
 import fr.paris.lutece.plugins.librarynotifygru.services.INotificationTransportProvider;
+import java.time.LocalDateTime;
 
 import org.apache.commons.lang3.StringUtils;
 
@@ -49,6 +53,7 @@ import java.util.Map;
 
 import javax.ws.rs.core.HttpHeaders;
 import javax.ws.rs.core.MediaType;
+import org.apache.commons.httpclient.HttpStatus;
 
 /**
  *
@@ -57,6 +62,7 @@ public final class NotificationTransportApiManagerRest extends AbstractNotificat
 {
     /** The Constant PARAMS_ACCES_TOKEN. */
     private static final String PARAMS_ACCES_TOKEN = "access_token";
+    private static final String PARAMS_VALIDITY = "expires_in";
     private static final String TYPE_AUTHENTIFICATION = "Bearer";
 
     /** The Constant PARAMS_GRANT_TYPE. */
@@ -69,6 +75,10 @@ public final class NotificationTransportApiManagerRest extends AbstractNotificat
     /** URL for REST service apiManager */
     private String _strApiManagerEndPoint;
     private String _strApiManagerCredentials;
+    
+    /** store current token properties */
+    String _strToken;
+    LocalDateTime _dateExpiration;
 
     /**
      * Simple Constructor
@@ -102,18 +112,32 @@ public final class NotificationTransportApiManagerRest extends AbstractNotificat
     }
 
     /**
-     * Gets the security token from API Manager
+     * Gets the current security token if valid, 
+     * or refresh token if token expiration will occur in less than one minute
      * 
      * @return the token
      */
     private String getToken( )
     {
-        String strToken = StringUtils.EMPTY;
+        if ( StringUtils.isEmpty(_strToken ) || _dateExpiration == null
+                || LocalDateTime.now( ).isAfter( _dateExpiration.minusMinutes( 1 ) ) )
+        {
+            refreshToken( );
+        }
 
+        return _strToken;
+    }
+
+    /**
+     * refresh the security token from API Manager
+     * 
+     */
+    private void refreshToken( )
+    {
         _logger.debug( "LibraryNotifyGru - NotificationTransportApiManagerRest.getToken with URL_TOKEN property [" + _strApiManagerEndPoint + "]" );
 
-        Map<String, String> mapHeadersRequest = new HashMap<String, String>( );
-        Map<String, String> mapParams = new HashMap<String, String>( );
+        Map<String, String> mapHeadersRequest = new HashMap<>( );
+        Map<String, String> mapParams = new HashMap<>( );
 
         mapParams.put( PARAMS_GRANT_TYPE, PARAMS_GRANT_TYPE_VALUE );
 
@@ -131,14 +155,19 @@ public final class NotificationTransportApiManagerRest extends AbstractNotificat
             JsonNode jsonNode = mapper.readTree( strJson );
 
             JsonNode jsonTokenNode = jsonNode.get( PARAMS_ACCES_TOKEN );
-            strToken = jsonTokenNode.textValue( );
+
+            // new token value
+            _strToken = jsonTokenNode.textValue( );
+
+            JsonNode jsonValidityNode = jsonNode.get( PARAMS_VALIDITY );
+            int nbSecondsValidityTime = jsonValidityNode.asInt( 0 );
+
+            _dateExpiration = LocalDateTime.now( ).plusSeconds( nbSecondsValidityTime );
         }
         catch ( JsonProcessingException e )
         {
             _logger.error( "LibraryNotifyGru - NotificationTransportApiManagerRest.getToken invalid response [" + strJson + "]" );
         }
-
-        return strToken;
     }
 
     /**
@@ -154,4 +183,23 @@ public final class NotificationTransportApiManagerRest extends AbstractNotificat
             mapHeadersRequest.put( HttpHeaders.AUTHORIZATION, TYPE_AUTHENTIFICATION + " " + strToken );
         }
     }
+    
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public NotifyGruResponse catchNotifyGruException( Notification notification, NotifyGruException e )
+    {
+        if ( e.getResponseStatus( ) == HttpStatus.SC_UNAUTHORIZED )
+        {
+            refreshToken( );
+        
+            return send( notification, false );
+        }
+        else
+        {
+            throw e;
+        }
+    }
+    
 }

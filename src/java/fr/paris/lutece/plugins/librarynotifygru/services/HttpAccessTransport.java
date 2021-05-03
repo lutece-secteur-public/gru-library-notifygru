@@ -38,6 +38,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import fr.paris.lutece.plugins.librarynotifygru.exception.NotifyGruException;
 import fr.paris.lutece.util.httpaccess.HttpAccess;
 import fr.paris.lutece.util.httpaccess.HttpAccessException;
+import fr.paris.lutece.util.httpaccess.InvalidResponseStatus;
 
 import org.apache.commons.lang3.StringUtils;
 
@@ -76,6 +77,12 @@ public class HttpAccessTransport implements IHttpTransportProvider
         {
             strOutput = clientHttp.doPost( strUrl, mapParams, null, null, mapHeadersRequest, mapHeadersResponse );
         }
+        catch( InvalidResponseStatus e)
+        {
+            String strError = "LibraryNotifyGru - Error  " + e.getResponseStatus( ) + " on HttpAccessTransport.doPost for URL [" + strUrl + "] : ";
+            _logger.error( strError + e.getMessage( ), e );
+            throw new NotifyGruException( strError, e.getResponseStatus(), e );
+        }
         catch( HttpAccessException e )
         {
             String strError = "LibraryNotifyGru - Error HttpAccessTransport.doPost on URL [" + strUrl + "] : ";
@@ -105,6 +112,12 @@ public class HttpAccessTransport implements IHttpTransportProvider
             T oResponse = mapper.readValue( strResponseJSON, responseJsonClass );
 
             return oResponse;
+        }
+        catch( InvalidResponseStatus e)
+        {
+            String strError = "LibraryNotifyGru - Error  " + e.getResponseStatus( ) + " on HttpAccessTransport.doPost for URL [" + strUrl + "] : ";
+            _logger.error( strError + e.getMessage( ), e );
+            throw new NotifyGruException( strError, e.getResponseStatus(), e );
         }
         catch( HttpAccessException e )
         {

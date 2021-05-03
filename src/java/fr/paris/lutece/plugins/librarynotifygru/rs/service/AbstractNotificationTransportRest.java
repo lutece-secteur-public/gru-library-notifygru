@@ -44,11 +44,13 @@ import fr.paris.lutece.plugins.grubusiness.business.notification.NotifyGruRespon
 import fr.paris.lutece.plugins.librarynotifygru.exception.NotifyGruException;
 import fr.paris.lutece.plugins.librarynotifygru.services.IHttpTransportProvider;
 import fr.paris.lutece.plugins.librarynotifygru.services.INotificationTransportProvider;
+import fr.paris.lutece.util.httpaccess.InvalidResponseStatus;
 
 import org.apache.log4j.Logger;
 
 import java.util.HashMap;
 import java.util.Map;
+import org.apache.commons.httpclient.HttpStatus;
 
 /**
  *
@@ -65,6 +67,7 @@ abstract class AbstractNotificationTransportRest implements INotificationTranspo
         _mapper.enable( SerializationFeature.INDENT_OUTPUT );
         _mapper.enable( SerializationFeature.WRAP_ROOT_VALUE );
         _mapper.disable( DeserializationFeature.FAIL_ON_IGNORED_PROPERTIES );
+
         _mapper.setSerializationInclusion( Include.NON_NULL );
     }
 
@@ -113,61 +116,97 @@ abstract class AbstractNotificationTransportRest implements INotificationTranspo
     protected abstract void addAuthentication( Map<String, String> mapHeadersRequest );
 
     /**
+     * Method to be overriden to do some extra treatment when a NotifyGruException is throwned
+     * default : rethrow the exception
+     * 
+     * @param mapHeadersRequest
+     *            map of headers to add
+     */
+    public NotifyGruResponse catchNotifyGruException( Notification notification, NotifyGruException e ) {
+        throw e;
+    }
+
+    /**
      * {@inheritDoc}
      */
     @Override
     public NotifyGruResponse send( Notification notification )
     {
+        return send( notification, true );
+    }
+    
+    /**
+     * send notification
+     */
+    public NotifyGruResponse send( Notification notification, boolean bCatchNotifyGruException )
+    {
         _logger.debug( "LibraryNotifyGru - AbstractNotificationTransportRest.send() with endPoint [" + _strNotificationEndPoint + "]" );
+        logJson( "Notification", notification );
 
-        Map<String, String> mapHeadersRequest = new HashMap<String, String>( );
-        Map<String, String> mapParams = new HashMap<String, String>( );
+        Map<String, String> mapHeadersRequest = new HashMap<>( );
+        Map<String, String> mapParams = new HashMap<>( );
 
+        // add transport authentication headers 
         addAuthentication( mapHeadersRequest );
 
-        if ( _logger.isDebugEnabled( ) )
-        {
-            try
-            {
-                _logger.debug( "LibraryNotifyGru - AbstractNotificationTransportRest.send NOTIFICATION:\n" + _mapper.writeValueAsString( notification ) );
-            }
-            catch( JsonProcessingException e )
-            {
-                _logger.debug( "LibraryNotifyGru - AbstractNotificationTransportRest.send query not writeable", e );
-            }
-        }
-
         // send request
-        NotifyGruResponse response = _httpTransport.doPostJSON( _strNotificationEndPoint, mapParams, mapHeadersRequest, notification, NotifyGruResponse.class,
-                _mapper );
-
-        if ( _logger.isDebugEnabled( ) )
+        try 
         {
-            try
+            NotifyGruResponse response = _httpTransport.doPostJSON( _strNotificationEndPoint, mapParams, mapHeadersRequest, 
+                    notification, NotifyGruResponse.class, _mapper );
+            
+            logJson( "Response", response );
+
+            if ( ( response == null ) 
+                    || (  !NotifyGruResponse.STATUS_RECEIVED.equals( response.getStatus( ) )
+                       && !NotifyGruResponse.STATUS_ERROR.equals( response.getStatus( ) ) ) )
             {
-                _logger.debug( "LibraryNotifyGru - AbstractNotificationTransportRest.send query response :\n" + _mapper.writeValueAsString( response ) );
+                String strError = "LibraryNotifyGru - AbstractNotificationTransportRest.send - Error JSON response is null";
+
+                if ( response != null )
+                {
+                    strError = "LibraryNotifyGru - AbstractNotificationTransportRest.send invalid response : " + response.getStatus( ) ;
+                }
+
+                _logger.error( strError );
+                throw new NotifyGruException( strError );
             }
-            catch( JsonProcessingException e )
+
+            return response;
+        }
+        catch ( NotifyGruException e )
+        {
+            if ( bCatchNotifyGruException )
             {
-                _logger.debug( "LibraryNotifyGru - AbstractNotificationTransportRest.send query response not writeable", e );
+                // do some extra treatment (if implemented)
+                return catchNotifyGruException( notification, e );
+            }
+            else
+            {
+                _logger.error( e.getMessage( ) );
+                throw e;
             }
         }
-
-        if ( ( response == null )
-                || !( NotifyGruResponse.STATUS_RECEIVED.equals( response.getStatus( ) ) || NotifyGruResponse.STATUS_ERROR.equals( response.getStatus( ) ) ) )
-        {
-            String strError = "LibraryNotifyGru - AbstractNotificationTransportRest.send - Error JSON response is null";
-
-            if ( response != null )
-            {
-                strError = "LibraryNotifyGru - AbstractNotificationTransportRest.send invalid response : " + response.getStatus( );
-            }
-
-            _logger.error( strError );
-            throw new NotifyGruException( strError );
-        }
-
-        return response;
     }
 
+    /**
+     * log for debug
+     * 
+     * @param strAction
+     * @param obj 
+     */    
+    private static void logJson( String strAction, Object obj )
+    {
+        if ( _logger.isDebugEnabled( ) )
+        {
+            try
+            {
+                _logger.debug( "LibraryNotifyGru - AbstractNotificationTransportRest.send " + strAction +" :\n" + _mapper.writeValueAsString( obj ) );
+            }
+            catch( JsonProcessingException e )
+            {
+                _logger.debug( "LibraryNotifyGru - AbstractNotificationTransportRest.send " + strAction +" not writeable", e );
+            }
+        }
+    }
 }
