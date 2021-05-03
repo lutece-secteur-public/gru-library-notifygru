@@ -34,6 +34,7 @@
 package fr.paris.lutece.plugins.librarynotifygru.rs.service;
 
 import fr.paris.lutece.plugins.grubusiness.business.notification.Notification;
+import fr.paris.lutece.plugins.grubusiness.business.notification.NotifyGruResponse;
 
 import org.apache.log4j.Logger;
 
@@ -50,9 +51,15 @@ public class MockNotificationTransportRest extends AbstractNotificationTransport
      * {@inheritDoc}
      */
     @Override
-    public void send( Notification notification )
+    public NotifyGruResponse send( Notification notification )
     {
+        NotifyGruResponse response = new NotifyGruResponse( );
+        response.setStatus( NotifyGruResponse.STATUS_RECEIVED);
+        
+        
         _logger.debug( "MockNotificationTransportRest.send is always ok" );
+        
+        return response;
     }
 
     /**

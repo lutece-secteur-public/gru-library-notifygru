@@ -116,7 +116,7 @@ abstract class AbstractNotificationTransportRest implements INotificationTranspo
      * {@inheritDoc}
      */
     @Override
-    public void send( Notification notification )
+    public NotifyGruResponse send( Notification notification )
     {
         _logger.debug( "LibraryNotifyGru - AbstractNotificationTransportRest.send() with endPoint [" + _strNotificationEndPoint + "]" );
 
@@ -133,10 +133,11 @@ abstract class AbstractNotificationTransportRest implements INotificationTranspo
             }
             catch( JsonProcessingException e )
             {
-                // do nothing is debug
+                _logger.debug( "LibraryNotifyGru - AbstractNotificationTransportRest.send query not writeable", e );
             }
         }
 
+        // send request
         NotifyGruResponse response = _httpTransport.doPostJSON( _strNotificationEndPoint, mapParams, mapHeadersRequest, notification, NotifyGruResponse.class,
                 _mapper );
 
@@ -152,17 +153,23 @@ abstract class AbstractNotificationTransportRest implements INotificationTranspo
             }
         }
 
-        if ( ( response == null ) || !NotifyGruResponse.STATUS_RECEIVED.equals( response.getStatus( ) ) )
+        if ( ( response == null ) 
+                || !NotifyGruResponse.STATUS_RECEIVED.equals( response.getStatus( ) )
+                || !NotifyGruResponse.STATUS_ERROR.equals( response.getStatus( ) ))
         {
             String strError = "LibraryNotifyGru - AbstractNotificationTransportRest.send - Error JSON response is null";
 
             if ( response != null )
             {
-                strError = "LibraryNotifyGru - AbstractNotificationTransportRest.send invalid response : " + response.getStatus( );
+                strError = "LibraryNotifyGru - AbstractNotificationTransportRest.send invalid response : " + response.getStatus( ) ;
             }
 
             _logger.error( strError );
             throw new NotifyGruException( strError );
         }
+        
+        return response;
     }
+    
+    
 }

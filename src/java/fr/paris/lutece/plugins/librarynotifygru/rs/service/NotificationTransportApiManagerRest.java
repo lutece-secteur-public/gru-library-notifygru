@@ -33,12 +33,14 @@
  */
 package fr.paris.lutece.plugins.librarynotifygru.rs.service;
 
+import com.fasterxml.jackson.core.JsonParseException;
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.DeserializationFeature;
+import com.fasterxml.jackson.databind.JsonNode;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import fr.paris.lutece.plugins.librarynotifygru.services.HttpAccessTransport;
 import fr.paris.lutece.plugins.librarynotifygru.services.INotificationTransportProvider;
-
-import net.sf.json.JSONObject;
-import net.sf.json.JSONSerializer;
-import net.sf.json.util.JSONUtils;
+import fr.paris.lutece.portal.service.util.AppLogService;
 
 import org.apache.commons.lang.StringUtils;
 
@@ -121,22 +123,22 @@ public final class NotificationTransportApiManagerRest extends AbstractNotificat
         mapHeadersRequest.put( HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_FORM_URLENCODED );
         mapHeadersRequest.put( HttpHeaders.AUTHORIZATION, TYPE_AUTHENTIFICATION + " " + _strApiManagerCredentials );
 
-        String strOutput = getHttpTransport( ).doPost( _strApiManagerEndPoint, mapParams, mapHeadersRequest );
+        String strJson = getHttpTransport( ).doPost( _strApiManagerEndPoint, mapParams, mapHeadersRequest );
 
-        JSONObject strResponseApiManagerJsonObject = null;
+        ObjectMapper mapper = new ObjectMapper( );
+        mapper.configure( DeserializationFeature.UNWRAP_ROOT_VALUE, true );
+        mapper.configure( DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false );
 
-        if ( JSONUtils.mayBeJSON( strOutput ) )
+        try
         {
-            strResponseApiManagerJsonObject = (JSONObject) JSONSerializer.toJSON( strOutput );
-
-            if ( ( strResponseApiManagerJsonObject != null ) && strResponseApiManagerJsonObject.has( PARAMS_ACCES_TOKEN ) )
-            {
-                strToken = (String) strResponseApiManagerJsonObject.get( PARAMS_ACCES_TOKEN );
-            }
+            JsonNode jsonNode = mapper.readTree( strJson );
+        
+            JsonNode jsonTokenNode = jsonNode.get( PARAMS_ACCES_TOKEN );
+            strToken = jsonTokenNode.textValue( );
         }
-        else
+        catch ( JsonProcessingException e )
         {
-            _logger.error( "LibraryNotifyGru - NotificationTransportApiManagerRest.getToken invalid response [" + strOutput + "]" );
+            _logger.error( "LibraryNotifyGru - NotificationTransportApiManagerRest.getToken invalid response [" + strJson + "]" );
         }
 
         return strToken;

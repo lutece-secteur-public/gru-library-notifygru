@@ -34,6 +34,7 @@
 package fr.paris.lutece.plugins.librarynotifygru.services;
 
 import fr.paris.lutece.plugins.grubusiness.business.notification.Notification;
+import fr.paris.lutece.plugins.grubusiness.business.notification.NotifyGruResponse;
 
 /**
  * NotificationService service
@@ -79,9 +80,10 @@ public class NotificationService
      *
      * @param notification
      *            the notification
+     * @return the notifyGruResponse
      */
-    public void send( Notification notification )
+    public NotifyGruResponse send( Notification notification )
     {
-        _transportProvider.send( notification );
+        return _transportProvider.send( notification );
     }
 }
