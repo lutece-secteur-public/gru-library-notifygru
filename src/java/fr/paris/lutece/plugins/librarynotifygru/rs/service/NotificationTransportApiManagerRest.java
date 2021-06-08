@@ -33,14 +33,12 @@
  */
 package fr.paris.lutece.plugins.librarynotifygru.rs.service;
 
-import com.fasterxml.jackson.core.JsonParseException;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import fr.paris.lutece.plugins.librarynotifygru.services.HttpAccessTransport;
 import fr.paris.lutece.plugins.librarynotifygru.services.INotificationTransportProvider;
-import fr.paris.lutece.portal.service.util.AppLogService;
 
 import org.apache.commons.lang.StringUtils;
 
@@ -126,8 +124,6 @@ public final class NotificationTransportApiManagerRest extends AbstractNotificat
         String strJson = getHttpTransport( ).doPost( _strApiManagerEndPoint, mapParams, mapHeadersRequest );
 
         ObjectMapper mapper = new ObjectMapper( );
-        mapper.configure( DeserializationFeature.UNWRAP_ROOT_VALUE, true );
-        mapper.configure( DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false );
 
         try
         {

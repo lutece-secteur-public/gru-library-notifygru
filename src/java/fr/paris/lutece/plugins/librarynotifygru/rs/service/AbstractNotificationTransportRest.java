@@ -152,10 +152,10 @@ abstract class AbstractNotificationTransportRest implements INotificationTranspo
                 _logger.debug( "LibraryNotifyGru - AbstractNotificationTransportRest.send query response not writeable", e );
             }
         }
-
-        if ( ( response == null ) 
-                || !NotifyGruResponse.STATUS_RECEIVED.equals( response.getStatus( ) )
-                || !NotifyGruResponse.STATUS_ERROR.equals( response.getStatus( ) ))
+      
+        if ( ( response == null )
+                ||  !( NotifyGruResponse.STATUS_RECEIVED.equals( response.getStatus( ) )
+                      || NotifyGruResponse.STATUS_ERROR.equals( response.getStatus( ) ) ) )
         {
             String strError = "LibraryNotifyGru - AbstractNotificationTransportRest.send - Error JSON response is null";
 
