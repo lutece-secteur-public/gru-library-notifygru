@@ -124,6 +124,7 @@ public final class NotificationTransportApiManagerRest extends AbstractNotificat
         String strJson = getHttpTransport( ).doPost( _strApiManagerEndPoint, mapParams, mapHeadersRequest );
 
         ObjectMapper mapper = new ObjectMapper( );
+        mapper.configure( DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false );
 
         try
         {
