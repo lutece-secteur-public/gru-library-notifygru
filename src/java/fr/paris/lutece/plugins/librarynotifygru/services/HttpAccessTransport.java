@@ -39,7 +39,7 @@ import fr.paris.lutece.plugins.librarynotifygru.exception.NotifyGruException;
 import fr.paris.lutece.util.httpaccess.HttpAccess;
 import fr.paris.lutece.util.httpaccess.HttpAccessException;
 
-import org.apache.commons.lang.StringUtils;
+import org.apache.commons.lang3.StringUtils;
 
 import org.apache.log4j.Logger;
 
