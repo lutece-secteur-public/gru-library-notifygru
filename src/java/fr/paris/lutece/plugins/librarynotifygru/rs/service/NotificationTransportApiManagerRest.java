@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2002-2016, Mairie de Paris
+ * Copyright (c) 2002-2021, City of Paris
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -33,6 +33,7 @@
  */
 package fr.paris.lutece.plugins.librarynotifygru.rs.service;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -128,7 +129,7 @@ public final class NotificationTransportApiManagerRest extends AbstractNotificat
         try
         {
             JsonNode jsonNode = mapper.readTree( strJson );
-        
+
             JsonNode jsonTokenNode = jsonNode.get( PARAMS_ACCES_TOKEN );
             strToken = jsonTokenNode.textValue( );
         }

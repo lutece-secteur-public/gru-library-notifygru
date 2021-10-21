@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2002-2016, Mairie de Paris
+ * Copyright (c) 2002-2021, City of Paris
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -58,7 +58,7 @@ import javax.annotation.Resource;
  */
 @RunWith( SpringJUnit4ClassRunner.class )
 @ContextConfiguration( locations = {
-    "classpath:test-notify-gru.xml"
+        "classpath:test-notify-gru.xml"
 } )
 public class NotificationServiceTest
 {

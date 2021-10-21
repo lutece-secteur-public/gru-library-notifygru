@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2002-2016, Mairie de Paris
+ * Copyright (c) 2002-2021, City of Paris
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -64,7 +64,7 @@ abstract class AbstractNotificationTransportRest implements INotificationTranspo
         _mapper.enable( DeserializationFeature.UNWRAP_ROOT_VALUE );
         _mapper.enable( SerializationFeature.INDENT_OUTPUT );
         _mapper.enable( SerializationFeature.WRAP_ROOT_VALUE );
-		_mapper.disable( DeserializationFeature.FAIL_ON_IGNORED_PROPERTIES );
+        _mapper.disable( DeserializationFeature.FAIL_ON_IGNORED_PROPERTIES );
         _mapper.setSerializationInclusion( Include.NON_NULL );
     }
 
@@ -152,24 +152,22 @@ abstract class AbstractNotificationTransportRest implements INotificationTranspo
                 _logger.debug( "LibraryNotifyGru - AbstractNotificationTransportRest.send query response not writeable", e );
             }
         }
-      
+
         if ( ( response == null )
-                ||  !( NotifyGruResponse.STATUS_RECEIVED.equals( response.getStatus( ) )
-                      || NotifyGruResponse.STATUS_ERROR.equals( response.getStatus( ) ) ) )
+                || !( NotifyGruResponse.STATUS_RECEIVED.equals( response.getStatus( ) ) || NotifyGruResponse.STATUS_ERROR.equals( response.getStatus( ) ) ) )
         {
             String strError = "LibraryNotifyGru - AbstractNotificationTransportRest.send - Error JSON response is null";
 
             if ( response != null )
             {
-                strError = "LibraryNotifyGru - AbstractNotificationTransportRest.send invalid response : " + response.getStatus( ) ;
+                strError = "LibraryNotifyGru - AbstractNotificationTransportRest.send invalid response : " + response.getStatus( );
             }
 
             _logger.error( strError );
             throw new NotifyGruException( strError );
         }
-        
+
         return response;
     }
-    
-    
+
 }
