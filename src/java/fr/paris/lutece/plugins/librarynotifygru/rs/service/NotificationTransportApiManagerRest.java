@@ -47,8 +47,7 @@ import org.apache.log4j.Logger;
 import java.util.HashMap;
 import java.util.Map;
 
-import javax.ws.rs.core.HttpHeaders;
-import javax.ws.rs.core.MediaType;
+
 
 /**
  *
@@ -59,7 +58,7 @@ public final class NotificationTransportApiManagerRest extends AbstractNotificat
     private static final String PARAMS_ACCES_TOKEN = "access_token";
     private static final String TYPE_AUTHENTIFICATION_BEARER = "Bearer";
     private static final String TYPE_AUTHENTIFICATION_BASIC = "Basic";
-
+    
     /** The Constant PARAMS_GRANT_TYPE. */
     private static final String PARAMS_GRANT_TYPE = "grant_type";
 
@@ -118,9 +117,9 @@ public final class NotificationTransportApiManagerRest extends AbstractNotificat
 
         mapParams.put( PARAMS_GRANT_TYPE, PARAMS_GRANT_TYPE_VALUE );
 
-        mapHeadersRequest.put( HttpHeaders.ACCEPT, MediaType.APPLICATION_JSON );
-        mapHeadersRequest.put( HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_FORM_URLENCODED );
-        mapHeadersRequest.put( HttpHeaders.AUTHORIZATION, TYPE_AUTHENTIFICATION_BASIC + " " + _strApiManagerCredentials );
+        mapHeadersRequest.put( HttpAccessTransport.HTTP_HEADER_ACCEPT, HttpAccessTransport.HTTP_HEADER_MEDIATYPE_APPLICATION_JSON );
+        mapHeadersRequest.put( HttpAccessTransport.HTTP_HEADER_CONTENT_TYPE, HttpAccessTransport.HTTP_HEADER_MEDIATYPE_APPLICATION_FORM_URLENCODED);
+        mapHeadersRequest.put( HttpAccessTransport.HTTP_HEADER_AUTHORIZATION, TYPE_AUTHENTIFICATION_BASIC + " " + _strApiManagerCredentials );
 
         String strJson = getHttpTransport( ).doPost( _strApiManagerEndPoint, mapParams, mapHeadersRequest );
 
@@ -152,7 +151,7 @@ public final class NotificationTransportApiManagerRest extends AbstractNotificat
 
         if ( StringUtils.isNotBlank( strToken ) )
         {
-            mapHeadersRequest.put( HttpHeaders.AUTHORIZATION, TYPE_AUTHENTIFICATION_BEARER + " " + strToken );
+            mapHeadersRequest.put( HttpAccessTransport.HTTP_HEADER_AUTHORIZATION, TYPE_AUTHENTIFICATION_BEARER + " " + strToken );
         }
     }
 }

@@ -48,9 +48,6 @@ import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
 
-import javax.ws.rs.core.HttpHeaders;
-import javax.ws.rs.core.MediaType;
-
 /**
  * IHttpTransportProvider which use library-httpaccess
  */
@@ -58,7 +55,6 @@ public class HttpAccessTransport implements IHttpTransportProvider
 {
     /** The Constant CONTENT_FORMAT. */
     // CONTENT FORMAT
-    public static final String CONTENT_FORMAT_CHARSET = "application/json; charset=utf-8";
     private static Logger _logger = Logger.getLogger( HttpAccessTransport.class );
 
     /**
@@ -95,8 +91,8 @@ public class HttpAccessTransport implements IHttpTransportProvider
     {
         HttpAccess clientHttp = new HttpAccess( );
         Map<String, String> mapHeadersResponse = new HashMap<String, String>( );
-        mapHeadersRequest.put( HttpHeaders.ACCEPT, MediaType.APPLICATION_JSON );
-        mapHeadersRequest.put( HttpHeaders.CONTENT_TYPE, CONTENT_FORMAT_CHARSET );
+        mapHeadersRequest.put( HTTP_HEADER_ACCEPT, HTTP_HEADER_MEDIATYPE_APPLICATION_JSON );
+        mapHeadersRequest.put( HTTP_HEADER_CONTENT_TYPE, HTTP_HEADER_MEDIATYPE_APPLICATION_JSON_UTF8 );
 
         try
         {

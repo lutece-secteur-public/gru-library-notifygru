@@ -13,6 +13,13 @@
     <version>1.2.2-SNAPSHOT</version>
     <name>Lutece library notifygru </name>
 
+    <properties>
+    	<jerseyVersion>2.37</jerseyVersion>
+        <componentName>GRU Library Notifygru</componentName>
+        <jiraProjectName>GRULIBNOTI</jiraProjectName>
+        <jiraComponentId>13253</jiraComponentId>
+    </properties>
+    
     <repositories>
         <repository>
             <id>lutece</id>
@@ -38,30 +45,7 @@
             <type>jar</type>
         </dependency>
         
-        <!-- REST -->
-        <dependency>
-            <groupId>com.sun.jersey.contribs</groupId>
-            <artifactId>jersey-multipart</artifactId>
-            <version>1.18.1</version>
-        </dependency>
-        <dependency>
-            <groupId>com.sun.jersey</groupId>
-            <artifactId>jersey-json</artifactId>
-            <version>1.18.1</version>
-        </dependency>
-        <dependency>
-            <groupId>com.sun.jersey</groupId>
-            <artifactId>jersey-client</artifactId>
-            <version>1.18.1</version>
-            <type>jar</type>
-        </dependency>
-        
-        <dependency>
-            <groupId>commons-validator</groupId>
-            <artifactId>commons-validator</artifactId>
-            <version>1.4.0</version>
-            <type>jar</type>
-        </dependency>
+
         
         <!-- dépendance pour les tests -->
         <dependency>
@@ -84,11 +68,7 @@
 		</dependency>
     </dependencies>
 
-    <properties>
-        <componentName>GRU Library Notifygru</componentName>
-        <jiraProjectName>GRULIBNOTI</jiraProjectName>
-        <jiraComponentId>13253</jiraComponentId>
-    </properties>
+
 
     <scm>
         <connection>scm:git:https://github.com/lutece-secteur-public/gru-library-notifygru.git</connection>
