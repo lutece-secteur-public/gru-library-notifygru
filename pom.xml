@@ -10,7 +10,7 @@
     <groupId>fr.paris.lutece.plugins</groupId>
     <artifactId>library-notifygru</artifactId>
 	<packaging>jar</packaging>
-    <version>1.2.2</version>
+    <version>1.2.3-SNAPSHOT</version>
     <name>Lutece library notifygru </name>
 
     <properties>
@@ -74,7 +74,7 @@
         <connection>scm:git:https://github.com/lutece-secteur-public/gru-library-notifygru.git</connection>
         <developerConnection>scm:git:https://github.com/lutece-secteur-public/gru-library-notifygru.git</developerConnection>
         <url>https://github.com/lutece-secteur-public/gru-library-notifygru.git</url>
-        <tag>library-notifygru-1.2.2</tag>
+        <tag>HEAD</tag>
     </scm>
 
 </project>
