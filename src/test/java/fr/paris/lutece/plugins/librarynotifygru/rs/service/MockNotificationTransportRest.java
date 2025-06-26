@@ -36,7 +36,8 @@ package fr.paris.lutece.plugins.librarynotifygru.rs.service;
 import fr.paris.lutece.plugins.grubusiness.business.notification.Notification;
 import fr.paris.lutece.plugins.grubusiness.business.notification.NotifyGruResponse;
 
-import org.apache.log4j.Logger;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 import java.util.Map;
 
@@ -45,7 +46,7 @@ import java.util.Map;
  */
 public class MockNotificationTransportRest extends AbstractNotificationTransportRest
 {
-    private static Logger _logger = Logger.getLogger( MockNotificationTransportRest.class );
+    private static Logger _logger = LogManager.getLogger( MockNotificationTransportRest.class );
 
     /**
      * {@inheritDoc}

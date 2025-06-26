@@ -45,7 +45,8 @@ import fr.paris.lutece.plugins.librarynotifygru.exception.NotifyGruException;
 import fr.paris.lutece.plugins.librarynotifygru.services.IHttpTransportProvider;
 import fr.paris.lutece.plugins.librarynotifygru.services.INotificationTransportProvider;
 
-import org.apache.log4j.Logger;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -56,7 +57,7 @@ import java.util.Map;
 abstract class AbstractNotificationTransportRest implements INotificationTransportProvider
 {
     private static ObjectMapper _mapper;
-    private static Logger _logger = Logger.getLogger( AbstractNotificationTransportRest.class );
+    private static Logger _logger = LogManager.getLogger( AbstractNotificationTransportRest.class );
 
     static
     {
@@ -118,39 +119,33 @@ abstract class AbstractNotificationTransportRest implements INotificationTranspo
     @Override
     public NotifyGruResponse send( Notification notification )
     {
-        _logger.debug( "LibraryNotifyGru - AbstractNotificationTransportRest.send() with endPoint [" + _strNotificationEndPoint + "]" );
+        _logger.debug( "LibraryNotifyGru - AbstractNotificationTransportRest.send() with endPoint [ {} ]", _strNotificationEndPoint );
 
-        Map<String, String> mapHeadersRequest = new HashMap<String, String>( );
-        Map<String, String> mapParams = new HashMap<String, String>( );
+        Map<String, String> mapHeadersRequest = new HashMap<>( );
+        Map<String, String> mapParams = new HashMap<>( );
 
         addAuthentication( mapHeadersRequest );
 
-        if ( _logger.isDebugEnabled( ) )
+        try
         {
-            try
-            {
-                _logger.debug( "LibraryNotifyGru - AbstractNotificationTransportRest.send NOTIFICATION:\n" + _mapper.writeValueAsString( notification ) );
-            }
-            catch( JsonProcessingException e )
-            {
-                _logger.debug( "LibraryNotifyGru - AbstractNotificationTransportRest.send query not writeable", e );
-            }
+            _logger.debug( "LibraryNotifyGru - AbstractNotificationTransportRest.send NOTIFICATION:\n {}", _mapper.writeValueAsString( notification ) );
+        }
+        catch( JsonProcessingException e )
+        {
+            _logger.debug( "LibraryNotifyGru - AbstractNotificationTransportRest.send query not writeable", e );
         }
 
         // send request
         NotifyGruResponse response = _httpTransport.doPostJSON( _strNotificationEndPoint, mapParams, mapHeadersRequest, notification, NotifyGruResponse.class,
                 _mapper );
 
-        if ( _logger.isDebugEnabled( ) )
+        try
         {
-            try
-            {
-                _logger.debug( "LibraryNotifyGru - AbstractNotificationTransportRest.send query response :\n" + _mapper.writeValueAsString( response ) );
-            }
-            catch( JsonProcessingException e )
-            {
-                _logger.debug( "LibraryNotifyGru - AbstractNotificationTransportRest.send query response not writeable", e );
-            }
+            _logger.debug( "LibraryNotifyGru - AbstractNotificationTransportRest.send query response :\n {}", _mapper.writeValueAsString( response ) );
+        }
+        catch( JsonProcessingException e )
+        {
+            _logger.debug( "LibraryNotifyGru - AbstractNotificationTransportRest.send query response not writeable", e );
         }
 
         if ( ( response == null )

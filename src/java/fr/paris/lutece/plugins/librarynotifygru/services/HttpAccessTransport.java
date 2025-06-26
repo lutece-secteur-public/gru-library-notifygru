@@ -41,7 +41,8 @@ import fr.paris.lutece.util.httpaccess.HttpAccessException;
 
 import org.apache.commons.lang3.StringUtils;
 
-import org.apache.log4j.Logger;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 import java.io.IOException;
 
@@ -53,9 +54,7 @@ import java.util.Map;
  */
 public class HttpAccessTransport implements IHttpTransportProvider
 {
-    /** The Constant CONTENT_FORMAT. */
-    // CONTENT FORMAT
-    private static Logger _logger = Logger.getLogger( HttpAccessTransport.class );
+    private static Logger _logger = LogManager.getLogger( HttpAccessTransport.class );
 
     /**
      * {@inheritDoc}
@@ -64,7 +63,7 @@ public class HttpAccessTransport implements IHttpTransportProvider
     public String doPost( String strUrl, Map<String, String> mapParams, Map<String, String> mapHeadersRequest )
     {
         HttpAccess clientHttp = new HttpAccess( );
-        Map<String, String> mapHeadersResponse = new HashMap<String, String>( );
+        Map<String, String> mapHeadersResponse = new HashMap<>( );
 
         String strOutput = StringUtils.EMPTY;
 
@@ -90,7 +89,7 @@ public class HttpAccessTransport implements IHttpTransportProvider
             ObjectMapper mapper )
     {
         HttpAccess clientHttp = new HttpAccess( );
-        Map<String, String> mapHeadersResponse = new HashMap<String, String>( );
+        Map<String, String> mapHeadersResponse = new HashMap<>( );
         mapHeadersRequest.put( HTTP_HEADER_ACCEPT, HTTP_HEADER_MEDIATYPE_APPLICATION_JSON );
         mapHeadersRequest.put( HTTP_HEADER_CONTENT_TYPE, HTTP_HEADER_MEDIATYPE_APPLICATION_JSON_UTF8 );
 
@@ -98,9 +97,7 @@ public class HttpAccessTransport implements IHttpTransportProvider
         {
             String strJSON = mapper.writeValueAsString( json );
             String strResponseJSON = clientHttp.doPostJSON( strUrl, strJSON, mapHeadersRequest, mapHeadersResponse );
-            T oResponse = mapper.readValue( strResponseJSON, responseJsonClass );
-
-            return oResponse;
+            return mapper.readValue( strResponseJSON, responseJsonClass );
         }
         catch( HttpAccessException e )
         {
