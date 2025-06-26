@@ -38,21 +38,19 @@ import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import fr.paris.lutece.plugins.librarynotifygru.services.HttpAccessTransport;
-import fr.paris.lutece.plugins.librarynotifygru.services.INotificationTransportProvider;
 
 import org.apache.commons.lang3.StringUtils;
 
-import org.apache.log4j.Logger;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 import java.util.HashMap;
 import java.util.Map;
 
-
-
 /**
  *
  */
-public final class NotificationTransportApiManagerRest extends AbstractNotificationTransportRest implements INotificationTransportProvider
+public final class NotificationTransportApiManagerRest extends AbstractNotificationTransportRest
 {
     /** The Constant PARAMS_ACCES_TOKEN. */
     private static final String PARAMS_ACCES_TOKEN = "access_token";
@@ -64,7 +62,7 @@ public final class NotificationTransportApiManagerRest extends AbstractNotificat
 
     /** The Constant PARAMS_GRANT_TYPE_VALUE. */
     private static final String PARAMS_GRANT_TYPE_VALUE = "client_credentials";
-    private static Logger _logger = Logger.getLogger( NotificationTransportApiManagerRest.class );
+    private static Logger _logger = LogManager.getLogger( NotificationTransportApiManagerRest.class );
 
     /** URL for REST service apiManager */
     private String _strApiManagerEndPoint;
@@ -110,10 +108,10 @@ public final class NotificationTransportApiManagerRest extends AbstractNotificat
     {
         String strToken = StringUtils.EMPTY;
 
-        _logger.debug( "LibraryNotifyGru - NotificationTransportApiManagerRest.getToken with URL_TOKEN property [" + _strApiManagerEndPoint + "]" );
+        _logger.debug( "LibraryNotifyGru - NotificationTransportApiManagerRest.getToken with URL_TOKEN property [ {} ]", _strApiManagerEndPoint );
 
-        Map<String, String> mapHeadersRequest = new HashMap<String, String>( );
-        Map<String, String> mapParams = new HashMap<String, String>( );
+        Map<String, String> mapHeadersRequest = new HashMap<>( );
+        Map<String, String> mapParams = new HashMap<>( );
 
         mapParams.put( PARAMS_GRANT_TYPE, PARAMS_GRANT_TYPE_VALUE );
 
@@ -135,7 +133,7 @@ public final class NotificationTransportApiManagerRest extends AbstractNotificat
         }
         catch ( JsonProcessingException e )
         {
-            _logger.error( "LibraryNotifyGru - NotificationTransportApiManagerRest.getToken invalid response [" + strJson + "]" );
+            _logger.error( "LibraryNotifyGru - NotificationTransportApiManagerRest.getToken invalid response [ {} ]", strJson );
         }
 
         return strToken;

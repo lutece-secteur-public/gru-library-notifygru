@@ -35,14 +35,13 @@ package fr.paris.lutece.plugins.librarynotifygru.rs.service;
 
 import fr.paris.lutece.plugins.librarynotifygru.services.HttpAccessTransport;
 import fr.paris.lutece.plugins.librarynotifygru.services.IHttpTransportProvider;
-import fr.paris.lutece.plugins.librarynotifygru.services.INotificationTransportProvider;
 
 import java.util.Map;
 
 /**
  * Default NotificationTransport implementation, which not use ApiManager token auth
  */
-public final class NotificationTransportRest extends AbstractNotificationTransportRest implements INotificationTransportProvider
+public final class NotificationTransportRest extends AbstractNotificationTransportRest
 {
     /**
      * Simple Constructor
