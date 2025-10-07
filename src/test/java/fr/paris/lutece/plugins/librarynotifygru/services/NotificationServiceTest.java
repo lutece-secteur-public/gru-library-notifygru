@@ -39,6 +39,7 @@ import com.fasterxml.jackson.databind.JsonMappingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 import fr.paris.lutece.plugins.grubusiness.business.notification.Notification;
+import fr.paris.lutece.plugins.grubusiness.service.notification.NotificationException;
 import fr.paris.lutece.plugins.librarynotifygru.rs.service.MockNotificationTransportRest;
 import fr.paris.lutece.util.httpaccess.HttpAccessService;
 
@@ -99,9 +100,10 @@ public class NotificationServiceTest
 
     /**
      * test send nodification with ApiManager Transport and HttpAccess Provider
+     * @throws NotificationException 
      */
     @Test
-    public void testSendApiManagerHttpAccess( )
+    public void testSendApiManagerHttpAccess( ) throws NotificationException
     {
         // can't work on localhost due to lutece-core dependency in library-httpaccess
         _notificationServiceApiHttpAccess.send( _notification );
@@ -109,34 +111,34 @@ public class NotificationServiceTest
 
     /**
      * test send nodification with Rest Transport and HttpAccess Provider
+     * @throws NotificationException 
      */
     @Test
-    public void testSendRestHttpAccess( )
+    public void testSendRestHttpAccess( ) throws NotificationException
     {
         _notificationServiceRestHttpAccess.send( _notification );
     }
 
     /**
      * test send nodification with mock
+     * @throws NotificationException 
      */
     @Test
-    public void testSendMock( )
+    public void testSendMock( ) throws NotificationException
     {
         _notificationServiceMock.send( _notification );
     }
 
     /**
      * test send nodification with mock and no spring beans
+     * @throws NotificationException 
      */
     @Test
-    public void testSendMockNoSpring( )
+    public void testMockNotifier( ) throws NotificationException
     {
-        MockNotificationTransportRest mockTransport = new MockNotificationTransportRest( );
-        mockTransport.setNotificationEndPoint( "http://127.0.0.1:9092/lutece/rest/notification/send" );
-
-        // default mockTransport.httpTransport set with simpleRest
-        NotificationService notificationServiceNoSpring = new NotificationService( mockTransport );
-
-        notificationServiceNoSpring.send( _notification );
+        MockNotifierService mock = new MockNotifierService( );
+        
+        
+        mock.process( _notification );
     }
 }

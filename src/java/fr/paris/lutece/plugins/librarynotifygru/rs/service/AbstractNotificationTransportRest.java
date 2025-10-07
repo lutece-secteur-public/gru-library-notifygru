@@ -42,8 +42,6 @@ import com.fasterxml.jackson.databind.SerializationFeature;
 import fr.paris.lutece.plugins.grubusiness.business.notification.Notification;
 import fr.paris.lutece.plugins.grubusiness.business.notification.NotifyGruResponse;
 import fr.paris.lutece.plugins.librarynotifygru.exception.NotifyGruException;
-import fr.paris.lutece.plugins.librarynotifygru.services.IHttpTransportProvider;
-import fr.paris.lutece.plugins.librarynotifygru.services.INotificationTransportProvider;
 
 import org.apache.log4j.Logger;
 

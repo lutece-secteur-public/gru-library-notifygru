@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2002-2021, City of Paris
+ * Copyright (c) 2002-2015, Mairie de Paris
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -33,85 +33,63 @@
  */
 package fr.paris.lutece.plugins.librarynotifygru.services;
 
-import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
+
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
 
 import fr.paris.lutece.plugins.grubusiness.business.notification.EnumNotificationType;
 import fr.paris.lutece.plugins.grubusiness.business.notification.Event;
 import fr.paris.lutece.plugins.grubusiness.business.notification.Notification;
 import fr.paris.lutece.plugins.grubusiness.business.notification.NotifyGruResponse;
 import fr.paris.lutece.plugins.grubusiness.service.notification.INotifierServiceProvider;
-import fr.paris.lutece.plugins.grubusiness.service.notification.NotificationException;
-import fr.paris.lutece.portal.service.spring.SpringContextService;
+import fr.paris.lutece.portal.service.util.AppLogService;
 
-
-
-/**
- * NotificationService service
- */
-public class NotificationService
+public class MockNotifierService implements INotifierServiceProvider
 {
-    private static List<INotifierServiceProvider> _notifiers = SpringContextService.getBeansOfType( INotifierServiceProvider.class );
-
-    /**
-     * call the registred notifiers
-     * 
-     * @param notification
-     * @throws NotificationException
-     */
-    public static NotifyGruResponse send( Notification notification ) throws NotificationException
+    ObjectMapper _mapper = new ObjectMapper( );
+    
+    @Override
+    public List<EnumNotificationType> getNotificationTypes( )
     {
-	NotifyGruResponse consolidatedResponse = new NotifyGruResponse ( );
-	consolidatedResponse.setStatus( NotifyGruResponse.STATUS_RECEIVED );
-
-	boolean isSent = false;
-	
-	for ( INotifierServiceProvider notifyer : _notifiers )
-	{
-	    NotifyGruResponse response = notifyer.process( notification );
-	    
-	    if ( response != null )
-	    {
-		isSent = true;
-		
-        	consolidatedResponse.getErrors ( ).addAll( response.getErrors ( ) );
-        	consolidatedResponse.getWarnings( ).addAll( response.getWarnings( ) );
-        	    
-        	if ( !NotifyGruResponse.STATUS_RECEIVED.equals( response.getStatus ( ) ) )
-        	{
-        		consolidatedResponse.setStatus ( response.getStatus ( ) ); 
-        	}
-	    }
-	}
-	
-	if (!isSent)
-	{
-	    consolidatedResponse.setStatus( NotifyGruResponse.STATUS_ERROR );
-	    Event error = new Event( );
-	    error.setMessage ( "Please provide a notifier for this notification type");
-	    error.setStatus ( NotifyGruResponse.STATUS_ERROR );
-	    consolidatedResponse.getErrors ( ).add( error );
-	    
-	    return consolidatedResponse;
-	}
-
-	return consolidatedResponse;
+	return Arrays.asList(EnumNotificationType.MYDASHBOARD, EnumNotificationType.CUSTOMER_EMAIL, 
+		EnumNotificationType.BROADCAST_EMAIL, EnumNotificationType.SMS, 
+		EnumNotificationType.BACKOFFICE);
     }
     
     /**
-     * get NotificationTypes list from Notifiers
+     * Mock process
      * 
-     * @return the list
+     * @param notification
      */
-    public static List<EnumNotificationType> getNotificationTypesFromNotifiers( )
+    public NotifyGruResponse process( Notification notification )
     {
-	List<EnumNotificationType> list = new ArrayList<> ( );
+	NotifyGruResponse gruResponse = new NotifyGruResponse ( );
+	gruResponse.setStatus ( NotifyGruResponse.STATUS_RECEIVED );
 	
-	for ( INotifierServiceProvider notifier : _notifiers )
+	try
 	{
-	    list.addAll ( notifier.getNotificationTypes ( ) );
+	    AppLogService.info ( "[Livrary notifyGru] Mock notifyer : notification received : " + _mapper.writeValueAsString( notification ) );
+	    
+	    gruResponse.setStatus ( NotifyGruResponse.STATUS_RECEIVED );
+	    return gruResponse;
+	} 
+	catch ( JsonProcessingException e )
+	{
+	    AppLogService.error( e );
+	    
+	    gruResponse.setStatus ( NotifyGruResponse.STATUS_ERROR );
+	    Event errorEvent = new Event( );
+	    errorEvent.setStatus ( NotifyGruResponse.STATUS_ERROR );
+	    errorEvent.setMessage ( e.getMessage ( ) );
+	    gruResponse.getErrors ( ).add ( errorEvent );
+	    return gruResponse;
 	}
-	
-	return list;
+    }
+
+    @Override
+    public String getName() {
+        return this.getClass( ).getName( );
     }
 }

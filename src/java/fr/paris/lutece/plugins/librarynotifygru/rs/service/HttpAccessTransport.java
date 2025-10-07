@@ -31,7 +31,7 @@
  *
  * License 1.0
  */
-package fr.paris.lutece.plugins.librarynotifygru.services;
+package fr.paris.lutece.plugins.librarynotifygru.rs.service;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 

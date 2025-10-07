@@ -33,20 +33,38 @@
  */
 package fr.paris.lutece.plugins.librarynotifygru.rs.service;
 
+import fr.paris.lutece.plugins.grubusiness.business.notification.Notification;
+import fr.paris.lutece.plugins.grubusiness.business.notification.NotifyGruResponse;
+import fr.paris.lutece.portal.service.util.AppLogService;
+
 import java.util.Map;
+
+import org.apache.log4j.Logger;
+
+import com.fasterxml.jackson.annotation.JsonInclude.Include;
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.DeserializationFeature;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.SerializationFeature;
 
 /**
  * Default NotificationTransport implementation, which not use ApiManager token auth
  */
-public final class NotificationTransportRest extends AbstractNotificationTransportRest implements INotificationTransportProvider
+public final class NotificationTransportMock implements INotificationTransportProvider
 {
+	private static ObjectMapper _mapper;
+	  
     /**
      * Simple Constructor
      */
-    public NotificationTransportRest( )
+    public NotificationTransportMock( )
     {
-        super( );
-        this.setHttpTransport( new HttpAccessTransport( ) );
+    	_mapper = new ObjectMapper( );
+        _mapper.enable( DeserializationFeature.UNWRAP_ROOT_VALUE );
+        _mapper.enable( SerializationFeature.INDENT_OUTPUT );
+        _mapper.enable( SerializationFeature.WRAP_ROOT_VALUE );
+        _mapper.disable( DeserializationFeature.FAIL_ON_IGNORED_PROPERTIES );
+        _mapper.setSerializationInclusion( Include.NON_NULL );
     }
 
     /**
@@ -55,18 +73,32 @@ public final class NotificationTransportRest extends AbstractNotificationTranspo
      * @param httpTransport
      *            the provider to use
      */
-    public NotificationTransportRest( IHttpTransportProvider httpTransport )
+    public NotificationTransportMock( IHttpTransportProvider httpTransport )
     {
-        super( );
-        this.setHttpTransport( httpTransport );
     }
 
-    /**
-     * {@inheritDoc}
-     */
+
+    
     @Override
-    protected void addAuthentication( Map<String, String> mapHeadersRequest )
+    public NotifyGruResponse send( Notification notification )
     {
-        // no authentication for simple rest client
+	AppLogService.info( "LibraryNotifyGru - NotificationTransportMOCK.send() " );
+    	
+    	if ( AppLogService.isDebugEnabled( ) )
+        {
+            try
+            {
+        	AppLogService.debug( "LibraryNotifyGru - NotificationTransportMOCK.send NOTIFICATION:\n" + _mapper.writeValueAsString( notification ) );
+            }
+            catch( JsonProcessingException e )
+            {
+        	AppLogService.debug( "LibraryNotifyGru - NotificationTransportMOCK.send query not writeable", e );
+            }
+        }
+    	
+    	NotifyGruResponse response = new NotifyGruResponse();
+    	response.setStatus( NotifyGruResponse.STATUS_RECEIVED );
+    	
+    	return response;
     }
 }
