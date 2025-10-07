@@ -31,7 +31,7 @@
  *
  * License 1.0
  */
-package fr.paris.lutece.plugins.librarynotifygru.services;
+package fr.paris.lutece.plugins.librarynotifygru.rs.service;
 
 import fr.paris.lutece.plugins.grubusiness.business.notification.Notification;
 import fr.paris.lutece.plugins.grubusiness.business.notification.NotifyGruResponse;
