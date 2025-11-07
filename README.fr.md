@@ -7,13 +7,13 @@
 
 ## Introduction
 
-This library provides services to send notifications to the GRU.
+Cette librairie permet d'envoyer des notifications GRU.
 
 ## Configuration
 
-This library provides "Notifiers" that correspond to each type of notification (mail, sms, ...)
+Des "Notifiers" sont proposés, ils correspondent aux différents types d'envoi : mail, sms, ...
 
-The "notifiers" should be injected as beans in the context of the module to be used, examples :
+Ces "notifiers" doivent être injectés dans le fichier de contexte :
 
 ```
 
@@ -59,7 +59,7 @@ The "notifiers" should be injected as beans in the context of the module to be u
 
 ## Usage
 
-Use NotificationService.send() method.
+Utilisez la méthode NotificationService.send().
 
 
 [Maven documentation and reports](https://dev.lutece.paris.fr/plugins/library-notifygru/)
