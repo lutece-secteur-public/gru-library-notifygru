@@ -39,8 +39,6 @@ import fr.paris.lutece.portal.service.util.AppLogService;
 
 import java.util.Map;
 
-import org.apache.log4j.Logger;
-
 import com.fasterxml.jackson.annotation.JsonInclude.Include;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.DeserializationFeature;

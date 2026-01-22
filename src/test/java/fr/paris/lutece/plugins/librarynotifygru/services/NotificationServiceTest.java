@@ -33,28 +33,25 @@
  */
 package fr.paris.lutece.plugins.librarynotifygru.services;
 
+import static org.junit.Assert.assertNotNull;
+
 import java.io.IOException;
 
 import org.jboss.weld.junit5.EnableWeld;
-import org.junit.jupiter.api.AfterEach;
-import org.junit.jupiter.api.BeforeEach;
+import org.jboss.weld.junit5.WeldInitiator;
+import org.jboss.weld.junit5.WeldSetup;
+import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.TestInstance;
 import org.junit.jupiter.api.TestInstance.Lifecycle;
 
-import com.fasterxml.jackson.core.JsonParseException;
 import com.fasterxml.jackson.databind.DeserializationFeature;
-import com.fasterxml.jackson.databind.JsonMappingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 import fr.paris.lutece.plugins.grubusiness.business.notification.Notification;
+import fr.paris.lutece.plugins.grubusiness.business.notification.NotifyGruResponse;
 import fr.paris.lutece.plugins.grubusiness.service.notification.NotificationException;
-import fr.paris.lutece.plugins.librarynotifygru.rs.service.MockNotificationTransportRest;
-import fr.paris.lutece.util.httpaccess.HttpAccessService;
 import jakarta.inject.Inject;
-import jakarta.inject.Named;
-import okhttp3.mockwebserver.MockResponse;
-import okhttp3.mockwebserver.MockWebServer;
 
 /**
  * test of NotificationService
@@ -63,97 +60,38 @@ import okhttp3.mockwebserver.MockWebServer;
 @TestInstance( Lifecycle.PER_CLASS )
 public class NotificationServiceTest
 {
+	@WeldSetup
+    WeldInitiator weld = WeldInitiator.from(
+            NotificationService.class,
+            MockNotifierService.class)
+        .build();
+	
     @Inject
-    @Named( "testNotificationService.api.httpAccess" )
-    private NotificationService _notificationServiceApiHttpAccess;
-
-    @Inject
-    @Named( "testNotificationService.rest.httpAccess" )
-    private NotificationService _notificationServiceRestHttpAccess;
-
-    @Inject
-    @Named( "testNotificationServiceMock" )
-    private NotificationService _notificationServiceMock;
+    private NotificationService _notificationService;
 
     private Notification _notification;
-    private MockWebServer mockWebServer;
     
-    @BeforeEach
-    public void setUp( ) throws IOException
+    @BeforeAll
+    void setUp( ) throws IOException
     {
-        this.mockWebServer = new MockWebServer( );
-        this.mockWebServer.start( 9092 );
-        this.mockWebServer.enqueue( new MockResponse( )
-        		.setBody( "{\"acknowledge\":{\"status\":\"received\"}}" )
-                .setHeader( "Content-Type", "application/json" ) );
-    }
-
-    @AfterEach
-    public void tearDown( ) throws IOException
-    {
-        this.mockWebServer.shutdown( );
-    }
-
-    /**
-     * Constructor, init the notification JSON
-     *
-     * @throws JsonParseException
-     *             exception
-     * @throws JsonMappingException
-     *             exception
-     * @throws IOException
-     *             exception
-     */
-    public NotificationServiceTest( ) throws IOException
-    {
-        ObjectMapper mapper = new ObjectMapper( );
+    	ObjectMapper mapper = new ObjectMapper( );
         mapper.enable( DeserializationFeature.UNWRAP_ROOT_VALUE );
         _notification = mapper.readValue( getClass( ).getResourceAsStream( "/notification.json" ), Notification.class );
-
-        // Init HttpAccess singleton through NPE exception due of lack of properties access
-        try
-        {
-            HttpAccessService.getInstance( );
-        }
-        catch( Exception e )
-        {
-            // do nothing
-        }
-    }
-
-    /**
-     * test send nodification with ApiManager Transport and HttpAccess Provider
-     * @throws NotificationException 
-     */
-    @Test
-    public void testSendApiManagerHttpAccess( ) throws NotificationException
-    {
-        // can't work on localhost due to lutece-core dependency in library-httpaccess
-        _notificationServiceApiHttpAccess.send( _notification );
-    }
-
-    /**
-     * test send nodification with Rest Transport and HttpAccess Provider
-     * @throws NotificationException 
-     */
-    @Test
-    public void testSendRestHttpAccess( ) throws NotificationException
-    {
-        _notificationServiceRestHttpAccess.send( _notification );
     }
 
     /**
      * test send nodification with mock
-     * @throws NotificationException 
+     * @throws NotificationException
      */
     @Test
-    public void testSendMock( ) throws NotificationException
+    public void testSendNotification( ) throws NotificationException
     {
-        _notificationServiceMock.send( _notification );
+    	NotifyGruResponse response = _notificationService.send( _notification );
+    	assertNotNull( response );
     }
 
     /**
-     * test send nodification with mock and no spring beans
+     * test send nodification with mock and no CDI beans
      * @throws NotificationException 
      */
     @Test

@@ -45,10 +45,12 @@ import fr.paris.lutece.plugins.grubusiness.business.notification.Notification;
 import fr.paris.lutece.plugins.grubusiness.business.notification.NotifyGruResponse;
 import fr.paris.lutece.plugins.grubusiness.service.notification.INotifierServiceProvider;
 import fr.paris.lutece.portal.service.util.AppLogService;
+import fr.paris.lutece.portal.service.util.AppPropertiesService;
 
 public class MockNotifierService implements INotifierServiceProvider
 {
     ObjectMapper _mapper = new ObjectMapper( );
+	private static final String PROPERTY_NOTIFIER_ENABLED = "library-notifygru.notifier.mock.enabled";
     
     @Override
     public List<EnumNotificationType> getNotificationTypes( )
@@ -92,4 +94,10 @@ public class MockNotifierService implements INotifierServiceProvider
     public String getName() {
         return this.getClass( ).getName( );
     }
+
+	@Override
+	public boolean isEnabled( )
+	{
+		return AppPropertiesService.getPropertyBoolean( PROPERTY_NOTIFIER_ENABLED, false );
+	}
 }
