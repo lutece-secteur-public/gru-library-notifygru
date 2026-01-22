@@ -35,6 +35,7 @@ package fr.paris.lutece.plugins.librarynotifygru.services;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 import fr.paris.lutece.plugins.grubusiness.business.notification.EnumNotificationType;
 import fr.paris.lutece.plugins.grubusiness.business.notification.Event;
@@ -42,16 +43,37 @@ import fr.paris.lutece.plugins.grubusiness.business.notification.Notification;
 import fr.paris.lutece.plugins.grubusiness.business.notification.NotifyGruResponse;
 import fr.paris.lutece.plugins.grubusiness.service.notification.INotifierServiceProvider;
 import fr.paris.lutece.plugins.grubusiness.service.notification.NotificationException;
-import fr.paris.lutece.portal.service.spring.SpringContextService;
-
+import jakarta.annotation.PostConstruct;
+import jakarta.enterprise.context.ApplicationScoped;
+import jakarta.enterprise.inject.Instance;
+import jakarta.enterprise.inject.spi.CDI;
+import jakarta.inject.Inject;
 
 
 /**
  * NotificationService service
  */
+@ApplicationScoped
 public class NotificationService
 {
-    private static List<INotifierServiceProvider> _notifiers = SpringContextService.getBeansOfType( INotifierServiceProvider.class );
+    private List<INotifierServiceProvider> _notifiers;
+	private Instance<INotifierServiceProvider> _notifiersInstance;
+	
+	public NotificationService( ){}
+
+    @Inject
+    public NotificationService( Instance<INotifierServiceProvider> notifiersInstance ) 
+    {
+        this._notifiersInstance = notifiersInstance;
+    }
+
+	@PostConstruct
+	public void init( )
+	{
+		_notifiers = _notifiersInstance.stream( )
+				.filter( INotifierServiceProvider::isEnabled )
+				.toList( );
+	}
 
     /**
      * call the registred notifiers
@@ -59,7 +81,7 @@ public class NotificationService
      * @param notification
      * @throws NotificationException
      */
-    public static NotifyGruResponse send( Notification notification ) throws NotificationException
+    public NotifyGruResponse send( Notification notification ) throws NotificationException
     {
 	NotifyGruResponse consolidatedResponse = new NotifyGruResponse ( );
 	consolidatedResponse.setStatus( NotifyGruResponse.STATUS_RECEIVED );
@@ -103,7 +125,7 @@ public class NotificationService
      * 
      * @return the list
      */
-    public static List<EnumNotificationType> getNotificationTypesFromNotifiers( )
+    public List<EnumNotificationType> getNotificationTypesFromNotifiers( )
     {
 	List<EnumNotificationType> list = new ArrayList<> ( );
 	

@@ -9,10 +9,12 @@ import fr.paris.lutece.plugins.grubusiness.business.notification.NotifyGruRespon
 import fr.paris.lutece.plugins.grubusiness.service.notification.INotifierServiceProvider;
 import fr.paris.lutece.plugins.grubusiness.service.notification.NotificationException;
 import fr.paris.lutece.plugins.librarynotifygru.rs.service.INotificationTransportProvider;
+import fr.paris.lutece.portal.service.util.AppPropertiesService;
 
 public class NotificationStoreNotifierRestService implements INotifierServiceProvider
 {
     private static final String NAME = "NotificationStoreRestNotifyer";
+    private static final String PROPERTY_NOTIFIER_ENABLED = "library-notifygru.notifier.notificationStore.enabled";
 
     @Override
     public NotifyGruResponse process( Notification notification ) throws NotificationException
@@ -73,4 +75,9 @@ public class NotificationStoreNotifierRestService implements INotifierServicePro
         return _transportProvider.send( notification );
     }
 
+    @Override
+    public boolean isEnabled( )
+    {
+        return AppPropertiesService.getPropertyBoolean( PROPERTY_NOTIFIER_ENABLED, false );
+    }
 }

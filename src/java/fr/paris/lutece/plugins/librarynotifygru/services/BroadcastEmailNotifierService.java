@@ -48,15 +48,17 @@ import fr.paris.lutece.portal.service.util.AppPropertiesService;
 import java.util.Arrays;
 import java.util.List;
 
+import jakarta.enterprise.context.ApplicationScoped;
 import org.apache.commons.lang3.StringUtils;
 
+@ApplicationScoped
 public class BroadcastEmailNotifierService implements INotifierServiceProvider
 {
     private static final String ADRESS_SEPARATOR = ";";
     private static final String PROPERTY_EMAIL_PATTERN = "lutece.email.pattern";
+    private static final String PROPERTY_NOTIFIER_ENABLED = "library-notifygru.notifier.broadcastEmail.enabled";
     private static String EMAIL_REGEXP_PATTERN = AppPropertiesService.getProperty( PROPERTY_EMAIL_PATTERN );
-    
-    
+
     @Override
     public String getName() {
         return this.getClass( ).getName( );
@@ -158,5 +160,9 @@ public class BroadcastEmailNotifierService implements INotifierServiceProvider
                 email.getMessage( ) );
     }
 
-
+    @Override
+	public boolean isEnabled( )
+	{
+		return AppPropertiesService.getPropertyBoolean( PROPERTY_NOTIFIER_ENABLED, false );
+	}
 }

@@ -49,10 +49,13 @@ import fr.paris.lutece.plugins.grubusiness.service.notification.INotifierService
 import fr.paris.lutece.portal.service.util.AppLogService;
 import fr.paris.lutece.portal.service.util.AppPropertiesService;
 import fr.paris.lutece.util.httpaccess.HttpAccess;
+import jakarta.enterprise.context.ApplicationScoped;
 
+@ApplicationScoped
 public class StatisticsNotifierService implements INotifierServiceProvider
 {
     private static final String URL_WS_STATS = "notifications.url.ws.statistics";
+    private static final String PROPERTY_NOTIFIER_ENABLED = "library-notifygru.notifier.statistics.enabled";
 
     /** constructor */
     public StatisticsNotifierService()
@@ -127,4 +130,10 @@ public class StatisticsNotifierService implements INotifierServiceProvider
     public String getName() {
 	return this.getClass( ).getName( );
     }
+
+	@Override
+	public boolean isEnabled( )
+	{
+		return AppPropertiesService.getPropertyBoolean( PROPERTY_NOTIFIER_ENABLED, false );
+	}
 }

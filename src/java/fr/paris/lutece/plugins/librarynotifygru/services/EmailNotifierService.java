@@ -47,11 +47,14 @@ import fr.paris.lutece.plugins.grubusiness.service.notification.INotifierService
 import fr.paris.lutece.plugins.grubusiness.service.notification.NotificationException;
 import fr.paris.lutece.portal.service.mail.MailService;
 import fr.paris.lutece.portal.service.util.AppPropertiesService;
+import jakarta.enterprise.context.ApplicationScoped;
 
+@ApplicationScoped
 public class EmailNotifierService implements INotifierServiceProvider
 {
     private static final String ADRESS_SEPARATOR = ";";
     private static final String PROPERTY_EMAIL_PATTERN = "lutece.email.pattern";
+    private static final String PROPERTY_NOTIFIER_ENABLED = "library-notifygru.notifier.email.enabled";
     private static String EMAIL_REGEXP_PATTERN = AppPropertiesService.getProperty( PROPERTY_EMAIL_PATTERN );
     
     /** constructor */
@@ -132,5 +135,9 @@ public class EmailNotifierService implements INotifierServiceProvider
                 email.getMessage( ) );
     }
 
-
+    @Override
+	public boolean isEnabled( )
+	{
+		return AppPropertiesService.getPropertyBoolean( PROPERTY_NOTIFIER_ENABLED, false );
+	}
 }
