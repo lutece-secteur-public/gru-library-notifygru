@@ -9,8 +9,15 @@ import fr.paris.lutece.plugins.grubusiness.business.notification.NotifyGruRespon
 import fr.paris.lutece.plugins.grubusiness.service.notification.INotifierServiceProvider;
 import fr.paris.lutece.plugins.grubusiness.service.notification.NotificationException;
 import fr.paris.lutece.plugins.librarynotifygru.rs.service.INotificationTransportProvider;
+import fr.paris.lutece.plugins.librarynotifygru.rs.service.NotificationTransportApiManagerRest;
 import fr.paris.lutece.portal.service.util.AppPropertiesService;
+import jakarta.enterprise.context.ApplicationScoped;
+import jakarta.enterprise.inject.Instance;
+import jakarta.enterprise.inject.literal.NamedLiteral;
+import jakarta.inject.Inject;
+import org.eclipse.microprofile.config.inject.ConfigProperty;
 
+@ApplicationScoped
 public class NotificationStoreNotifierRestService implements INotifierServiceProvider
 {
     private static final String NAME = "NotificationStoreRestNotifyer";
@@ -50,6 +57,18 @@ public class NotificationStoreNotifierRestService implements INotifierServicePro
     {
         super( );
         this._transportProvider = transportProvider;
+    }
+
+    @Inject
+    public NotificationStoreNotifierRestService(
+            Instance<INotificationTransportProvider> providers,
+            @ConfigProperty( name = "library-notifygru.notificationStoreNotifierRestService.transportProviderBeanName",
+                    defaultValue = NotificationTransportApiManagerRest.BEAN_NAME ) String providerName )
+    {
+        super( );
+        this._transportProvider = providers
+                .select( NamedLiteral.of( providerName ) )
+                .get( );
     }
 
     /**

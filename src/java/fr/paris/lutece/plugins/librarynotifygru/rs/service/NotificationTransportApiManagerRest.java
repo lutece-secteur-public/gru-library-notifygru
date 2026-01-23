@@ -38,10 +38,14 @@ import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
+import jakarta.enterprise.context.ApplicationScoped;
+import jakarta.inject.Inject;
+import jakarta.inject.Named;
 import org.apache.commons.lang3.StringUtils;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+import org.eclipse.microprofile.config.inject.ConfigProperty;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -49,8 +53,11 @@ import java.util.Map;
 /**
  *
  */
-public final class NotificationTransportApiManagerRest extends AbstractNotificationTransportRest
+@ApplicationScoped
+@Named( NotificationTransportApiManagerRest.BEAN_NAME )
+public class NotificationTransportApiManagerRest extends AbstractNotificationTransportRest
 {
+    public static final String BEAN_NAME = "library-notifygru.apiManagerTransport";
     /** The Constant PARAMS_ACCES_TOKEN. */
     private static final String PARAMS_ACCES_TOKEN = "access_token";
     private static final String TYPE_AUTHENTIFICATION_BEARER = "Bearer";
@@ -74,6 +81,21 @@ public final class NotificationTransportApiManagerRest extends AbstractNotificat
     {
         super( );
         this.setHttpTransport( new HttpAccessTransport( ) );
+    }
+
+    @Inject
+    public NotificationTransportApiManagerRest(
+            @ConfigProperty( name = "library-notifygru.NotificationStoreNotifierService.notificationEndPoint" )
+            String strNotificationEndPoint,
+            @ConfigProperty( name = "library-notifygru.NotificationStoreNotifierService.apiManagerEndPoint" )
+            String strApiManagerEndPoint,
+            @ConfigProperty( name = "library-notifygru.NotificationStoreNotifierService.apiManagerCredentials" )
+            String strApiManagerCredentials )
+    {
+        this( );
+        this.setNotificationEndPoint( strNotificationEndPoint );
+        this._strApiManagerEndPoint = strApiManagerEndPoint;
+        this._strApiManagerCredentials = strApiManagerCredentials;
     }
 
     /**
