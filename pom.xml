@@ -3,7 +3,7 @@
     <parent>
         <artifactId>lutece-global-pom</artifactId>
         <groupId>fr.paris.lutece.tools</groupId>
-        <version>8.0.0-SNAPSHOT</version>
+        <version>8.0.0</version>
     </parent>
 
     <modelVersion>4.0.0</modelVersion>
@@ -59,7 +59,7 @@
             <version>[2.0.0-SNAPSHOT,)</version>
             <type>jar</type>
         </dependency>
-        <!-- dépendance pour les tests -->
+        <!-- d&#233;pendance pour les tests -->
         <dependency>
 		    <groupId>fr.paris.lutece.plugins</groupId>
 		    <artifactId>library-lutece-unit-testing</artifactId>
