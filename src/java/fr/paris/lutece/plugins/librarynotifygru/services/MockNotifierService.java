@@ -46,7 +46,9 @@ import fr.paris.lutece.plugins.grubusiness.business.notification.NotifyGruRespon
 import fr.paris.lutece.plugins.grubusiness.service.notification.INotifierServiceProvider;
 import fr.paris.lutece.portal.service.util.AppLogService;
 import fr.paris.lutece.portal.service.util.AppPropertiesService;
+import jakarta.enterprise.context.ApplicationScoped;
 
+@ApplicationScoped
 public class MockNotifierService implements INotifierServiceProvider
 {
     ObjectMapper _mapper = new ObjectMapper( );
