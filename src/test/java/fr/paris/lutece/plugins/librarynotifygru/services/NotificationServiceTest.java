@@ -60,46 +60,44 @@ import jakarta.inject.Inject;
 @TestInstance( Lifecycle.PER_CLASS )
 public class NotificationServiceTest
 {
-	@WeldSetup
-    WeldInitiator weld = WeldInitiator.from(
-            NotificationService.class,
-            MockNotifierService.class)
-        .build();
-	
+    @WeldSetup
+    WeldInitiator weld = WeldInitiator.from( NotificationService.class, MockNotifierService.class ).build( );
+
     @Inject
     private NotificationService _notificationService;
 
     private Notification _notification;
-    
+
     @BeforeAll
     void setUp( ) throws IOException
     {
-    	ObjectMapper mapper = new ObjectMapper( );
+        ObjectMapper mapper = new ObjectMapper( );
         mapper.enable( DeserializationFeature.UNWRAP_ROOT_VALUE );
         _notification = mapper.readValue( getClass( ).getResourceAsStream( "/notification.json" ), Notification.class );
     }
 
     /**
      * test send nodification with mock
+     * 
      * @throws NotificationException
      */
     @Test
     public void testSendNotification( ) throws NotificationException
     {
-    	NotifyGruResponse response = _notificationService.send( _notification );
-    	assertNotNull( response );
+        NotifyGruResponse response = _notificationService.send( _notification );
+        assertNotNull( response );
     }
 
     /**
      * test send nodification with mock and no CDI beans
-     * @throws NotificationException 
+     * 
+     * @throws NotificationException
      */
     @Test
     public void testMockNotifier( ) throws NotificationException
     {
         MockNotifierService mock = new MockNotifierService( );
-        
-        
+
         mock.process( _notification );
     }
 }

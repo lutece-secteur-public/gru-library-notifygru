@@ -50,16 +50,15 @@ import fr.paris.lutece.portal.service.util.AppPropertiesService;
 public class MockNotifierService implements INotifierServiceProvider
 {
     ObjectMapper _mapper = new ObjectMapper( );
-	private static final String PROPERTY_NOTIFIER_ENABLED = "library-notifygru.notifier.mock.enabled";
-    
+    private static final String PROPERTY_NOTIFIER_ENABLED = "library-notifygru.notifier.mock.enabled";
+
     @Override
     public List<EnumNotificationType> getNotificationTypes( )
     {
-	return Arrays.asList(EnumNotificationType.MYDASHBOARD, EnumNotificationType.CUSTOMER_EMAIL, 
-		EnumNotificationType.BROADCAST_EMAIL, EnumNotificationType.SMS, 
-		EnumNotificationType.BACKOFFICE);
+        return Arrays.asList( EnumNotificationType.MYDASHBOARD, EnumNotificationType.CUSTOMER_EMAIL, EnumNotificationType.BROADCAST_EMAIL,
+                EnumNotificationType.SMS, EnumNotificationType.BACKOFFICE );
     }
-    
+
     /**
      * Mock process
      * 
@@ -67,37 +66,38 @@ public class MockNotifierService implements INotifierServiceProvider
      */
     public NotifyGruResponse process( Notification notification )
     {
-	NotifyGruResponse gruResponse = new NotifyGruResponse ( );
-	gruResponse.setStatus ( NotifyGruResponse.STATUS_RECEIVED );
-	
-	try
-	{
-	    AppLogService.info ( "[Livrary notifyGru] Mock notifyer : notification received : " + _mapper.writeValueAsString( notification ) );
-	    
-	    gruResponse.setStatus ( NotifyGruResponse.STATUS_RECEIVED );
-	    return gruResponse;
-	} 
-	catch ( JsonProcessingException e )
-	{
-	    AppLogService.error( e );
-	    
-	    gruResponse.setStatus ( NotifyGruResponse.STATUS_ERROR );
-	    Event errorEvent = new Event( );
-	    errorEvent.setStatus ( NotifyGruResponse.STATUS_ERROR );
-	    errorEvent.setMessage ( e.getMessage ( ) );
-	    gruResponse.getErrors ( ).add ( errorEvent );
-	    return gruResponse;
-	}
+        NotifyGruResponse gruResponse = new NotifyGruResponse( );
+        gruResponse.setStatus( NotifyGruResponse.STATUS_RECEIVED );
+
+        try
+        {
+            AppLogService.info( "[Livrary notifyGru] Mock notifyer : notification received : " + _mapper.writeValueAsString( notification ) );
+
+            gruResponse.setStatus( NotifyGruResponse.STATUS_RECEIVED );
+            return gruResponse;
+        }
+        catch( JsonProcessingException e )
+        {
+            AppLogService.error( e );
+
+            gruResponse.setStatus( NotifyGruResponse.STATUS_ERROR );
+            Event errorEvent = new Event( );
+            errorEvent.setStatus( NotifyGruResponse.STATUS_ERROR );
+            errorEvent.setMessage( e.getMessage( ) );
+            gruResponse.getErrors( ).add( errorEvent );
+            return gruResponse;
+        }
     }
 
     @Override
-    public String getName() {
+    public String getName( )
+    {
         return this.getClass( ).getName( );
     }
 
-	@Override
-	public boolean isEnabled( )
-	{
-		return AppPropertiesService.getPropertyBoolean( PROPERTY_NOTIFIER_ENABLED, false );
-	}
+    @Override
+    public boolean isEnabled( )
+    {
+        return AppPropertiesService.getPropertyBoolean( PROPERTY_NOTIFIER_ENABLED, false );
+    }
 }

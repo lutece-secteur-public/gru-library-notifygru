@@ -49,7 +49,6 @@ import jakarta.enterprise.inject.Instance;
 import jakarta.enterprise.inject.spi.CDI;
 import jakarta.inject.Inject;
 
-
 /**
  * NotificationService service
  */
@@ -57,23 +56,23 @@ import jakarta.inject.Inject;
 public class NotificationService
 {
     private List<INotifierServiceProvider> _notifiers;
-	private Instance<INotifierServiceProvider> _notifiersInstance;
-	
-	public NotificationService( ){}
+    private Instance<INotifierServiceProvider> _notifiersInstance;
+
+    public NotificationService( )
+    {
+    }
 
     @Inject
-    public NotificationService( Instance<INotifierServiceProvider> notifiersInstance ) 
+    public NotificationService( Instance<INotifierServiceProvider> notifiersInstance )
     {
         this._notifiersInstance = notifiersInstance;
     }
 
-	@PostConstruct
-	public void init( )
-	{
-		_notifiers = _notifiersInstance.stream( )
-				.filter( INotifierServiceProvider::isEnabled )
-				.toList( );
-	}
+    @PostConstruct
+    public void init( )
+    {
+        _notifiers = _notifiersInstance.stream( ).filter( INotifierServiceProvider::isEnabled ).toList( );
+    }
 
     /**
      * call the registred notifiers
@@ -83,43 +82,43 @@ public class NotificationService
      */
     public NotifyGruResponse send( Notification notification ) throws NotificationException
     {
-	NotifyGruResponse consolidatedResponse = new NotifyGruResponse ( );
-	consolidatedResponse.setStatus( NotifyGruResponse.STATUS_RECEIVED );
+        NotifyGruResponse consolidatedResponse = new NotifyGruResponse( );
+        consolidatedResponse.setStatus( NotifyGruResponse.STATUS_RECEIVED );
 
-	boolean isSent = false;
-	
-	for ( INotifierServiceProvider notifyer : _notifiers )
-	{
-	    NotifyGruResponse response = notifyer.process( notification );
-	    
-	    if ( response != null )
-	    {
-		isSent = true;
-		
-        	consolidatedResponse.getErrors ( ).addAll( response.getErrors ( ) );
-        	consolidatedResponse.getWarnings( ).addAll( response.getWarnings( ) );
-        	    
-        	if ( !NotifyGruResponse.STATUS_RECEIVED.equals( response.getStatus ( ) ) )
-        	{
-        		consolidatedResponse.setStatus ( response.getStatus ( ) ); 
-        	}
-	    }
-	}
-	
-	if (!isSent)
-	{
-	    consolidatedResponse.setStatus( NotifyGruResponse.STATUS_ERROR );
-	    Event error = new Event( );
-	    error.setMessage ( "Please provide a notifier for this notification type");
-	    error.setStatus ( NotifyGruResponse.STATUS_ERROR );
-	    consolidatedResponse.getErrors ( ).add( error );
-	    
-	    return consolidatedResponse;
-	}
+        boolean isSent = false;
 
-	return consolidatedResponse;
+        for ( INotifierServiceProvider notifyer : _notifiers )
+        {
+            NotifyGruResponse response = notifyer.process( notification );
+
+            if ( response != null )
+            {
+                isSent = true;
+
+                consolidatedResponse.getErrors( ).addAll( response.getErrors( ) );
+                consolidatedResponse.getWarnings( ).addAll( response.getWarnings( ) );
+
+                if ( !NotifyGruResponse.STATUS_RECEIVED.equals( response.getStatus( ) ) )
+                {
+                    consolidatedResponse.setStatus( response.getStatus( ) );
+                }
+            }
+        }
+
+        if ( !isSent )
+        {
+            consolidatedResponse.setStatus( NotifyGruResponse.STATUS_ERROR );
+            Event error = new Event( );
+            error.setMessage( "Please provide a notifier for this notification type" );
+            error.setStatus( NotifyGruResponse.STATUS_ERROR );
+            consolidatedResponse.getErrors( ).add( error );
+
+            return consolidatedResponse;
+        }
+
+        return consolidatedResponse;
     }
-    
+
     /**
      * get NotificationTypes list from Notifiers
      * 
@@ -127,13 +126,13 @@ public class NotificationService
      */
     public List<EnumNotificationType> getNotificationTypesFromNotifiers( )
     {
-	List<EnumNotificationType> list = new ArrayList<> ( );
-	
-	for ( INotifierServiceProvider notifier : _notifiers )
-	{
-	    list.addAll ( notifier.getNotificationTypes ( ) );
-	}
-	
-	return list;
+        List<EnumNotificationType> list = new ArrayList<>( );
+
+        for ( INotifierServiceProvider notifier : _notifiers )
+        {
+            list.addAll( notifier.getNotificationTypes( ) );
+        }
+
+        return list;
     }
 }

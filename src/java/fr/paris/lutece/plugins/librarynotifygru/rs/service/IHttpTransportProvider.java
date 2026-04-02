@@ -42,15 +42,15 @@ import java.util.Map;
  */
 public interface IHttpTransportProvider
 {
-	
-	/** http constants */
+
+    /** http constants */
     public static final String HTTP_HEADER_ACCEPT = "Accept";
     public static final String HTTP_HEADER_CONTENT_TYPE = "Content-Type";
     public static final String HTTP_HEADER_AUTHORIZATION = "Authorization";
     public static final String HTTP_HEADER_MEDIATYPE_APPLICATION_FORM_URLENCODED = "application/x-www-form-urlencoded";
     public static final String HTTP_HEADER_MEDIATYPE_APPLICATION_JSON = "application/json";
     public static final String HTTP_HEADER_MEDIATYPE_APPLICATION_JSON_UTF8 = HTTP_HEADER_MEDIATYPE_APPLICATION_JSON + "; charset=utf-8";
-    
+
     /**
      * make POST request on given url with params and headers
      * 

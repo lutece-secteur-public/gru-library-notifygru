@@ -50,14 +50,14 @@ import com.fasterxml.jackson.databind.SerializationFeature;
  */
 public final class NotificationTransportMock implements INotificationTransportProvider
 {
-	private static ObjectMapper _mapper;
-	  
+    private static ObjectMapper _mapper;
+
     /**
      * Simple Constructor
      */
     public NotificationTransportMock( )
     {
-    	_mapper = new ObjectMapper( );
+        _mapper = new ObjectMapper( );
         _mapper.enable( DeserializationFeature.UNWRAP_ROOT_VALUE );
         _mapper.enable( SerializationFeature.INDENT_OUTPUT );
         _mapper.enable( SerializationFeature.WRAP_ROOT_VALUE );
@@ -75,28 +75,26 @@ public final class NotificationTransportMock implements INotificationTransportPr
     {
     }
 
-
-    
     @Override
     public NotifyGruResponse send( Notification notification )
     {
-	AppLogService.info( "LibraryNotifyGru - NotificationTransportMOCK.send() " );
-    	
-    	if ( AppLogService.isDebugEnabled( ) )
+        AppLogService.info( "LibraryNotifyGru - NotificationTransportMOCK.send() " );
+
+        if ( AppLogService.isDebugEnabled( ) )
         {
             try
             {
-        	AppLogService.debug( "LibraryNotifyGru - NotificationTransportMOCK.send NOTIFICATION:\n" + _mapper.writeValueAsString( notification ) );
+                AppLogService.debug( "LibraryNotifyGru - NotificationTransportMOCK.send NOTIFICATION:\n" + _mapper.writeValueAsString( notification ) );
             }
             catch( JsonProcessingException e )
             {
-        	AppLogService.debug( "LibraryNotifyGru - NotificationTransportMOCK.send query not writeable", e );
+                AppLogService.debug( "LibraryNotifyGru - NotificationTransportMOCK.send query not writeable", e );
             }
         }
-    	
-    	NotifyGruResponse response = new NotifyGruResponse();
-    	response.setStatus( NotifyGruResponse.STATUS_RECEIVED );
-    	
-    	return response;
+
+        NotifyGruResponse response = new NotifyGruResponse( );
+        response.setStatus( NotifyGruResponse.STATUS_RECEIVED );
+
+        return response;
     }
 }
