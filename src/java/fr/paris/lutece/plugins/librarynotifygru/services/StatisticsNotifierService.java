@@ -58,14 +58,14 @@ public class StatisticsNotifierService implements INotifierServiceProvider
     private static final String PROPERTY_NOTIFIER_ENABLED = "library-notifygru.notifier.statistics.enabled";
 
     /** constructor */
-    public StatisticsNotifierService()
+    public StatisticsNotifierService( )
     {
     }
 
     @Override
     public List<EnumNotificationType> getNotificationTypes( )
     {
-	return new ArrayList<> ( ) ;
+        return new ArrayList<>( );
     }
 
     /**
@@ -76,9 +76,9 @@ public class StatisticsNotifierService implements INotifierServiceProvider
      */
     public NotifyGruResponse process( Notification notification )
     {
-	AppLogService.info( " \n \n GRU NOTIFIER - sendNotification( NotificationDTO notification ) \n \n" );
+        AppLogService.info( " \n \n GRU NOTIFIER - sendNotification( NotificationDTO notification ) \n \n" );
 
-	return doProcess( AppPropertiesService.getProperty( URL_WS_STATS ), notification );
+        return doProcess( AppPropertiesService.getProperty( URL_WS_STATS ), notification );
     }
 
     /**
@@ -95,45 +95,46 @@ public class StatisticsNotifierService implements INotifierServiceProvider
      */
     private NotifyGruResponse doProcess( String strWsUrl, Notification notification )
     {
-	ObjectMapper mapper = new ObjectMapper();
-	HttpAccess clientHttp = new HttpAccess();
-	Map<String, String> mapHeadersResponse = new HashMap<String, String>();
-	Map<String, String> mapHeadersRequest = new HashMap<String, String>();
-	mapHeadersRequest.put( "ACCEPT", "application/json" );
+        ObjectMapper mapper = new ObjectMapper( );
+        HttpAccess clientHttp = new HttpAccess( );
+        Map<String, String> mapHeadersResponse = new HashMap<String, String>( );
+        Map<String, String> mapHeadersRequest = new HashMap<String, String>( );
+        mapHeadersRequest.put( "ACCEPT", "application/json" );
 
-	NotifyGruResponse gruResponse = new NotifyGruResponse ( );
-	gruResponse.setStatus ( NotifyGruResponse.STATUS_RECEIVED );
+        NotifyGruResponse gruResponse = new NotifyGruResponse( );
+        gruResponse.setStatus( NotifyGruResponse.STATUS_RECEIVED );
 
-	try
-	{
-	    String strJSON = mapper.writeValueAsString( notification );
-	    String strResponseJSON = clientHttp.doPostJSON( strWsUrl, strJSON, mapHeadersRequest, mapHeadersResponse );
+        try
+        {
+            String strJSON = mapper.writeValueAsString( notification );
+            String strResponseJSON = clientHttp.doPostJSON( strWsUrl, strJSON, mapHeadersRequest, mapHeadersResponse );
 
-	    AppLogService.debug ( strResponseJSON );
-	}
-	catch ( Exception e )
-	{
-	    String strError = "Error connecting to '" + strWsUrl + "' : ";
-	    AppLogService.error( strError + e.getMessage(), e );
+            AppLogService.debug( strResponseJSON );
+        }
+        catch( Exception e )
+        {
+            String strError = "Error connecting to '" + strWsUrl + "' : ";
+            AppLogService.error( strError + e.getMessage( ), e );
 
-	    gruResponse.setStatus ( NotifyGruResponse.STATUS_ERROR );
-	    Event event = new Event( );
-	    event.setMessage ( e.getMessage ( ) );
-	    event.setStatus ( NotifyGruResponse.STATUS_ERROR  );
-	    gruResponse.getErrors ( ).add ( event );
-	}
+            gruResponse.setStatus( NotifyGruResponse.STATUS_ERROR );
+            Event event = new Event( );
+            event.setMessage( e.getMessage( ) );
+            event.setStatus( NotifyGruResponse.STATUS_ERROR );
+            gruResponse.getErrors( ).add( event );
+        }
 
-	return gruResponse;
+        return gruResponse;
     }
 
     @Override
-    public String getName() {
-	return this.getClass( ).getName( );
+    public String getName( )
+    {
+        return this.getClass( ).getName( );
     }
 
-	@Override
-	public boolean isEnabled( )
-	{
-		return AppPropertiesService.getPropertyBoolean( PROPERTY_NOTIFIER_ENABLED, false );
-	}
+    @Override
+    public boolean isEnabled( )
+    {
+        return AppPropertiesService.getPropertyBoolean( PROPERTY_NOTIFIER_ENABLED, false );
+    }
 }

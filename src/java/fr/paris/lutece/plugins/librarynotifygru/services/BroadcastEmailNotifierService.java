@@ -60,24 +60,25 @@ public class BroadcastEmailNotifierService implements INotifierServiceProvider
     private static String EMAIL_REGEXP_PATTERN = AppPropertiesService.getProperty( PROPERTY_EMAIL_PATTERN );
 
     @Override
-    public String getName() {
+    public String getName( )
+    {
         return this.getClass( ).getName( );
     }
-    
+
     @Override
     public List<EnumNotificationType> getNotificationTypes( )
     {
-	return Arrays.asList(EnumNotificationType.BROADCAST_EMAIL);
+        return Arrays.asList( EnumNotificationType.BROADCAST_EMAIL );
     }
-    
+
     @Override
-    public NotifyGruResponse process ( Notification notification ) throws NotificationException
+    public NotifyGruResponse process( Notification notification ) throws NotificationException
     {
-	if ( notification.getBroadcastEmail( ) != null && !notification.getBroadcastEmail( ).isEmpty( ) )
+        if ( notification.getBroadcastEmail( ) != null && !notification.getBroadcastEmail( ).isEmpty( ) )
         {
             return sendBroadcastEmail( notification );
         }
-        
+
         return null;
     }
 
@@ -88,33 +89,33 @@ public class BroadcastEmailNotifierService implements INotifierServiceProvider
      */
     public NotifyGruResponse sendBroadcastEmail( Notification notification )
     {
-	NotifyGruResponse gruResponse = new NotifyGruResponse ( );
-	gruResponse.setStatus ( NotifyGruResponse.STATUS_RECEIVED );
-        
+        NotifyGruResponse gruResponse = new NotifyGruResponse( );
+        gruResponse.setStatus( NotifyGruResponse.STATUS_RECEIVED );
+
         EmailNotification gruEmail = null;
 
-            for ( BroadcastNotification notifBroadcast : notification.getBroadcastEmail( ) )
-            {
-                gruEmail = new EmailNotification( );
-                gruEmail.setRecipient( buildEmailAdresses( notifBroadcast.getRecipient( ), gruResponse ) );
-                gruEmail.setCc( buildEmailAdresses( notifBroadcast.getCc( ), gruResponse ) );
-                gruEmail.setBcc( buildEmailAdresses( notifBroadcast.getBcc( ), gruResponse ) );
-                gruEmail.setSenderEmail( notifBroadcast.getSenderEmail( ) );
-                gruEmail.setSenderName( notifBroadcast.getSenderName( ) );
-                gruEmail.setSubject( notifBroadcast.getSubject( ) );
-                gruEmail.setMessage( notifBroadcast.getMessage( ) );
-                
-                sendEmail( gruEmail );
-            }
-        
-            return gruResponse;
+        for ( BroadcastNotification notifBroadcast : notification.getBroadcastEmail( ) )
+        {
+            gruEmail = new EmailNotification( );
+            gruEmail.setRecipient( buildEmailAdresses( notifBroadcast.getRecipient( ), gruResponse ) );
+            gruEmail.setCc( buildEmailAdresses( notifBroadcast.getCc( ), gruResponse ) );
+            gruEmail.setBcc( buildEmailAdresses( notifBroadcast.getBcc( ), gruResponse ) );
+            gruEmail.setSenderEmail( notifBroadcast.getSenderEmail( ) );
+            gruEmail.setSenderName( notifBroadcast.getSenderName( ) );
+            gruEmail.setSubject( notifBroadcast.getSubject( ) );
+            gruEmail.setMessage( notifBroadcast.getMessage( ) );
+
+            sendEmail( gruEmail );
+        }
+
+        return gruResponse;
     }
 
     /**
-     * build mail adresses 
+     * build mail adresses
      * 
      * @param lstEmailAdress
-     * @param gruResponse 
+     * @param gruResponse
      * @return the mail adresses
      */
     private String buildEmailAdresses( List<EmailAddress> lstEmailAdress, NotifyGruResponse gruResponse )
@@ -125,24 +126,23 @@ public class BroadcastEmailNotifierService implements INotifierServiceProvider
         {
             for ( EmailAddress emailAddress : lstEmailAdress )
             {
-        	if ( StringUtils.isEmpty ( emailAddress.getAddress( ) ) 
-        		|| !emailAddress.getAddress( ).matches ( EMAIL_REGEXP_PATTERN ) )
+                if ( StringUtils.isEmpty( emailAddress.getAddress( ) ) || !emailAddress.getAddress( ).matches( EMAIL_REGEXP_PATTERN ) )
                 {
-        	    	gruResponse.setStatus ( NotifyGruResponse.STATUS_ERROR );
-        		Event event = new Event( );
-        		event.setMessage ( "Invalid Email address [" + emailAddress.getAddress( )  + "]");
-        		event.setStatus ( NotifyGruResponse.STATUS_ERROR  );
-        		gruResponse.getErrors ( ).add ( event );
+                    gruResponse.setStatus( NotifyGruResponse.STATUS_ERROR );
+                    Event event = new Event( );
+                    event.setMessage( "Invalid Email address [" + emailAddress.getAddress( ) + "]" );
+                    event.setStatus( NotifyGruResponse.STATUS_ERROR );
+                    gruResponse.getErrors( ).add( event );
                 }
-        	else
-        	{
-        	    // address is valid
+                else
+                {
+                    // address is valid
                     if ( strEmailAdresses.length( ) > 0 )
                     {
-                	strEmailAdresses.append( ADRESS_SEPARATOR );
+                        strEmailAdresses.append( ADRESS_SEPARATOR );
                     }
                     strEmailAdresses.append( emailAddress.getAddress( ) );
-        	}
+                }
             }
         }
 
@@ -161,8 +161,8 @@ public class BroadcastEmailNotifierService implements INotifierServiceProvider
     }
 
     @Override
-	public boolean isEnabled( )
-	{
-		return AppPropertiesService.getPropertyBoolean( PROPERTY_NOTIFIER_ENABLED, false );
-	}
+    public boolean isEnabled( )
+    {
+        return AppPropertiesService.getPropertyBoolean( PROPERTY_NOTIFIER_ENABLED, false );
+    }
 }

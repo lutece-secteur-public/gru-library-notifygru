@@ -59,27 +59,25 @@ public class NotificationStoreNotifierRestService implements INotifierServicePro
     @Override
     public NotifyGruResponse process( Notification notification ) throws NotificationException
     {
-	return send( notification );
+        return send( notification );
     }
 
     @Override
     public String getName( )
     {
-	return NAME;
+        return NAME;
     }
-    
+
     @Override
     public List<EnumNotificationType> getNotificationTypes( )
     {
-	return Arrays.asList(EnumNotificationType.MYDASHBOARD, EnumNotificationType.CUSTOMER_EMAIL, 
-		EnumNotificationType.BROADCAST_EMAIL, EnumNotificationType.SMS, 
-		EnumNotificationType.BACKOFFICE);
+        return Arrays.asList( EnumNotificationType.MYDASHBOARD, EnumNotificationType.CUSTOMER_EMAIL, EnumNotificationType.BROADCAST_EMAIL,
+                EnumNotificationType.SMS, EnumNotificationType.BACKOFFICE );
     }
-    
+
     /** transport provider */
     private INotificationTransportProvider _transportProvider;
 
- 
     /**
      * Constructor with INotificationTransportProvider in parameters
      * 
@@ -93,15 +91,11 @@ public class NotificationStoreNotifierRestService implements INotifierServicePro
     }
 
     @Inject
-    public NotificationStoreNotifierRestService(
-            Instance<INotificationTransportProvider> providers,
-            @ConfigProperty( name = "library-notifygru.notificationStoreNotifierRestService.transportProviderBeanName",
-                    defaultValue = NotificationTransportApiManagerRest.BEAN_NAME ) String providerName )
+    public NotificationStoreNotifierRestService( Instance<INotificationTransportProvider> providers,
+            @ConfigProperty( name = "library-notifygru.notificationStoreNotifierRestService.transportProviderBeanName", defaultValue = NotificationTransportApiManagerRest.BEAN_NAME ) String providerName )
     {
         super( );
-        this._transportProvider = providers
-                .select( NamedLiteral.of( providerName ) )
-                .get( );
+        this._transportProvider = providers.select( NamedLiteral.of( providerName ) ).get( );
     }
 
     /**

@@ -56,7 +56,7 @@ public class EmailNotifierService implements INotifierServiceProvider
     private static final String PROPERTY_EMAIL_PATTERN = "lutece.email.pattern";
     private static final String PROPERTY_NOTIFIER_ENABLED = "library-notifygru.notifier.email.enabled";
     private static String EMAIL_REGEXP_PATTERN = AppPropertiesService.getProperty( PROPERTY_EMAIL_PATTERN );
-    
+
     /** constructor */
     EmailNotifierService( )
     {
@@ -65,51 +65,51 @@ public class EmailNotifierService implements INotifierServiceProvider
     @Override
     public List<EnumNotificationType> getNotificationTypes( )
     {
-	return Arrays.asList( EnumNotificationType.CUSTOMER_EMAIL );
+        return Arrays.asList( EnumNotificationType.CUSTOMER_EMAIL );
     }
-    
+
     @Override
-    public String getName() {
+    public String getName( )
+    {
         return this.getClass( ).getName( );
     }
-    
+
     @Override
-    public NotifyGruResponse process ( Notification notification ) throws NotificationException
+    public NotifyGruResponse process( Notification notification ) throws NotificationException
     {
-	if ( notification.getEmailNotification( ) != null )
+        if ( notification.getEmailNotification( ) != null )
         {
             return sendEmail( notification );
         }
-        
+
         return null;
     }
-    
+
     /**
      * send Email
      * 
      * @param notification
-     * @return 
+     * @return
      */
     public NotifyGruResponse sendEmail( Notification notification )
     {
-	NotifyGruResponse consolidatedResponse = new NotifyGruResponse ( );
-	consolidatedResponse.setStatus ( NotifyGruResponse.STATUS_RECEIVED );
-	
-	
-	String recipient = notification.getEmailNotification( ).getRecipient ( );
-        if ( StringUtils.isEmpty ( recipient ) || !recipient.matches ( EMAIL_REGEXP_PATTERN ) )
+        NotifyGruResponse consolidatedResponse = new NotifyGruResponse( );
+        consolidatedResponse.setStatus( NotifyGruResponse.STATUS_RECEIVED );
+
+        String recipient = notification.getEmailNotification( ).getRecipient( );
+        if ( StringUtils.isEmpty( recipient ) || !recipient.matches( EMAIL_REGEXP_PATTERN ) )
         {
-    		consolidatedResponse.setStatus ( NotifyGruResponse.STATUS_ERROR );
-		Event event = new Event( );
-		event.setMessage ( "Invalid Email address" );
-		event.setStatus ( NotifyGruResponse.STATUS_ERROR  );
-		consolidatedResponse.getErrors ( ).add ( event );
+            consolidatedResponse.setStatus( NotifyGruResponse.STATUS_ERROR );
+            Event event = new Event( );
+            event.setMessage( "Invalid Email address" );
+            event.setStatus( NotifyGruResponse.STATUS_ERROR );
+            consolidatedResponse.getErrors( ).add( event );
         }
         else
         {
             EmailNotification gruEmail = new EmailNotification( );
             EmailNotification notifEmail = notification.getEmailNotification( );
-            
+
             gruEmail.setRecipient( notifEmail.getRecipient( ) );
             gruEmail.setCc( notifEmail.getCc( ) );
             gruEmail.setBcc( notifEmail.getCci( ) );
@@ -120,7 +120,7 @@ public class EmailNotifierService implements INotifierServiceProvider
 
             sendEmail( gruEmail );
         }
-        
+
         return consolidatedResponse;
     }
 
@@ -136,8 +136,8 @@ public class EmailNotifierService implements INotifierServiceProvider
     }
 
     @Override
-	public boolean isEnabled( )
-	{
-		return AppPropertiesService.getPropertyBoolean( PROPERTY_NOTIFIER_ENABLED, false );
-	}
+    public boolean isEnabled( )
+    {
+        return AppPropertiesService.getPropertyBoolean( PROPERTY_NOTIFIER_ENABLED, false );
+    }
 }

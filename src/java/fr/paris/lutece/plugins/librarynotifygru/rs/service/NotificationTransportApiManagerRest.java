@@ -62,7 +62,7 @@ public class NotificationTransportApiManagerRest extends AbstractNotificationTra
     private static final String PARAMS_ACCES_TOKEN = "access_token";
     private static final String TYPE_AUTHENTIFICATION_BEARER = "Bearer";
     private static final String TYPE_AUTHENTIFICATION_BASIC = "Basic";
-    
+
     /** The Constant PARAMS_GRANT_TYPE. */
     private static final String PARAMS_GRANT_TYPE = "grant_type";
 
@@ -85,12 +85,9 @@ public class NotificationTransportApiManagerRest extends AbstractNotificationTra
 
     @Inject
     public NotificationTransportApiManagerRest(
-            @ConfigProperty( name = "library-notifygru.NotificationStoreNotifierService.notificationEndPoint" )
-            String strNotificationEndPoint,
-            @ConfigProperty( name = "library-notifygru.NotificationStoreNotifierService.apiManagerEndPoint" )
-            String strApiManagerEndPoint,
-            @ConfigProperty( name = "library-notifygru.NotificationStoreNotifierService.apiManagerCredentials" )
-            String strApiManagerCredentials )
+            @ConfigProperty( name = "library-notifygru.NotificationStoreNotifierService.notificationEndPoint" ) String strNotificationEndPoint,
+            @ConfigProperty( name = "library-notifygru.NotificationStoreNotifierService.apiManagerEndPoint" ) String strApiManagerEndPoint,
+            @ConfigProperty( name = "library-notifygru.NotificationStoreNotifierService.apiManagerCredentials" ) String strApiManagerCredentials )
     {
         this( );
         this.setNotificationEndPoint( strNotificationEndPoint );
@@ -137,7 +134,7 @@ public class NotificationTransportApiManagerRest extends AbstractNotificationTra
         mapParams.put( PARAMS_GRANT_TYPE, PARAMS_GRANT_TYPE_VALUE );
 
         mapHeadersRequest.put( HttpAccessTransport.HTTP_HEADER_ACCEPT, HttpAccessTransport.HTTP_HEADER_MEDIATYPE_APPLICATION_JSON );
-        mapHeadersRequest.put( HttpAccessTransport.HTTP_HEADER_CONTENT_TYPE, HttpAccessTransport.HTTP_HEADER_MEDIATYPE_APPLICATION_FORM_URLENCODED);
+        mapHeadersRequest.put( HttpAccessTransport.HTTP_HEADER_CONTENT_TYPE, HttpAccessTransport.HTTP_HEADER_MEDIATYPE_APPLICATION_FORM_URLENCODED );
         mapHeadersRequest.put( HttpAccessTransport.HTTP_HEADER_AUTHORIZATION, TYPE_AUTHENTIFICATION_BASIC + " " + _strApiManagerCredentials );
 
         String strJson = getHttpTransport( ).doPost( _strApiManagerEndPoint, mapParams, mapHeadersRequest );
@@ -152,7 +149,7 @@ public class NotificationTransportApiManagerRest extends AbstractNotificationTra
             JsonNode jsonTokenNode = jsonNode.get( PARAMS_ACCES_TOKEN );
             strToken = jsonTokenNode.textValue( );
         }
-        catch ( JsonProcessingException e )
+        catch( JsonProcessingException e )
         {
             _logger.error( "LibraryNotifyGru - NotificationTransportApiManagerRest.getToken invalid response [ {} ]", strJson );
         }
